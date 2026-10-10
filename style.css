@@ -1,3 +1,4 @@
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url(assets/plus-jakarta-sans-latin-wght-normal.woff2) format('woff2')}
 @font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;font-display:swap;src:url(assets/cormorant-garamond-italic-400.woff2) format('woff2')}
 @font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url(assets/cormorant-garamond-normal.woff2) format('woff2')}
 @font-face{font-family:'Pinyon Script';font-style:normal;font-weight:400;font-display:swap;src:url(assets/pinyon-script-normal-400.woff2) format('woff2')}
@@ -5,7 +6,7 @@
 :root{--cream:#faf7f1;--sand:#f1ebe0;--line:#e4dccd;--navy:#24395c;--navy2:#2c4266;--sea:#a9cbc0;--sea-d:#386e60;--ink:#2b3445;--muted:#5b6270}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;background:var(--cream);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;font-size:17px;background:var(--cream);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
 a{color:var(--sea-d);text-underline-offset:3px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--cream) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -19,7 +20,7 @@ nav a:hover{color:var(--sea-d)}
 .hero .wrap{display:grid;gap:48px;align-items:center}
 @media(min-width:840px){.hero .wrap{grid-template-columns:1.15fr .85fr}}
 .eyebrow{font-family:"Pinyon Script",cursive;color:var(--sea-d);font-size:2rem;line-height:1}
-h1{font-weight:500;color:var(--navy);font-size:clamp(2.6rem,7.5vw,4.2rem);line-height:1.05;margin:.25em 0 .35em;letter-spacing:-.01em}
+h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;color:var(--navy);font-size:clamp(2.6rem,7.5vw,4.2rem);line-height:1.05;margin:.25em 0 .35em;letter-spacing:-.01em}
 h1 em{font-style:italic;color:var(--sea-d)}
 h2{font-family:"Pinyon Script",cursive;font-weight:400;color:var(--navy);font-size:clamp(2.6rem,7vw,3.6rem);line-height:1.1;margin:0 0 .4em;text-align:center}
 .rule{display:block;width:60px;height:1px;background:var(--sea-d);margin:0 auto 36px;opacity:.6}
@@ -38,7 +39,7 @@ section.alt{background:var(--sand)}
 @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
 .steps li{text-align:center;padding:8px 12px}
 .steps li::before{counter-increment:s;content:counter(s,upper-roman);display:block;font-size:1.3rem;color:var(--sea-d);letter-spacing:.2em;margin-bottom:6px}
-h3{font-weight:600;color:var(--navy);font-size:1.4rem;margin:0 0 6px;line-height:1.25}
+h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;color:var(--navy);font-size:1.4rem;margin:0 0 6px;line-height:1.25}
 .steps p,.card p{margin:0;color:var(--muted)}
 .grid{display:grid;gap:22px}
 @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
@@ -60,7 +61,7 @@ footer a{color:#e8ecf2}
 footer .sig{font-family:"Pinyon Script",cursive;font-size:1.6rem;color:var(--sea)}
 .doc{max-width:720px;margin:0 auto;padding:56px 24px 88px}
 .doc h1{text-align:center;font-family:"Pinyon Script",cursive;font-weight:400;font-size:clamp(3rem,10vw,4.2rem)}
-.doc h2{font-family:inherit;text-align:left;font-weight:600;font-size:1.5rem;margin:1.8em 0 .4em}
+.doc h2{font-family:"Cormorant Garamond",Georgia,serif;text-align:left;font-weight:600;font-size:1.5rem;margin:1.8em 0 .4em}
 .doc li{margin:.3em 0}
 .meta{color:var(--muted);text-align:center;font-style:italic}
 .doc .lead{text-align:center;margin:0 auto}
