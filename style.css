@@ -90,3 +90,8 @@ footer small a{color:#e8ecf2}
 h1,h2,h3{font-variant-numeric:lining-nums}
 ::selection{background:var(--sea);color:var(--navy)}
 h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+.gallery{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 4px 20px;-webkit-overflow-scrolling:touch}
+.gallery figure{flex:0 0 min(220px,62vw);margin:0;scroll-snap-align:center;text-align:center}
+.gallery img{width:100%;height:auto;border-radius:26px;border:6px solid #fff;box-shadow:0 20px 40px -26px rgba(20,40,75,.45)}
+.gallery figcaption{font-style:italic;color:var(--muted);margin-top:8px}
+.phone{height:auto}
