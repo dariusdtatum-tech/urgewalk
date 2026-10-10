@@ -86,3 +86,5 @@ section{padding:104px 0}
 .wave-line{margin:.6em 0 0;font-style:italic;font-size:1.3rem;letter-spacing:.06em;text-shadow:0 1px 12px rgba(10,20,40,.5);animation:rise 2s .6s ease both}
 footer small a{color:#e8ecf2}
 @media (prefers-reduced-motion:reduce){.wave-video{display:none}}
+:focus-visible{outline:2px solid var(--sea-d);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-variant-numeric:lining-nums}
