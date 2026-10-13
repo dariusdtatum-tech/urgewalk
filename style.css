@@ -95,3 +95,15 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
 .gallery img{width:100%;height:auto;border-radius:26px;border:6px solid #fff;box-shadow:0 20px 40px -26px rgba(20,40,75,.45)}
 .gallery figcaption{font-style:italic;color:var(--muted);margin-top:8px}
 .phone{height:auto}
+.onb-wrap{display:grid;gap:36px;align-items:center}
+@media(min-width:880px){.onb-wrap{grid-template-columns:1fr 1fr}}
+h2.left{text-align:left}
+.ticks{list-style:none;padding:0;margin:24px 0 0}
+.ticks li{padding:10px 0 10px 30px;border-bottom:1px solid var(--line);position:relative;color:var(--muted)}
+.ticks li strong{color:var(--navy);font-weight:600}
+.ticks li::before{content:"";position:absolute;left:4px;top:22px;width:12px;height:2px;background:var(--sea-d)}
+.onb-pair{display:flex;gap:16px;justify-content:center}
+.onb-pair figure{margin:0;flex:0 1 220px;text-align:center}
+.onb-pair img{width:100%;height:auto;border-radius:24px;border:6px solid #fff;box-shadow:0 20px 40px -26px rgba(20,40,75,.45)}
+.onb-pair figcaption{font-style:italic;color:var(--muted);margin-top:8px;font-size:.9rem}
+.onb-cap{grid-column:1/-1;margin:0}
