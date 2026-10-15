@@ -1,0 +1,6 @@
+exclude:
+  - DESIGN-RULES.md
+  - AGENTS.md
+  - previews/
+  - icon-proof.png
+  - terms-preview.png
