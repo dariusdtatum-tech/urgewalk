@@ -14,8 +14,8 @@
 <script>
 (()=>{const P=[['in','Breathe in',4000],['hold','Hold',3000],['out','Breathe out',6000]],N=5;
 const c=document.getElementById('circle'),l=document.getElementById('label'),s=document.getElementById('start'),x=document.getElementById('stop'),d=document.getElementById('done');let t,t0;
-function step(i){if(i>=N*3){end(true);return}const[p,txt,ms]=P[i%3];c.style.transitionDuration=ms+'ms';c.dataset.phase=p;l.textContent=txt;console.log('phase',p,'cycle',(i/3|0)+1,'t='+((performance.now()-t0)/1000).toFixed(2)+'s');t=setTimeout(()=>step(i+1),ms)}
-function end(ok){clearTimeout(t);c.style.transitionDuration='1500ms';c.dataset.phase='';l.textContent=ok?'Well done':'Ready when you are';d.hidden=!ok;s.disabled=false;x.disabled=true;s.textContent=ok?'Again':'Start';if(t0)console.log(ok?'finished':'stopped','t='+((performance.now()-t0)/1000).toFixed(2)+'s')}
+function step(i){if(i>=N*3){end(true);return}const[p,txt,ms]=P[i%3];c.style.transitionDuration=ms+'ms';c.dataset.phase=p;l.textContent=txt;t=setTimeout(()=>step(i+1),ms)}
+function end(ok){clearTimeout(t);c.style.transitionDuration='1500ms';c.dataset.phase='';l.textContent=ok?'Well done':'Ready when you are';d.hidden=!ok;s.disabled=false;x.disabled=true;s.textContent=ok?'Again':'Start'}
 s.onclick=()=>{d.hidden=true;s.disabled=true;x.disabled=false;t0=performance.now();step(0)};x.onclick=()=>end(false)})();
 </script>
 <footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a> · <a href="breathe.html">Breathe</a> · <a href="helpers.html">For helpers</a> · <a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
