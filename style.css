@@ -123,3 +123,19 @@ h2.left{text-align:left}
 .br-done span{display:block;margin-top:10px;font-style:normal;font-size:.95rem;color:var(--muted)}
 .breathe .notice{text-align:left}
 @media (prefers-reduced-motion:reduce){.br-circle,.br-circle[data-phase]{transform:scale(.8)!important}.br-circle{background:var(--sea);transition:background-color 2s ease!important}.br-circle[data-phase=in],.br-circle[data-phase=hold]{background:#c4dcd4}}
+/* Mobile QA fixes */
+header.top .wrap{padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right))}
+.brand,nav a{min-height:44px;display:inline-flex;align-items:center}
+nav a{padding:0 2px}
+.btn-ghost{padding:12px 2px}
+summary{padding:8px 0;min-height:44px;box-sizing:border-box}
+details{padding:8px 4px}
+a[href^="tel:"]{white-space:nowrap}
+.doc a[href^="mailto:"]{overflow-wrap:anywhere}
+footer{padding-bottom:calc(36px + env(safe-area-inset-bottom))}
+.flinks{display:flex;flex-wrap:wrap;align-items:center;column-gap:2px}
+.flinks a{white-space:nowrap;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+.flinks{margin-left:-6px}
+.flinks a{position:relative}
+.flinks a:not(:last-child)::after{content:"·";position:absolute;right:-4px;color:#c9d0dc;pointer-events:none}
+summary{text-wrap:balance}
