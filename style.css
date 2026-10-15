@@ -139,3 +139,19 @@ footer{padding-bottom:calc(36px + env(safe-area-inset-bottom))}
 .flinks a{position:relative}
 .flinks a:not(:last-child)::after{content:"·";position:absolute;right:-4px;color:#c9d0dc;pointer-events:none}
 summary{text-wrap:balance}
+.gr-card{max-width:32em;margin:32px auto 20px;min-height:15em;text-align:center}
+.gr-count{color:var(--muted);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px;min-height:1.4em}
+.doc .gr-line{text-align:center;font-family:"Cormorant Garamond",Georgia,serif;font-size:2rem;font-weight:600;color:var(--navy);margin:0 0 10px;outline:none}
+.gr-prompt{margin:0 0 18px}
+.gr-note{text-align:left}.gr-note label{display:block;font-size:.95rem;color:var(--muted);margin-bottom:6px}
+.gr-note textarea{box-sizing:border-box;width:100%;min-height:88px;font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:2px;background:#fff;color:var(--navy);resize:vertical}
+.gr-private{font-size:.85rem;color:var(--muted);margin:6px 0 0}
+.ground .br-btn{min-height:48px;min-width:112px}
+.ground.is-done .gr-card{min-height:0}
+.br-done .br-alt{font-style:normal;font-size:1rem;color:var(--navy)}
+
+.free-list li{margin:6px 0}
+/* 44px tap targets for inline text links without changing line spacing */
+main p a:not([href^="mailto:"]),main li a,.notice a,.br-done a{display:inline-block;min-width:44px;text-align:center;padding:12px 0;margin:-12px 0}
+main a[href^="mailto:"]{padding:13px 0}
+footer small a{display:inline-block;padding:14px 0;margin:-14px 0}

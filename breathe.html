@@ -7,16 +7,17 @@
 <div class="br-stage" aria-hidden="true"><div class="br-circle" id="circle"></div></div>
 <p class="br-label" id="label" role="status" aria-live="polite">Ready when you are</p>
 <div class="br-ctrl"><button class="br-btn" id="start" type="button">Start</button><button class="br-btn br-stop" id="stop" type="button" disabled>Stop</button></div>
-<p class="br-done" id="done" hidden>That’s one minute. Notice how you feel now.<br><span>This was one minute of Urge Walk. The app adds walks, your own reasons and check-ins. Coming soon to the App Store.</span></p>
+<p class="br-done" id="done" hidden>That’s one minute. Notice how you feel now.<br><span class="br-alt">Can’t breathe it out right now? <a href="ground.html">Try grounding</a>.</span><span>This was one minute of Urge Walk. The app adds walks, your own reasons and check-ins. Coming soon to the App Store.</span></p>
 <h2>If you need more than a minute</h2>
 <div class="notice"><strong>Urge Walk is not a crisis service</strong> and isn’t a substitute for professional care. If you’re in crisis or thinking about harming yourself, call or text <strong><a href="tel:988">988</a></strong> (Suicide &amp; Crisis Lifeline, US, 24/7). For substance use or mental health treatment referrals, call the <strong>SAMHSA National Helpline</strong> at <strong><a href="tel:18006624357">1-800-662-4357</a></strong> (free, confidential, 24/7). In an emergency, call <a href="tel:911">911</a>.</div>
 </main>
 <script>
-(()=>{const P=[['in','Breathe in',4000],['hold','Hold',3000],['out','Breathe out',6000]],N=5;
+(()=>{let P=[['in','Breathe in',4000],['hold','Hold',3000],['out','Breathe out',6000]],N=5;
+if(location.protocol!=='file:')fetch('tools.json').then(r=>r.ok?r.json():null).then(j=>{const b=j&&j.breathe;if(b&&[b.inhale,b.hold,b.exhale,b.cycles].every(v=>Number.isFinite(v)&&v>0)){P=[['in','Breathe in',b.inhale*1000],['hold','Hold',b.hold*1000],['out','Breathe out',b.exhale*1000]];N=b.cycles}}).catch(()=>{});
 const c=document.getElementById('circle'),l=document.getElementById('label'),s=document.getElementById('start'),x=document.getElementById('stop'),d=document.getElementById('done');let t,t0;
 function step(i){if(i>=N*3){end(true);return}const[p,txt,ms]=P[i%3];c.style.transitionDuration=ms+'ms';c.dataset.phase=p;l.textContent=txt;t=setTimeout(()=>step(i+1),ms)}
 function end(ok){clearTimeout(t);c.style.transitionDuration='1500ms';c.dataset.phase='';l.textContent=ok?'Well done':'Ready when you are';d.hidden=!ok;s.disabled=false;x.disabled=true;s.textContent=ok?'Again':'Start'}
 s.onclick=()=>{d.hidden=true;s.disabled=true;x.disabled=false;t0=performance.now();step(0)};x.onclick=()=>end(false)})();
 </script>
-<footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span class="flinks"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="breathe.html">Breathe</a><a href="helpers.html">For helpers</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
+<footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span class="flinks"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="premium.html">Premium</a><a href="helpers.html">For helpers</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
 </body></html>

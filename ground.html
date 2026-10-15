@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
+<meta name="description" content="A free 5-4-3-2-1 grounding exercise from Urge Walk. Nothing you type is saved or sent."><meta property="og:type" content="website"><meta property="og:site_name" content="Urge Walk"><meta property="og:title" content="Ground yourself · Urge Walk"><meta property="og:description" content="A free 5-4-3-2-1 grounding exercise from Urge Walk. Nothing you type is saved or sent."><meta property="og:url" content="https://dariusdtatum-tech.github.io/urgewalk/ground.html"><meta property="og:image" content="https://dariusdtatum-tech.github.io/urgewalk/preview-v3.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#faf7f1"><link rel="icon" type="image/svg+xml" href="assets/icon.svg?v=2"><link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png?v=2"><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=2"><link rel="stylesheet" href="style.css"><title>Ground yourself · Urge Walk</title></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="assets/icon.svg?v=2" width="30" height="30" alt="">Urge Walk</a><nav><a href="index.html#how">How it works</a><a href="support.html">Support</a></nav></div></header>
+<main class="doc breathe ground">
+<h1>Ground yourself</h1>
+<p class="lead">The 5-4-3-2-1 exercise: use your senses to come back to right now, one step at a time.</p>
+<section class="gr-card" aria-live="polite">
+<p class="gr-count" id="gcount"></p>
+<h2 class="gr-line" id="gline" tabindex="-1">Let’s come back to right here.</h2>
+<p class="gr-prompt" id="gprompt">Five small steps, one at a time. Go as slowly as you like.</p>
+<div class="gr-note" id="gnote" hidden><label for="gtext">Jot them down if it helps (optional)</label><textarea id="gtext" rows="3" autocomplete="off" autocapitalize="sentences" spellcheck="false"></textarea><p class="gr-private">Only on this screen. Never saved or sent, and cleared when you leave.</p></div>
+</section>
+<div class="br-ctrl"><button class="br-btn br-stop" id="gback" type="button" disabled>Back</button><button class="br-btn" id="gnext" type="button">Start</button></div>
+<p class="br-done" id="gdone" hidden><span>This was one Urge Walk tool. The app adds walks, your own reasons and check-ins. Coming soon to the App Store.</span></p>
+<h2>If you need more than a minute</h2>
+<div class="notice"><strong>Urge Walk is not a crisis service</strong> and isn’t a substitute for professional care. If you’re in crisis or thinking about harming yourself, call or text <strong><a href="tel:988">988</a></strong> (Suicide &amp; Crisis Lifeline, US, 24/7). For substance use or mental health treatment referrals, call the <strong>SAMHSA National Helpline</strong> at <strong><a href="tel:18006624357">1-800-662-4357</a></strong> (free, confidential, 24/7). In an emergency, call <a href="tel:911">911</a>.</div>
+</main>
+<script>
+(()=>{let G={intro:'Let’s come back to right here. Five small steps, one at a time. Go as slowly as you like.',steps:[[5,'5 things you can see','Look around slowly. Name five things you can see, big or small.'],[4,'4 things you can touch','Notice four things you can feel: your feet on the floor, your clothes, the chair, the air.'],[3,'3 things you can hear','Listen for three sounds, near or far. Let them be whatever they are.'],[2,'2 things you can smell','Find two smells. If nothing comes, just notice the air as you breathe in.'],[1,'1 thing you can taste','Notice one taste in your mouth right now, or take a sip of water.']],finish:'You’re here, right now. Notice how you feel.'};
+const $=id=>document.getElementById(id),cnt=$('gcount'),line=$('gline'),pr=$('gprompt'),note=$('gnote'),tx=$('gtext'),bk=$('gback'),nx=$('gnext'),dn=$('gdone');
+const notes=[];let i=0;
+function show(n){if(i>0&&i<=G.steps.length)notes[i]=tx.value;i=n;const L=G.steps.length;
+if(i===0){const k=G.intro.indexOf('. ');cnt.textContent='';line.textContent=k>0?G.intro.slice(0,k+1):G.intro;pr.textContent=k>0?G.intro.slice(k+2):'';note.hidden=true;bk.disabled=true;nx.textContent='Start';dn.hidden=true}
+else if(i<=L){const s=G.steps[i-1];cnt.textContent='Step '+i+' of '+L;line.textContent=s[1];pr.textContent=s[2];note.hidden=false;tx.value=notes[i]||'';bk.disabled=false;nx.textContent=i===L?'Finish':'Next';dn.hidden=true}
+else{cnt.textContent='Finished';line.textContent=G.finish;pr.textContent='';note.hidden=true;bk.disabled=false;nx.textContent='Start again';dn.hidden=false}
+document.querySelector('main').classList.toggle('is-done',i>G.steps.length);
+if(n!==0||document.activeElement===bk)line.focus({preventScroll:true})}
+nx.onclick=()=>{if(i>G.steps.length){notes.length=0;tx.value='';show(0)}else show(i+1)};bk.onclick=()=>{if(i>0)show(i-1)};
+if(location.protocol!=='file:')fetch('tools.json').then(r=>r.ok?r.json():null).then(j=>{const g=j&&j.ground;if(g&&g.intro&&g.finish&&Array.isArray(g.steps)&&g.steps.length&&g.steps.every(s=>s&&s.line&&s.prompt)){G={intro:g.intro,finish:g.finish,steps:g.steps.map(s=>[s.count,s.line,s.prompt])};show(i)}}).catch(()=>{});
+show(0)})();
+</script>
+<footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span class="flinks"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="premium.html">Premium</a><a href="helpers.html">For helpers</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
+</body></html>
