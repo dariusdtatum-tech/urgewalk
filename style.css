@@ -72,7 +72,10 @@ summary{font-weight:600;color:var(--navy);cursor:pointer;font-size:1.15rem}
 details p{color:var(--muted);margin:.6em 0 0}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .hero .wrap>*{animation:rise 1.2s ease both}.hero .wrap>*+*{animation-delay:.25s}
-@supports (animation-timeline:view()){section .card,.steps li{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}}
+/* Scroll reveal: content is visible by default; only hidden once JS has confirmed it can reveal it */
+.js section .card,.js .steps li{opacity:0;transform:translateY(14px);transition:opacity .35s ease-out,transform .35s ease-out}
+.js section .card.in,.js .steps li.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js section .card,.js .steps li{opacity:1!important;transform:none!important}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 /* Marram-leaning softer layer */
 section{padding:104px 0}
@@ -161,3 +164,7 @@ footer small a{display:inline-block;padding:14px 0;margin:-14px 0}
 .shore-copy{max-width:640px;margin:0 auto 20px}
 .shore-copy p{text-align:left;margin:0 0 .8em}
 @media (min-width:760px){.shore-gallery{justify-content:center;overflow-x:visible}}
+/* A closer look: snap carousel on small screens, full grid on wide screens */
+.gallery:not(.shore-gallery){scroll-padding-inline:4px;overscroll-behavior-x:contain;border-right:1px solid var(--line)}
+.gallery:not(.shore-gallery) figure{flex:0 0 min(200px,56vw);scroll-snap-align:start}
+@media (min-width:900px){.gallery:not(.shore-gallery){display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scroll-snap-type:none;border-right:0;padding:8px 0 20px}}
