@@ -158,3 +158,6 @@ main p a:not([href^="mailto:"]),main li a,.notice a,.br-done a{display:inline-bl
 main p a[href^="tel:"],main li a[href^="tel:"],.notice a[href^="tel:"]{min-width:0;padding:12px 14px;margin:-12px -14px}
 main a[href^="mailto:"]{padding:13px 0}
 footer small a{display:inline-block;padding:14px 0;margin:-14px 0}
+.shore-copy{max-width:640px;margin:0 auto 20px}
+.shore-copy p{text-align:left;margin:0 0 .8em}
+@media (min-width:760px){.shore-gallery{justify-content:center;overflow-x:visible}}
