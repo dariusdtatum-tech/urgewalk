@@ -168,3 +168,4 @@ footer small a{display:inline-block;padding:14px 0;margin:-14px 0}
 .gallery:not(.shore-gallery){scroll-padding-inline:4px;overscroll-behavior-x:contain;border-right:1px solid var(--line)}
 .gallery:not(.shore-gallery) figure{flex:0 0 min(200px,56vw);scroll-snap-align:start}
 @media (min-width:900px){.gallery:not(.shore-gallery){display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scroll-snap-type:none;border-right:0;padding:8px 0 20px}}
+.shore-gallery figure{display:flex;flex-direction:column}.shore-gallery figcaption{margin-top:auto}
