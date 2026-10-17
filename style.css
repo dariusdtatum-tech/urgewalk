@@ -169,3 +169,23 @@ footer small a{display:inline-block;padding:14px 0;margin:-14px 0}
 .gallery:not(.shore-gallery) figure{flex:0 0 min(200px,56vw);scroll-snap-align:start}
 @media (min-width:900px){.gallery:not(.shore-gallery){display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scroll-snap-type:none;border-right:0;padding:8px 0 20px}}
 .shore-gallery figure{display:flex;flex-direction:column}.shore-gallery figcaption{margin-top:auto}
+/* Dark mode: palette sampled from the app's dark renders (night #0f1d33, surface #182b47, cream #f3ede2, sea glass #a9cbc0). All text pairs >= 4.5:1. */
+@media (prefers-color-scheme:dark){
+:root{--cream:#0f1d33;--sand:#182b47;--line:#2f4568;--navy:#f3ede2;--navy2:#0b1628;--sea:#a9cbc0;--sea-d:#a9cbc0;--ink:#f3ede2;--muted:#c3cad6;--card:#14243d}
+a:visited{color:#c4dcd4}
+.card,.cta .card{background:var(--card)}
+.cta .card{background:transparent}
+.btn-store,.cta .btn-store,.br-btn{background:var(--navy);color:#0f1d33}
+.br-btn.br-stop{background:transparent;color:var(--navy)}
+.br-btn{border-color:var(--navy)}
+.phone,.gallery img,.onb-pair img{border-color:#182b47}
+.wave{background-color:#24395c}
+.wave-shade{background:linear-gradient(180deg,rgba(15,29,51,.5) 0%,rgba(15,29,51,.25) 55%,rgba(15,29,51,.92) 100%)}
+footer{background:var(--navy2);color:#c3cad6;border-top:1px solid var(--line)}
+footer a,footer small a{color:#f3ede2}
+.br-circle{background:#a9cbc0}
+.gr-note textarea{background:var(--sand);color:var(--ink);border-color:#566c8f}
+::selection{background:var(--sea);color:#0f1d33}
+header.top{background:color-mix(in srgb,var(--cream) 92%,transparent)}
+}
+.brand picture{display:contents}
