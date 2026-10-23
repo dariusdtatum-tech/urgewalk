@@ -1,6 +1,6 @@
 # Urge Walk design rules (read before any UI or copy change)
 
-Urge Walk is a calm recovery and walking app from Evenfaring. It should feel warm, steady, quietly confident, and handmade but professional, like a well-kept coastal house. It is never loud, corporate, techy, or "AI-made". If a change makes it look like a generic template, undo it.
+Urge Walk is a calm recovery and walking app from Darius Tatum. It should feel warm, steady, quietly confident, and handmade but professional, like a well-kept coastal house. It is never loud, corporate, techy, or "AI-made". If a change makes it look like a generic template, undo it.
 
 ## Brand (locked)
 - **Colors:** cream `#faf7f1`, warm sand `#f1ebe0`, navy `#24395c`. Accents: deep sea `#3f7a6b` (text only on cream or white), sea glass `#a9cbc0` (fills only, never text). Night mode: `#0f1d33` background, `#182b47` surfaces, cream text.
