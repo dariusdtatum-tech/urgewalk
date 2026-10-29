@@ -33,5 +33,5 @@ nx.onclick=()=>{if(i>G.steps.length){notes.length=0;tx.value='';show(0)}else sho
 if(location.protocol!=='file:')fetch('tools.json').then(r=>r.ok?r.json():null).then(j=>{const g=j&&j.ground;if(g&&g.intro&&g.finish&&Array.isArray(g.steps)&&g.steps.length&&g.steps.every(s=>s&&s.line&&s.prompt)){G={intro:g.intro,finish:g.finish,steps:g.steps.map(s=>[s.count,s.line,s.prompt])};show(i)}}).catch(()=>{});
 show(0)})();
 </script>
-<footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span class="flinks"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="premium.html">Premium</a><a href="helpers.html">For helpers</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
+<footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span class="flinks"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="helpers.html">For helpers</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
 </body></html>
