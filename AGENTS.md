@@ -1,3 +1,30 @@
 # Agent notes
 
-Read DESIGN-RULES.md before any UI or copy change; it overrides defaults.
+Read `DESIGN-RULES.md` before any UI or copy change; it overrides defaults.
+
+## Current Website Status (v4.1 Whole-Island Screenshots)
+
+The live landing page (`index.html`) showcases the **Whole-Island v4.1 architecture (`sheltered_island_v1`)** using composed 780×1640 app screenshots with phone frames. 
+
+> [!NOTE]
+> These screenshots are currently serving as a temporary bridge presentation on the website until the new designs and components are reworked directly in Expo (`C:\GitHub\urge-walk-app`).
+
+### Screenshot Configuration & Display Rules
+- **Daylight Variants Only**: All 14 phone frames across the page deliberately display the **Daylight** versions (`screen-*-day.webp`). The evening screenshots were removed from the live markup to ensure crisp, high-contrast visibility and legibility when visitors view the website in dark mode (where the page background is deep navy `#0f1d33`).
+- **Standardized Display Dimensions**: All phone frames render at a uniform **220px width** (`~462px height`) across hero, feature sections, onboarding, and the gallery. The hero frame must not render larger than the other frames on desktop.
+- **Image Attributes**: All phone frames maintain `width="780" height="1640"`.
+
+### Island Places Mapping (Daylight)
+- **Place 1: The Sheltered Coast** (`screen-1-sheltered-coast-day.webp`) — Hero & Gallery
+- **Place 2: The Trailhead** (`screen-2-trailhead-day.webp`) — Places around the island & Onboarding (Arrival)
+- **Place 3: The Cottage** (`screen-3-cottage-day.webp`) — Gallery (You)
+- **Place 4: The Shelter** (`screen-4-shelter-day.webp`) — Gallery (Journal)
+- **Place 5: The Clearing** (`screen-5-clearing-day.webp`) — Places around the island & Onboarding (Ride it out)
+- **Place 6: The Path Ahead** (`screen-6-path-ahead-day.webp`) — What's inside & Gallery (Active walk with timer)
+- **Place 7: The Inlet** (`screen-7-inlet-day.webp`) — Places around the island & Gallery (Breathe)
+- **Place 8: The Shore** (`screen-8-shore-day.webp`) — Gallery (Ground)
+- **Place 9: The Outlook** (`screen-9-outlook-day.webp`) — Gallery (History / Logbook)
+
+### Source Material
+- Proposal HTML: `urge_walk_whole_island_v4_1_architecture_restraint_continuity_proposal.html`
+- Screenshot archive: `urge-walk-v4.1-screenshots-18-webp.zip`
