@@ -32,7 +32,7 @@ h2{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:
 .btn-ghost{color:var(--navy);border-bottom:1px solid var(--sea-d);border-radius:0;padding:4px 2px;font-style:italic}
 .btn-ghost:hover{color:var(--sea-d)}
 .ctas{display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin-top:28px}
-.phone{display:block;margin:0 auto;width:min(290px,76vw);border-radius:38px;border:8px solid #fff;outline:1px solid var(--line)}
+.phone{display:block;margin:0 auto;width:min(220px,76vw);border-radius:26px;border:6px solid #fff;outline:1px solid var(--line)}
 .caption{font-size:.85rem;font-style:italic;color:var(--muted);text-align:center;margin-top:14px}
 section{padding:88px 0}
 section.alt{background:var(--sand)}
@@ -167,7 +167,7 @@ footer small a{display:inline-block;padding:14px 0;margin:-14px 0}
 /* A closer look: snap carousel on small screens, full grid on wide screens */
 .gallery:not(.shore-gallery){scroll-padding-inline:4px;overscroll-behavior-x:contain;border-right:1px solid var(--line)}
 .gallery:not(.shore-gallery) figure{flex:0 0 min(200px,56vw);scroll-snap-align:start}
-@media (min-width:900px){.gallery:not(.shore-gallery){display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scroll-snap-type:none;border-right:0;padding:8px 0 20px}}
+@media (min-width:900px){.gallery:not(.shore-gallery){display:flex;flex-wrap:wrap;justify-content:center;gap:20px;overflow:visible;scroll-snap-type:none;border-right:0;padding:8px 0 20px}.gallery:not(.shore-gallery) figure{flex:0 0 220px;max-width:220px}}
 .shore-gallery figure{display:flex;flex-direction:column}.shore-gallery figcaption{margin-top:auto}
 /* Dark mode: palette sampled from the app's dark renders (night #0f1d33, surface #182b47, cream #f3ede2, sea glass #a9cbc0). All text pairs >= 4.5:1. */
 @media (prefers-color-scheme:dark){
@@ -189,3 +189,5 @@ footer a,footer small a{color:#f3ede2}
 header.top{background:color-mix(in srgb,var(--cream) 92%,transparent)}
 }
 .brand picture{display:contents}
+
+figure picture{display:block;width:100%}
