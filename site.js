@@ -42,13 +42,27 @@
       trail.forEach((a) => a.setAttribute('aria-current', a.hash === '#' + el.id ? 'true' : 'false'))
       setDeep()
     }
-    mark(places[0])
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) mark(e.target) }),
-        { rootMargin: '-50% 0px -50% 0px' })
-      places.forEach((p) => io.observe(p))
-    } else places.forEach((p) => p.classList.add('seen'))
+    // "Here" is the last place whose top has crossed the middle of the screen, worked out from the scroll
+    // position, so a jump, a link or a reload mid-page lands on the right place; past the last place (the
+    // night) the Cottage stays.
+    let frame = 0
+    const locate = () => {
+      frame = 0
+      const mid = innerHeight / 2
+      let here = places[0]
+      for (const p of places) { if (p.getBoundingClientRect().top <= mid) here = p; else break }
+      if (here !== current || !here.classList.contains('here')) mark(here)
+    }
+    locate()
+    addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(locate) }, { passive: true })
+    addEventListener('resize', locate)
+    if (!('IntersectionObserver' in window)) places.forEach((p) => p.classList.add('seen'))
   } else setDeep()
+
+  // The browser bar takes the page's own night (its place's deep shade in the current light).
+  const themeMeta = document.querySelector('meta[name=theme-color]')
+  const paintBar = () => { const d = getComputedStyle(document.body).getPropertyValue('--deep').trim(); if (themeMeta && d) themeMeta.setAttribute('content', d) }
+  paintBar(); buttons.forEach((b) => b.addEventListener('click', paintBar))
 
   // ---------- header ----------
   const head = document.querySelector('.site-head')

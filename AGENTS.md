@@ -19,6 +19,8 @@ The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's 
 `site.js` adds `html.walk` (unless Reduce Motion is on), which fixes every place's photograph behind the page; an IntersectionObserver marks the place crossing the middle of the screen `.here`, and CSS fades its photograph in (520 ms). The trail index (`.trail`, wide screens) gets `aria-current`. Without the script, the page is ordinary stacked sections.
 
 ## Rules that bite
+- Contact address: urgewalk@gmail.com (founder, Nov 8). The site generator replaces any older address.
+- Night is never navy: it is the page's place's `--deep` (set by `data-place` on `<body>`).
 - Keep the `noindex` meta until launch. No fake App Store badge.
 - Never commit original or full-size photographs; never add images a page doesn't use.
 - Changing a tool's wording: change `tools.json` and keep it in step with the app.
