@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs><clipPath id="r"><rect width="1024" height="1024" rx="230"/></clipPath>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8aa0b2"/><stop offset=".5" stop-color="#e3d2b9"/><stop offset="1" stop-color="#f6e8d2"/></linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a7a90"/><stop offset="1" stop-color="#1e2634"/></linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="85"/></filter>
+  </defs><g clip-path="url(#r)">
+  
+  <rect width="1024" height="1024" fill="url(#sky)"/>
+  <g filter="url(#glow)"><circle cx="760" cy="370" r="300" fill="#fff1d6" fill-opacity="0.75"/></g>
+  <polygon points="0,760 1024,380 1024,1024 0,1024" fill="url(#sea)"/>
+  <line x1="0" y1="760" x2="1024" y2="380" stroke="#faf7f1" stroke-width="8" stroke-opacity="0.85" stroke-linecap="round"/>
+  <rect x="720.0" y="540.0" width="80.0" height="22.0" rx="10" fill="#fff8ea" fill-opacity="0.55" transform="rotate(-20 760 540.0)"/><rect x="700.0" y="600.0" width="120.0" height="24.0" rx="10" fill="#fff8ea" fill-opacity="0.39" transform="rotate(-20 760 600.0)"/><rect x="674.0" y="670.0" width="172.0" height="26.0" rx="10" fill="#fff8ea" fill-opacity="0.23" transform="rotate(-20 760 670.0)"/><rect x="642.0" y="760.0" width="236.0" height="28.0" rx="10" fill="#fff8ea" fill-opacity="0.07" transform="rotate(-20 760 760.0)"/><rect x="604.0" y="870.0" width="312.0" height="30.0" rx="10" fill="#fff8ea" fill-opacity="0.00" transform="rotate(-20 760 870.0)"/>
+</g></svg>
