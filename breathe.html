@@ -1,27 +1,28 @@
 <!doctype html><html lang="en"><head>
-  <!-- pre-launch: remove at launch -->
-  <meta name="robots" content="noindex, nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark">
-<meta name="description" content="A free one-minute breathing exercise from Urge Walk."><meta property="og:type" content="website"><meta property="og:site_name" content="Urge Walk"><meta property="og:title" content="Breathe for a minute · Urge Walk"><meta property="og:description" content="A free one-minute breathing exercise from Urge Walk."><meta property="og:url" content="https://dariusdtatum-tech.github.io/urgewalk/breathe.html"><meta property="og:image" content="https://dariusdtatum-tech.github.io/urgewalk/preview-v5.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0f1d33" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0f1d33" media="(prefers-color-scheme: dark)"><link rel="icon" type="image/svg+xml" href="assets/icon-w6.svg" media="(prefers-color-scheme: light)"><link rel="icon" type="image/svg+xml" href="assets/icon-w6-dark.svg" media="(prefers-color-scheme: dark)"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32-w6.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16-w6.png"><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon-w6.png"><link rel="stylesheet" href="style.css"><title>Breathe for a minute · Urge Walk</title><script>if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js")</script>
-<script src="assets/reveal.js" defer></script>
+<!-- pre-launch: remove at launch -->
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#0f1d33">
+<title>Breathe for a minute · Urge Walk</title><meta name="description" content="A free one-minute paced breath: in for 4, hold for 3, out for 6. From Urge Walk.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Urge Walk"><meta property="og:title" content="Breathe for a minute · Urge Walk"><meta property="og:description" content="A free one-minute paced breath: in for 4, hold for 3, out for 6. From Urge Walk.">
+<meta property="og:url" content="https://dariusdtatum-tech.github.io/urgewalk/breathe.html"><meta property="og:image" content="https://dariusdtatum-tech.github.io/urgewalk/assets/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="assets/icon-w6.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32-w6.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16-w6.png"><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon-w6.png">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-latin-500-normal.woff2" crossorigin>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script>
 </head><body>
-<header class="top"><div class="wrap"><a class="brand" href="index.html"><picture><source srcset="assets/icon-w6-dark.svg" media="(prefers-color-scheme: dark)"><img src="assets/icon-w6.svg" width="30" height="30" alt=""></picture>Urge Walk</a><nav><a href="index.html#how">How it works</a><a href="support.html">Support</a></nav></div></header>
-<main class="doc breathe">
-<h1>Breathe for a minute</h1>
-<p class="lead">A slow, steady minute: in for 4, hold for 3, out for 6. Press Start when you’re ready.</p>
-<div class="br-stage" aria-hidden="true"><div class="br-circle" id="circle"></div></div>
-<p class="br-label" id="label" role="status" aria-live="polite">Ready when you are</p>
-<div class="br-ctrl"><button class="br-btn" id="start" type="button">Start</button><button class="br-btn br-stop" id="stop" type="button" disabled>Stop</button></div>
-<p class="br-done" id="done" hidden>That’s one minute. Notice how you feel now.<br><span class="br-alt">Can’t breathe it out right now? <a href="ground.html">Try grounding</a>.</span><span>This was one minute of Urge Walk. The app adds walks, your own reasons and check-ins. Coming soon to the App Store.</span></p>
-<h2>If you need more than a minute</h2>
-<div class="notice"><strong>Urge Walk is not a crisis service</strong> and isn’t a substitute for professional care. If you’re in crisis or thinking about harming yourself, call or text <strong><a href="tel:988">988</a></strong> (Suicide &amp; Crisis Lifeline, US, 24/7). For substance use or mental health treatment referrals, call the <strong>SAMHSA National Helpline</strong> at <strong><a href="tel:18006624357">1-800-662-4357</a></strong> (free, confidential, 24/7). In an emergency, call <a href="tel:911">911</a>.</div>
-</main>
-<script>
-(()=>{let P=[['in','Breathe in',4000],['hold','Hold',3000],['out','Breathe out',6000]],N=5;
-if(location.protocol!=='file:')fetch('tools.json').then(r=>r.ok?r.json():null).then(j=>{const b=j&&j.breathe;if(b&&[b.inhale,b.hold,b.exhale,b.cycles].every(v=>Number.isFinite(v)&&v>0)){P=[['in','Breathe in',b.inhale*1000],['hold','Hold',b.hold*1000],['out','Breathe out',b.exhale*1000]];N=b.cycles}}).catch(()=>{});
-const c=document.getElementById('circle'),l=document.getElementById('label'),s=document.getElementById('start'),x=document.getElementById('stop'),d=document.getElementById('done');let t,t0;
-function step(i){if(i>=N*3){end(true);return}const[p,txt,ms]=P[i%3];c.style.transitionDuration=ms+'ms';c.dataset.phase=p;l.textContent=txt;t=setTimeout(()=>step(i+1),ms)}
-function end(ok){clearTimeout(t);c.style.transitionDuration='1500ms';c.dataset.phase='';l.textContent=ok?'Well done':'Ready when you are';d.hidden=!ok;s.disabled=false;x.disabled=true;s.textContent=ok?'Again':'Start'}
-s.onclick=()=>{d.hidden=true;s.disabled=true;x.disabled=false;t0=performance.now();step(0)};x.onclick=()=>end(false)})();
-</script>
-<footer><div class="wrap"><span><span class="sig">Urge Walk</span><br>© 2026 · Made by Darius Tatum</span><span class="flinks"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="helpers.html">For helpers</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></span></div></footer>
+<a class="skip" href="#main">Skip to content</a><header class="site-head"><a class="brand" href="index.html"><img src="assets/icon-w6.svg" width="28" height="28" alt="">Urge Walk</a><nav class="site-nav" aria-label="Site"><a href="breathe.html" aria-current="page">Breathe</a><a href="ground.html">Ground</a><a class="wide-only" href="support.html">Support</a></nav></header>
+<main id="main" class="tool"><div class="place-bg"><picture><source media="(min-aspect-ratio: 1/1)" srcset="assets/places/inlet-evening-wide.webp"><img src="assets/places/inlet-evening-tall.webp" alt="The Tide Pool in the evening: sky reflected in still water among flat rocks" fetchpriority="high" decoding="async"></picture></div>
+<div class="tool-inner words"><p class="caption" style="justify-content:center"><span>The Tide Pool · evening</span></p>
+<h1>Breathe for a minute.</h1>
+<p class="lede">A slow, steady minute: in for 4, hold for 3, out for 6. Press Start when you’re ready.</p>
+<div class="breath" data-breath data-done="done"><div class="breath-ring" aria-hidden="true"><div class="breath-dot"></div></div>
+<p class="breath-word" role="status" aria-live="polite">Ready when you are</p>
+<div class="tool-controls breath-buttons"><button class="pill" type="button" data-start>Start</button><button class="pill ghost" type="button" data-stop disabled>Stop</button></div></div>
+<p class="after" id="done" hidden>That’s one minute. Notice how you feel now. Can’t breathe it out right now? <a href="ground.html">Try grounding</a>.</p>
+<p class="help">Urge Walk is not a crisis service and isn’t a substitute for professional care. In the US, call or text <a href="tel:988">988</a> (Suicide &amp; Crisis Lifeline, 24/7). Outside the US, <a href="https://findahelpline.com/">find a helpline</a>.</p>
+</div></main>
+<footer class="site-foot"><div><div class="mark">Urge Walk</div>
+<p>A calm support tool for adults, coming to iPhone. Not a crisis service: in the US, call or text <a href="tel:988">988</a>.</p>
+<small>© 2026 · Made by Darius Tatum · Stock photography: <a href="https://unsplash.com/plus">Unsplash+</a> · App screens shown with sample data · Sounds in the app: <a href="https://bigsoundbank.com/">BigSoundBank by Joseph Sardin</a> (CC0)</small></div>
+<nav aria-label="More"><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="support.html">Support</a><a href="helpers.html">For helpers</a><a href="premium.html">Premium</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:dariustatum@mail.grokbot.com">Contact</a></nav></footer>
 </body></html>
