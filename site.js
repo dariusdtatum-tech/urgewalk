@@ -183,4 +183,27 @@
     // Very old browsers: the button simply goes to Breathe.
     document.querySelector('[data-ride-open]').addEventListener('click', () => { location.href = 'breathe.html' })
   }
+
+  // ---------- Keep it on your phone (round 3, Nov 9) ----------
+  // The site installs like an app (manifest + service worker); Walk, Breathe and Ground work offline.
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) navigator.serviceWorker.register('sw.js').catch(() => {})
+  const keep = document.getElementById('keep')
+  if (keep) {
+    const q = (s) => keep.querySelector(s)
+    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    const showOnly = (sel) => ['[data-install]', '.keep-ios', '.keep-other', '.keep-done'].forEach((s) => { q(s).hidden = s !== sel })
+    if (standalone) showOnly('.keep-done')
+    else if (ios) showOnly('.keep-ios')
+    let deferred = null
+    addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; if (!standalone && !ios) showOnly('[data-install]') })
+    q('[data-install]').addEventListener('click', async () => {
+      if (!deferred) return
+      deferred.prompt()
+      const choice = await deferred.userChoice.catch(() => null)
+      deferred = null
+      showOnly(choice && choice.outcome === 'accepted' ? '.keep-done' : '.keep-other')
+    })
+    addEventListener('appinstalled', () => showOnly('.keep-done'))
+  }
 })()
