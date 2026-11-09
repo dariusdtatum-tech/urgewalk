@@ -206,4 +206,50 @@
     })
     addEventListener('appinstalled', () => showOnly('.keep-done'))
   }
+
+  // ---------- The island as a map (round 4, Nov 9) ----------
+  // The walk's route draws itself in the current place's colour as you scroll; the place you are in is
+  // marked, the ones behind you are lit. On phones the same progress runs as a thin line along the top.
+  const isle = document.querySelector('.isle-svg')
+  const bar = document.querySelector('.walk-progress span')
+  if (places.length && (isle || bar)) {
+    const walked = isle && isle.querySelector('.isle-walked')
+    const stops = isle ? [...isle.querySelectorAll('.isle-stop')] : []
+    const hereEl = document.querySelector('.isle-here')
+    // How far along the route each stop lies (0..100), found once by sampling the drawn path.
+    let at = places.map((_, i) => (100 * i) / (places.length - 1))
+    if (walked && walked.getTotalLength) {
+      const L = walked.getTotalLength(), samples = []
+      for (let s = 0; s <= 400; s++) { const pt = walked.getPointAtLength((L * s) / 400); samples.push([pt.x, pt.y]) }
+      at = stops.map((stop) => {
+        const c = stop.querySelector('.isle-dot'), x = +c.getAttribute('cx'), y = +c.getAttribute('cy')
+        let best = 0, bd = Infinity
+        samples.forEach(([sx, sy], s) => { const d = (sx - x) ** 2 + (sy - y) ** 2; if (d < bd) { bd = d; best = s } })
+        return best / 4
+      })
+    }
+    const names = places.map((p) => (stops.find((s) => s.dataset.stop === p.id)?.getAttribute('aria-label')) || p.id)
+    let shownHere = -1, frame2 = 0
+    const draw = () => {
+      frame2 = 0
+      const mid = innerHeight / 2
+      let i = 0
+      for (let k = 0; k < places.length; k++) if (places[k].getBoundingClientRect().top <= mid) i = k
+      const r = places[i].getBoundingClientRect()
+      const frac = Math.min(1, Math.max(0, (mid - r.top) / r.height))
+      const last = places.length - 1
+      const pastEnd = places[last].getBoundingClientRect().bottom < mid
+      const v = pastEnd ? 100 : (i < last ? at[i] + frac * (at[i + 1] - at[i]) : at[last] + frac * (100 - at[last]))
+      if (walked) walked.style.strokeDashoffset = String(100 - v)
+      if (bar) bar.style.transform = `scaleX(${(v / 100).toFixed(4)})`
+      if (i !== shownHere) {
+        shownHere = i
+        stops.forEach((s, k) => { s.classList.toggle('here', k === i); s.classList.toggle('visited', k <= i) })
+        if (hereEl) hereEl.textContent = names[i]
+      }
+    }
+    draw()
+    addEventListener('scroll', () => { if (!frame2) frame2 = requestAnimationFrame(draw) }, { passive: true })
+    addEventListener('resize', draw)
+  }
 })()
