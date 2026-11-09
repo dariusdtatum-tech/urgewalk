@@ -5,7 +5,7 @@ Urge Walk is a calm recovery and walking app from Darius Tatum. It should feel w
 ## Brand (locked)
 - **Colors:** cream `#faf7f1`, warm sand `#f1ebe0`, navy `#24395c`. Accents: deep sea `#3f7a6b` (text only on cream or white), sea glass `#a9cbc0` (fills only, never text). Night mode: `#0f1d33` background, `#182b47` surfaces, cream text.
 - **Type:** Cormorant Garamond italic for display moments (numbers, quotes, titles). Plus Jakarta Sans for everything else. Use two weights at most per screen.
-- **Icon:** the A2 mark (sun, hills, tapering path) in `/icon/final`. Don't redraw, recolor, or add effects.
+- **Icon:** the W6 mark (Nov 8 2026): a tilted horizon, sea below, the light low on the right with its road across the water. Light = day, dark = night; both share the same geometry. Source of truth: `urge-walk-app/scripts/island/build-app-icon.py` and `assets/icon-src/`. Site files: `assets/icon-w6.svg`, `assets/icon-w6-dark.svg`, `favicon-*-w6.png`, `apple-touch-icon-w6.png`. Don't redraw or recolor; rebuild from the app's script. (Replaced the A2 mark.)
 - **Space:** generous whitespace. Screen padding 16, card padding 14, tap targets at least 44pt. Cards are flat sand or cream with a hairline border or none at all.
 - **Motion:** slow and soft (200–350 ms ease-out, gentle springs). No bounce, shake, confetti, or looping attention grabbers.
 
@@ -15,7 +15,7 @@ Urge Walk is a calm recovery and walking app from Darius Tatum. It should feel w
 - Emoji anywhere in the UI or in product copy.
 - "LIVE", "NEW", "HOT", or pulsing badges, notification-style red dots, and count bubbles used to create urgency.
 - Red, or any alarm color, for a slip, a reset, or an error. Resets use neutral navy or sand, with calm wording.
-- Glassmorphism, neumorphism, 3D blobs, stock illustrations of people, and generic line-art "hero" scenes.
+- Glassmorphism on the website (the app itself uses frosted glass over its place photographs since Nov 8 2026; the site keeps flat surfaces), neumorphism, 3D blobs, stock illustrations of people, and generic line-art "hero" scenes.
 - Dense dashboards, stacked stat tiles, and charts on Home beyond the agreed preview.
 - Ads, streak-restore or streak-freeze sales, guilt prompts, and countdown pressure.
 - Centered everything. Left-align body text and keep one clear focal point per screen.

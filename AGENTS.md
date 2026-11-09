@@ -2,6 +2,12 @@
 
 Read `DESIGN-RULES.md` before any UI or copy change; it overrides defaults.
 
+## Nov 8 2026 update (copy, icon)
+
+- Copy matches the current app: Ride it out lives on Home and in the top bar of every place (the tab bar was removed); check-in outcomes are Passed / Eased / Stayed ("What did the urge do?"); ten places (the Inlet is now The Tide Pool; The Cove was added); places follow the time of day and never change with progress (app rule: scenery never reflects progress or setbacks).
+- Icon: W6 mark replaces the A2/v4/v5 files in every page's head and header (see DESIGN-RULES.md). Old v4/v5 files stay in `assets/` until the change is live, then can go.
+- Still pending: the phone screenshots are the v4.1 bridge mockups, not the current app; some show the old Inlet name inside the image. Replacing them with real captures of the current app is a founder decision: the app's place photographs are Unsplash+ (licence allows commercial and marketing use, no credit; raw photo files must never be committed here).
+
 ## Current Website Status (v4.1 Whole-Island Screenshots)
 
 The live landing page (`index.html`) showcases the **Whole-Island v4.1 architecture (`sheltered_island_v1`)** using composed 780×1640 app screenshots with phone frames. 
