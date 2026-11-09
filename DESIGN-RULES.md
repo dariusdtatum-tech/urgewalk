@@ -2,6 +2,18 @@
 
 Urge Walk is a calm recovery and walking app from Darius Tatum. It should feel warm, steady, quietly confident, and handmade but professional, like a well-kept coastal house. It is never loud, corporate, techy, or "AI-made". If a change makes it look like a generic template, undo it.
 
+## Island restyle (Nov 8 2026, founder: "Build it"; supersedes the lines below where they differ)
+
+The site wears the app's island look; the older rules below stay as history.
+- **Palette:** night only. Background `#0f1d33`, surfaces `#182b47`/`#14243d`, cream ink `#faf7f1`/`#f3ede2`, muted `#c3cad6`, sea glass `#a9cbc0` for focus and selection. `color-scheme: dark` on every page. All text pairs at least 4.5:1 (cream on night is 15:1).
+- **Type:** upright Cormorant Garamond 500 for display (no italics), Inter 400/500/600 for text, both self-hosted in `assets/fonts` (OFL, licences in `assets/licenses`). Plus Jakarta Sans is retired.
+- **Photographs:** web-size crops only (at most 2000 px wide, WebP), never original or full-size Unsplash+ files (narrowed rule, founder, Nov 8); footer credit "Stock photography: Unsplash+". The landing page is photo-led: one place full-bleed in the hero (the Sheltered Coast) and two place bands (the Path Ahead, the Cove), each with a navy veil for legibility. No people. Phone frames show real captures of the current app, daylight, sample data, with a caption saying so.
+- **Glass:** allowed only over a photograph, as in the app: navy 45%, 22 px blur, cream hairline `rgba(250,247,241,.18)`, radius 22. Never on a plain background.
+- **Buttons:** cream pill on night (`border-radius: 999px`), navy text.
+- **Header:** transparent over the hero on the landing page; elsewhere navy 78% with a 16 px blur and a hairline.
+- **Copy:** unchanged rules (plain, kind, second person, no banned words). Outcomes are Passed / Eased / Stayed. The island never changes with progress.
+- **Code:** the island layer is the last block of `style.css`; landing-page classes start with `isl-`. Older layers above it are kept as history.
+
 ## Brand (locked)
 - **Colors:** cream `#faf7f1`, warm sand `#f1ebe0`, navy `#24395c`. Accents: deep sea `#3f7a6b` (text only on cream or white), sea glass `#a9cbc0` (fills only, never text). Night mode: `#0f1d33` background, `#182b47` surfaces, cream text.
 - **Type:** Cormorant Garamond italic for display moments (numbers, quotes, titles). Plus Jakarta Sans for everything else. Use two weights at most per screen.
