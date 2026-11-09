@@ -322,3 +322,12 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.ride[open]{animation:none}}
 /* keep the button off the last words on a page */
 .site-foot{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+
+/* ---------- Keep it on your phone (round 3, Nov 9) ---------- */
+.keep{margin-top:clamp(64px,10vh,110px);padding:clamp(24px,3vw,38px);border-radius:22px;max-width:40rem;background:color-mix(in srgb,var(--tone) 10%,rgba(255,255,255,.04))}
+.keep h3{font-size:clamp(2rem,4vw,3rem);line-height:1;margin-top:12px}
+.keep-body{color:var(--ink);margin-top:14px;max-width:32rem}
+.keep-how{margin-top:20px}
+.keep-how p{color:var(--soft);font-size:.92rem}
+.keep-how b{color:var(--paper);font-weight:500}
+.tool .more{margin-top:28px}
