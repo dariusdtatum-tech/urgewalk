@@ -42,3 +42,7 @@ The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's 
 - Never commit original or full-size photographs; never add images a page doesn't use.
 - Changing a tool's wording: change `tools.json` and keep it in step with the app.
 - Record every change in the app repo's project record (`urge-walk-app/docs/project-record/`).
+
+## Working agreement (founder, Nov 9 2026)
+
+"Yeah merge any small verified site fixes then." Small, verified fixes to this site are merged by the agent without asking, then reported. Larger changes (a new direction, a new page such as Ride One Out going live) still wait for "merge".
