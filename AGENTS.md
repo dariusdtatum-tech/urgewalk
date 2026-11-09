@@ -7,6 +7,7 @@ The public pre-launch site for Urge Walk at **https://urgewalk.app** (GitHub Pag
 
 ## Files
 - `index.html` — the walk. Each place is `<section class="place c-…" id="…" data-place="…">` with a `.place-bg` (CSS background from `places.css`), a `.veil` in the place's deep shade only where the words are, and its own composition class (`c-hero`, `c-clearing`, `c-path`, `c-pool`, `c-shore`, `c-cove`, `c-shelter`, `c-outlook`, `c-cottage`).
+- `ride.html` — Ride one out (Nov 9): a 90-second pass at the Shore over 4K motion (`assets/motion/shore-{2160,1440,phone}.mp4`, posters `.jpg`); `sw.js` never caches `.mp4` or range requests. Rules in `DESIGN-RULES.md`.
 - `breathe.html`, `ground.html` — free tools; `tools.json` holds the breath timings and the grounding steps (shared with the app's wording).
 - `support.html`, `privacy.html`, `terms.html`, `helpers.html`, `premium.html` — reading pages. Privacy, Terms and Support are linked from the app: never rename them.
 - `assets/places/` — web-size place crops (Unsplash+, credited in the footer; built by the app repo's `scripts/island/build-site-images.py`). `assets/screens/` — captures of the current app with sample data. `assets/og.jpg` — the link-sharing image.
