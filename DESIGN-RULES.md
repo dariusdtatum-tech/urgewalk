@@ -2,27 +2,51 @@
 
 Rebuilt from nothing on Nov 8 2026 (founder: "make the website anew instead of just a replacement for its old self"). The earlier rules (A2 icon, cream pages, Plus Jakarta Sans, wave video) are history in git; they no longer apply. Concept and research: `urge-walk-app/docs/design/WEBSITE-ISLAND-WALK-2026-11-08.md`.
 
+## The aim (founder, Nov 8 2026; these govern every choice below)
+> "I want us to reach a level where we do have it as anti slop for sure. I want it to be sophisticated elegance. I want it to be creative as well. It's okay to aim high in a way that is different and not safe. It's okay to be ambitious and go a different path in pursuit of sophisticated elegance."
+
+What that means here:
+- **Sophisticated elegance:** restraint with craft. Fewer elements, finer type, generous space, exact alignment, nothing repeated by habit. Every place is composed, not templated.
+- **Creative and not safe:** each place gets its own composition; type can be very large, can sit on a horizon, can cascade; a place may carry almost no words. Interactive moments are real (the breath, Island light), never gimmicks.
+- **Anti-slop, for sure:** no generic SaaS sections (feature grids, logo walls, stats, testimonials, carousels), no stock people, no rainbow or decorative gradients, no pills around static text, no blobs, no looping attention-seekers. Glass is allowed only when it is crafted: over a photograph, with a visible hairline edge, readable text and an opaque fallback.
+- **Rules that came from tools are not rules:** the earlier navy-everywhere look and the ban on glass were defaults (the app's palette, a generic "anti-slop" skill, the old site's rules), not the founder's. Founder direction wins; skills inform craft.
+
 ## The idea
-The site is a walk across the island. Each place of the app is a full-screen photograph with a caption (number · place · light) and a few lines; scrolling dissolves the island from one place to the next, daylight turning to evening at the Shore, ending at night. Every feature is said through its place, never as a feature grid.
+The site is a walk across the island, and the island follows the visitor's time of day (Island light, as in the app: daylight 6:00–17:59, evening otherwise; a Daylight · Evening switch overrides it, remembered on this device only). The site is a walk across the island. Each place of the app is a full-screen photograph with a caption (number · place · light) and a few lines; scrolling dissolves the island from one place to the next and ends at night. Every feature is said through its place, never as a feature grid. Each place has its own composition (elegance pass, Nov 8):
+
+| Place | Composition |
+|---|---|
+| Sheltered Coast | "Urges pass, *like waves.*" set across the sky, very large; lede and "Coming to iPhone." at the foot |
+| Clearing | words right, the Ride it out screen in glass left, the tree between; four answers with italic roman numerals |
+| Path Ahead | one enormous line, "Walk *it out.*", at the foot of the boardwalk; lede top right |
+| Tide Pool | the breath in a glass ring over the water, centred |
+| Shore | five to one: the senses typeset as a narrowing cascade |
+| Cove | a pause: one italic line, almost nothing else |
+| Shelter | a journal page on glass with ruled lines; the journal screen beside it |
+| Outlook | "Passed. Eased. Stayed." set large along the horizon |
+| Cottage | "Yours, *and only yours.*" with a glass note of privacy lines |
+| Night | "Coming *to iPhone.*"; the founder's letter with a drop cap |
 
 ## Identity
-- **Colour:** night `#0f1d33` (surfaces `#142640`, `#1b3150`), cream ink `#faf7f1`, soft `rgba(250,247,241,.78)`, quiet `.62`, hairline `.22`, sea glass `#a9cbc0` for focus, selection and the breath. Nothing else. `color-scheme: dark`.
-- **Type:** Cormorant Garamond 500, upright, for headings and place names; Inter 400/500/600 for text. Self-hosted in `assets/fonts`, OFL licences in `assets/licenses`. Headings end with a full stop when they are sentences.
+- **Colour:** the photograph supplies the colour (the app's rule since Nov 8). Each place carries its own tone and deep shade, measured from its photograph by `urge-walk-app/scripts/island/build-site-images.py` (`--tone`, `--deep` per place and light); captions, hairlines, buttons and the trail take the place's tone. Night navy `#0f1d33` is only for night (the end of the walk, the reading column). Cream ink `#faf7f1`.
+- **Type:** Cormorant Garamond 300 and 400 (upright and italic) for display, set large with tight leading; italics for the turn in a line; Inter 400/500 for text; captions in small tracked capitals. Self-hosted in `assets/fonts`, OFL licences in `assets/licenses`. Headings end with a full stop when they are sentences.
 - **Icon:** the app's W6 mark (`assets/icon-w6.svg`, favicons, Apple touch icon), rebuilt only from `urge-walk-app/scripts/island/build-app-icon.py`.
-- **Photographs:** the app's place photographs, web-size crops only (wide 2000 × 1125 and tall 900 × 1600 WebP), built by `urge-walk-app/scripts/island/build-site-images.py` with the app's shared grade. Never original or full-size files (narrowed photo rule, founder, Nov 8). No people; check every new crop at full size. Footer credit: "Stock photography: Unsplash+". Only images a page uses live in the repo.
-- **Legibility:** a navy veil over every photograph (functional, as in the app) keeps cream text at 4.5:1 or better. No frosted glass panels, no shadows as decoration, no gradients except veils.
+- **Photographs:** both lights of every place are in the repo and loaded through `places.css` (CSS custom properties per place and light), so a visitor downloads only their light's nine photographs. The app's place photographs, web-size crops only (wide 2000 × 1125 and tall 900 × 1600 WebP), built by `urge-walk-app/scripts/island/build-site-images.py` with the app's shared grade. Never original or full-size files (narrowed photo rule, founder, Nov 8). No people; check every new crop at full size. Footer credit: "Stock photography: Unsplash+". Only images a page uses live in the repo.
+- **Legibility:** a local veil in the place's own deep shade sits only behind the words, so the photograph keeps its light; cream text at 4.5:1 or better on the veiled area. Glass where it earns its place (app screens, the breath, the Cottage note, the header after scrolling): blur over the photograph, a tint of the place's deep shade, a hairline edge, an opaque fallback without `backdrop-filter`.
 - **App screens:** real captures of the current app with sample data (`assets/screens/`), one per place at most, only where the place needs it, framed by a hairline. Never a grid of mockups.
 
 ## Motion
 - Interface: 150–300 ms, ease-out, `transform` and `opacity` only.
-- One optical exception: the place crossfade, 520 ms, with the arriving photograph settling from 1.04 (the app's `PLACE_FADE_MS` and `PLACE_SETTLE`).
+- One optical exception: the place crossfade, 520 ms, with the arriving photograph settling from 1.035 (the app's `PLACE_FADE_MS`, close to `PLACE_SETTLE`).
+- Each place's words rise once when it arrives (opacity and 10 px, 300 ms, staggered 60 ms); never again, never on loop.
 - Scroll is never taken over or pinned. Reduce Motion: nothing moves; each place is a plain section with its own photograph. Without JavaScript the page reads the same way.
 
 ## Pages
-- `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's note). Trail index at the right on wide screens.
+- `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.
+- `places.css`: generated from `tones.json` (place colours) by the site generator; never edit by hand.
 - `breathe.html` (the Tide Pool) and `ground.html` (the Shore): full-screen free tools. Timings and steps from `tools.json`.
 - `support.html`, `privacy.html`, `terms.html`, `helpers.html`, `premium.html`: reading pages under a short band of their place (Cottage, Shelter, Outlook, Cove, Trailhead). The app links to Privacy, Terms and Support: keep those addresses.
-- Every page: the same header (brand, Breathe, Ground, Support), the same footer (crisis line, links, credits), the pre-launch `noindex`.
+- Every page: the same header (brand, Island light switch, Breathe, Ground, Support; glass in the current place's deep shade once scrolled), the same footer (crisis line, links, credits), the pre-launch `noindex`.
 
 ## Before launch
 - No fake App Store badge: "Coming to iPhone" at most twice on a page. No press logos, ratings, percentages or counters.

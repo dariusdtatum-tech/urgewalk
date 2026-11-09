@@ -1,31 +1,57 @@
-// Urge Walk — the island site. Progressive enhancement only: every page reads and works without this.
-// 1. The walk: on the landing page the place crossing the middle of the screen is "here"; its photograph
-//    fades in behind the page (CSS, html.walk). Skipped under Reduce Motion.
-// 2. The trail index marks where you are.
-// 3. The breath: any [data-breath] block becomes a one-minute paced breath (timings from tools.json).
+// Urge Walk — the island site (elegance pass, Nov 8 2026). Progressive enhancement: every page reads and
+// works without this file.
+// 1. Island light: the island follows the visitor's time of day (daylight 6:00–17:59, evening otherwise), as the
+//    app does; the Daylight · Evening switch overrides it (remembered on this device only). The inline script in
+//    each page's <head> sets html[data-light] before the stylesheet paints, so only one set of photographs loads.
+// 2. The walk: the place crossing the middle of the screen is "here"; its photograph fades in behind the page
+//    and its words rise once. Skipped under Reduce Motion.
+// 3. The header takes the current place's deep shade once the page moves.
+// 4. The breath: any [data-breath] block becomes a paced minute (timings from tools.json).
 (() => {
+  const root = document.documentElement
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // ---------- Island light ----------
+  const buttons = [...document.querySelectorAll('.light-switch button')]
+  const show = (light) => {
+    root.dataset.light = light
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.light === light)))
+  }
+  show(root.dataset.light === 'evening' ? 'evening' : 'day')
+  buttons.forEach((b) => b.addEventListener('click', () => {
+    show(b.dataset.light)
+    try { localStorage.setItem('urgewalk.light', b.dataset.light) } catch { /* private mode: fine */ }
+    setDeep()
+  }))
+
+  // ---------- the walk ----------
   const places = [...document.querySelectorAll('.place[id]')]
   const trail = [...document.querySelectorAll('.trail a')]
-
+  let current = places[0] || document.querySelector('.band, .tool')
+  function setDeep() {
+    if (!current) return
+    const d = getComputedStyle(current).getPropertyValue('--deep').trim()
+    if (d) root.style.setProperty('--cur-deep', d)
+  }
   if (places.length) {
-    if (!reduce && 'IntersectionObserver' in window) document.documentElement.classList.add('walk')
+    if (!reduce && 'IntersectionObserver' in window) root.classList.add('walk')
     const mark = (el) => {
+      current = el
       places.forEach((p) => p.classList.toggle('here', p === el))
+      el.classList.add('seen')
       trail.forEach((a) => a.setAttribute('aria-current', a.hash === '#' + el.id ? 'true' : 'false'))
+      setDeep()
     }
     mark(places[0])
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) mark(e.target) })
-      }, { rootMargin: '-50% 0px -50% 0px' })
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) mark(e.target) }),
+        { rootMargin: '-50% 0px -50% 0px' })
       places.forEach((p) => io.observe(p))
-      // Past the last place (the night section), keep the last place marked.
-    }
-  }
+    } else places.forEach((p) => p.classList.add('seen'))
+  } else setDeep()
 
-  // The header gains a solid backing once the page moves, so words never slide under clear glass.
-  const head = document.querySelector('.site-head:not(.solid)')
+  // ---------- header ----------
+  const head = document.querySelector('.site-head')
   if (head) { const f = () => head.classList.toggle('scrolled', scrollY > 24); addEventListener('scroll', f, { passive: true }); f() }
 
   // ---------- the breath ----------
@@ -59,11 +85,7 @@
       dot.style.transitionDuration = ms + 'ms'; dot.dataset.phase = phase; word.textContent = text
       t = setTimeout(() => step(i + 1), ms)
     }
-    start.addEventListener('click', () => {
-      if (done) done.hidden = true
-      start.disabled = true; if (stop) stop.disabled = false
-      step(0)
-    })
+    start.addEventListener('click', () => { if (done) done.hidden = true; start.disabled = true; if (stop) stop.disabled = false; step(0) })
     if (stop) stop.addEventListener('click', () => end(false))
   })
 })()
