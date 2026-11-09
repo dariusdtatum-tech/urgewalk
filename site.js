@@ -169,4 +169,18 @@
       $('.walk-help').hidden = b.dataset.outcome !== 'stayed'
     }))
   }
+
+  // ---------- Ride it out on every page (round 2, Nov 9) ----------
+  const ride = document.getElementById('ride')
+  if (ride && typeof ride.showModal === 'function') {
+    const opener = document.querySelector('[data-ride-open]')
+    const close = () => { ride.close() }
+    opener.addEventListener('click', () => { ride.showModal(); root.classList.add('ride-open') })
+    ride.addEventListener('close', () => { root.classList.remove('ride-open'); opener.focus({ preventScroll: true }) })
+    ride.querySelector('[data-ride-close]').addEventListener('click', close)
+    ride.addEventListener('click', (e) => { if (e.target === ride) close() }) // a tap outside the sheet closes it
+  } else if (ride) {
+    // Very old browsers: the button simply goes to Breathe.
+    document.querySelector('[data-ride-open]').addEventListener('click', () => { location.href = 'breathe.html' })
+  }
 })()
