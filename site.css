@@ -293,3 +293,32 @@ html.walk .seen .rise:nth-child(2){transition-delay:60ms}html.walk .seen .rise:n
 .outcomes{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px}
 .outcomes .pill[aria-pressed=true]{background:var(--paper);color:#151515;box-shadow:none}
 .walk-help .tool-controls{margin-top:14px}
+
+/* ---------- Ride it out on every page (round 2, Nov 9) ---------- */
+.ride-fab{position:fixed;z-index:25;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:10px;
+  min-height:52px;padding:0 22px 0 18px;border-radius:999px;color:var(--paper);background:color-mix(in srgb,var(--cur-deep) 58%,transparent);
+  font:500 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:transform 200ms var(--ease),opacity 200ms var(--ease)}
+.ride-fab:hover{transform:translateY(-2px)}
+.ride-fab svg{color:var(--tone)}
+html.ride-open .ride-fab{opacity:0;pointer-events:none}
+.ride{width:min(30rem,calc(100vw - 24px));max-height:calc(100dvh - 24px);margin:auto auto max(12px,env(safe-area-inset-bottom));padding:24px 26px 22px;border-radius:22px;color:var(--paper);
+  background:color-mix(in srgb,var(--cur-deep) 70%,transparent);overflow:auto}
+@media (min-width:700px){.ride{margin:auto}}
+.ride::backdrop{background:rgba(10,10,10,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.ride[open]{animation:ride-in 300ms var(--ease)}
+@keyframes ride-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.ride-top{display:flex;align-items:center;justify-content:space-between}
+.ride-close{width:44px;height:44px;margin-right:-10px;border:0;background:none;color:var(--paper);font:300 1.9rem/1 var(--serif);cursor:pointer}
+.ride h2{font-size:clamp(2.1rem,6vw,2.8rem);line-height:1;margin-top:8px}
+.ride-list{list-style:none;margin:20px 0 0;padding:0;counter-reset:r}
+.ride-list li{border-top:1px solid var(--hair)}
+.ride-list li:last-child{border-bottom:1px solid var(--hair)}
+.ride-list a{display:grid;grid-template-columns:2em 1fr;align-items:baseline;column-gap:8px;padding:14px 0;text-decoration:none;color:var(--paper)}
+.ride-list a::before{counter-increment:r;content:counter(r,lower-roman) ".";grid-row:span 2;font:italic 300 1.05rem/1 var(--serif);color:var(--tone);padding-top:.35em}
+.ride-list b{font:300 1.75rem/1.1 var(--serif)}
+.ride-list span{font-size:.84rem;color:var(--soft)}
+.ride-list a:hover b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.ride-note{font-size:.8rem;color:var(--soft);margin-top:14px}
+@media (prefers-reduced-motion:reduce){.ride[open]{animation:none}}
+/* keep the button off the last words on a page */
+.site-foot{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
