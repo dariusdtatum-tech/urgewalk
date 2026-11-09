@@ -38,6 +38,7 @@
     const mark = (el) => {
       current = el
       places.forEach((p) => p.classList.toggle('here', p === el))
+      const k = places.indexOf(el); [k - 1, k, k + 1].forEach((j) => places[j] && places[j].classList.add('near')) // round 7: load neighbours
       el.classList.add('seen')
       trail.forEach((a) => a.setAttribute('aria-current', a.hash === '#' + el.id ? 'true' : 'false'))
       setDeep()
