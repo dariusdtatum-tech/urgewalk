@@ -102,4 +102,71 @@
     start.addEventListener('click', () => { if (done) done.hidden = true; start.disabled = true; if (stop) stop.disabled = false; step(0) })
     if (stop) stop.addEventListener('click', () => end(false))
   })
+
+  // ---------- Walk on the web (round 1, Nov 9) ----------
+  // Kept by the wall clock, so a locked screen or a background tab never loses time (as in the app).
+  // Asks the browser to keep the screen on while walking (Wake Lock), where it can. Nothing is saved or sent.
+  const walk = document.querySelector('[data-walk]')
+  if (walk) {
+    const lines = JSON.parse(walk.dataset.lines || '[]')
+    const steps = Object.fromEntries([...walk.querySelectorAll('[data-step]')].map((s) => [s.dataset.step, s]))
+    const $ = (sel) => walk.querySelector(sel)
+    const timeEl = $('.walk-time'), underEl = $('.walk-under'), lineEl = $('.walk-line'), kindEl = $('.walk-kind')
+    const pauseBtn = $('[data-walk-pause]')
+    let minutes = 10, started = 0, pausedAt = 0, pausedTotal = 0, tick = 0, lineAt = -1, lock = null
+    const show = (name) => Object.entries(steps).forEach(([k, s]) => { s.hidden = k !== name })
+    walk.querySelectorAll('.lengths button').forEach((b) => b.addEventListener('click', () => {
+      minutes = +b.dataset.min
+      walk.querySelectorAll('.lengths button').forEach((o) => o.setAttribute('aria-checked', String(o === b)))
+    }))
+    const keepAwake = async () => { try { lock = await navigator.wakeLock?.request('screen') } catch { lock = null } }
+    const letSleep = () => { try { lock?.release() } catch { /* fine */ } lock = null }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && started && !pausedAt) keepAwake() })
+    const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
+    const elapsed = () => ((pausedAt || Date.now()) - started - pausedTotal) / 1000
+    const setLine = (i) => {
+      if (!lines.length || i === lineAt) return
+      lineAt = i
+      lineEl.classList.add('fading')
+      setTimeout(() => { lineEl.textContent = lines[i % lines.length]; lineEl.classList.remove('fading') }, reduce ? 0 : 300)
+    }
+    const render = () => {
+      const e = elapsed()
+      if (minutes) {
+        const left = Math.max(0, minutes * 60 - e)
+        timeEl.textContent = fmt(left)
+        if (left <= 0) { finish(); return }
+      } else timeEl.textContent = fmt(e)
+      setLine(Math.floor(e / 120))
+    }
+    const start = () => {
+      started = Date.now(); pausedAt = 0; pausedTotal = 0; lineAt = -1
+      kindEl.textContent = minutes ? `${minutes} minute walk` : 'Open walk'
+      underEl.textContent = minutes ? 'left in your walk' : 'walking'
+      pauseBtn.textContent = 'Pause'
+      show('run'); render(); tick = setInterval(render, 500); keepAwake()
+    }
+    const finish = () => {
+      clearInterval(tick); letSleep()
+      const m = Math.max(1, Math.round(elapsed() / 60))
+      $('.walk-summary').textContent = `You walked for ${m} minute${m === 1 ? '' : 's'}. However you feel right now, this time is yours.`
+      walk.querySelectorAll('[data-outcome]').forEach((b) => b.setAttribute('aria-pressed', 'false'))
+      $('.walk-reply').hidden = true; $('.walk-help').hidden = true
+      started = 0; show('done'); $('#done-h').focus({ preventScroll: true })
+    }
+    $('[data-walk-start]').addEventListener('click', start)
+    $('[data-walk-finish]').addEventListener('click', finish)
+    $('[data-walk-again]').addEventListener('click', () => show('set'))
+    pauseBtn.addEventListener('click', () => {
+      if (pausedAt) { pausedTotal += Date.now() - pausedAt; pausedAt = 0; pauseBtn.textContent = 'Pause'; keepAwake() }
+      else { pausedAt = Date.now(); pauseBtn.textContent = 'Resume'; letSleep() }
+      render()
+    })
+    const replies = { passed: 'Nice work. You rode it out.', eased: 'Every bit of distance helps. Glad you walked.', stayed: 'Thanks for walking anyway. Showing up is the hard part.' }
+    walk.querySelectorAll('[data-outcome]').forEach((b) => b.addEventListener('click', () => {
+      walk.querySelectorAll('[data-outcome]').forEach((o) => o.setAttribute('aria-pressed', String(o === b)))
+      const r = $('.walk-reply'); r.textContent = replies[b.dataset.outcome]; r.hidden = false
+      $('.walk-help').hidden = b.dataset.outcome !== 'stayed'
+    }))
+  }
 })()

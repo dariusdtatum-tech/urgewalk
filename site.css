@@ -278,3 +278,18 @@ html.walk .seen .rise:nth-child(2){transition-delay:60ms}html.walk .seen .rise:n
   *,*::before,*::after{transition:none!important;animation:none!important}
   .breath-dot{transform:scale(.66)!important}
 }
+
+/* ---------- Walk on the web (round 1, Nov 9) ---------- */
+.walk .tool-inner{max-width:36rem}
+.lengths{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:30px}
+.lengths button{min-height:46px;padding:0 20px;border-radius:999px;border:0;background:transparent;color:var(--paper);box-shadow:inset 0 0 0 1px var(--hair);
+  font:500 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background-color 200ms var(--ease),color 200ms var(--ease)}
+.lengths button[aria-checked=true]{background:var(--paper);color:#151515;box-shadow:none}
+.walk-note{font-size:.84rem;color:var(--soft);margin-top:18px}
+.walk-time{font:300 clamp(5.5rem,22vw,11rem)/.9 var(--serif);letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-top:12px}
+.walk-under{font:500 .7rem/1.4 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-top:10px}
+.walk-line{font:italic 300 clamp(1.4rem,2.6vw,1.9rem)/1.35 var(--serif);color:var(--ink);min-height:2.7em;margin:34px auto 0;max-width:28rem;transition:opacity 300ms var(--ease)}
+.walk-line.fading{opacity:0}
+.outcomes{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px}
+.outcomes .pill[aria-pressed=true]{background:var(--paper);color:#151515;box-shadow:none}
+.walk-help .tool-controls{margin-top:14px}
