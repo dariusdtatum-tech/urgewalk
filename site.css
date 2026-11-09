@@ -363,3 +363,5 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 .next a:hover b,.next a:focus-visible b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px;text-decoration-color:var(--tone)}
 .next a::after{content:"";grid-column:2;width:0;height:1px;background:var(--tone);margin-top:12px;transition:width 300ms var(--ease)}
 .next a:hover::after{width:64px}
+/* Round 7 (Nov 9): photographs load near the visitor, so the hero gets the connection first (set before paint by the head script). */
+html.lazy-places .place:not(.near) .place-bg{background-image:none}

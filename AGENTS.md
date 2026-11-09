@@ -20,6 +20,10 @@ Founder's prompt, applied five times: "Look at the site first. Then innovate: th
 4. **The island as a map**: `.isle` card on wide screens, drawn by `island_map.py` in the generator; the route draws in the place's colour as you scroll. Phones: a 2 px progress line. PR #13.
 5. **The night as a next step**: Tell me when it's out (mailto hello@urgewalk.app), Send it to someone (Web Share, else copy), Keep it on your phone. The hero's "Coming to iPhone." links to it. PR #14.
 
+Then "one change per round" (Goal: the launch email; limit +100 lines):
+6. **The Goal on the first screen**: the hero's foot is now "Tell me when it's out" (one prefilled mailto, `LAUNCH_MAIL`, shared with the night) instead of a link down to it. PR #15.
+7. **Hero photo first**: `html.lazy-places` (head script; not under Reduce Motion or without IntersectionObserver) hides every place photograph except the current place and its neighbours (`.near`, set in `mark()`), so the hero's photo stops competing with eight others. Throttled phone, local: hero photo 3.2 s → 2.1 s. PR #16.
+
 ## How Island light works
 The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's saved choice (`localStorage` key `urgewalk.light`). `places.css` maps `[data-place=…]` to that light's `--img-wide`, `--img-tall`, `--tone` and `--deep`; only the matching photographs load. The header switch changes it live. Without JavaScript the site shows daylight.
 
