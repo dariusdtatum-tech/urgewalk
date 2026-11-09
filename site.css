@@ -353,8 +353,6 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 @media (min-width:1180px){.walk-progress{display:none}}
 
 /* ---------- The night as a next step (round 5, Nov 9) ---------- */
-a.soon{text-decoration:none;color:var(--paper)}
-a.soon:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
 .next{list-style:none;margin:clamp(40px,6vh,64px) 0 0;padding:0;counter-reset:n;max-width:46rem}
 .next li{border-top:1px solid var(--hair)}
 .next li:last-child{border-bottom:1px solid var(--hair)}
