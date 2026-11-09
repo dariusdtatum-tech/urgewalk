@@ -24,6 +24,8 @@ Then "one change per round" (Goal: the launch email; limit +100 lines):
 6. **The Goal on the first screen**: the hero's foot is now "Tell me when it's out" (one prefilled mailto, `LAUNCH_MAIL`, shared with the night) instead of a link down to it. PR #15.
 7. **Hero photo first**: `html.lazy-places` (head script; not under Reduce Motion or without IntersectionObserver) hides every place photograph except the current place and its neighbours (`.near`, set in `mark()`), so the hero's photo stops competing with eight others. Throttled phone, local: hero photo 3.2 s → 2.1 s. PR #16.
 
+Matching the app (Nov 9, app rounds 1 and 8): Ground opens on its first sense (no intro or Start; Back is off on sense 1, Start again returns to sense 1), and the Ride it out dialog appears without an entrance animation.
+
 ## How Island light works
 The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's saved choice (`localStorage` key `urgewalk.light`). `places.css` maps `[data-place=…]` to that light's `--img-wide`, `--img-tall`, `--tone` and `--deep`; only the matching photographs load. The header switch changes it live. Without JavaScript the site shows daylight.
 
