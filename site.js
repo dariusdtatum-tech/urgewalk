@@ -252,4 +252,20 @@
     addEventListener('scroll', () => { if (!frame2) frame2 = requestAnimationFrame(draw) }, { passive: true })
     addEventListener('resize', draw)
   }
+
+  // ---------- The night as a next step (round 5, Nov 9) ----------
+  // "Send it to someone": the phone's own share sheet, or the link copied. Nothing is tracked.
+  document.querySelectorAll('[data-share]').forEach((a) => a.addEventListener('click', async (e) => {
+    e.preventDefault()
+    const note = a.querySelector('[data-share-note]')
+    const data = { title: 'Urge Walk', text: 'A calm way to ride out an urge: take a walk, breathe for a minute, or come back to your senses.', url: 'https://urgewalk.app/' }
+    try {
+      if (navigator.share) { await navigator.share(data); return }
+      await navigator.clipboard.writeText(data.url)
+      if (note) note.textContent = 'Link copied: urgewalk.app. Paste it in a message.'
+    } catch (err) {
+      if (err && err.name === 'AbortError') return
+      if (note) note.textContent = 'Share this address: urgewalk.app'
+    }
+  }))
 })()

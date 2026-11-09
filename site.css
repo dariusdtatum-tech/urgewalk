@@ -351,3 +351,17 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 .walk-progress{position:fixed;z-index:21;left:0;right:0;top:0;height:2px;pointer-events:none}
 .walk-progress span{display:block;height:100%;width:100%;background:var(--tone);transform:scaleX(0);transform-origin:left;transition:transform 300ms var(--ease),background-color 300ms var(--ease)}
 @media (min-width:1180px){.walk-progress{display:none}}
+
+/* ---------- The night as a next step (round 5, Nov 9) ---------- */
+a.soon{text-decoration:none;color:var(--paper)}
+a.soon:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.next{list-style:none;margin:clamp(40px,6vh,64px) 0 0;padding:0;counter-reset:n;max-width:46rem}
+.next li{border-top:1px solid var(--hair)}
+.next li:last-child{border-bottom:1px solid var(--hair)}
+.next a{display:grid;grid-template-columns:2.4em 1fr;column-gap:12px;padding:22px 0;text-decoration:none;color:var(--paper)}
+.next a::before{counter-increment:n;content:counter(n,lower-roman) ".";grid-row:span 2;font:italic 300 1.2rem/1 var(--serif);color:var(--tone);padding-top:.7em}
+.next b{font:300 clamp(2rem,4.6vw,3.4rem)/1.02 var(--serif);letter-spacing:-.02em}
+.next span{color:var(--soft);font-size:.92rem;margin-top:8px}
+.next a:hover b,.next a:focus-visible b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px;text-decoration-color:var(--tone)}
+.next a::after{content:"";grid-column:2;width:0;height:1px;background:var(--tone);margin-top:12px;transition:width 300ms var(--ease)}
+.next a:hover::after{width:64px}

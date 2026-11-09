@@ -12,6 +12,14 @@ The public pre-launch site for Urge Walk at **https://urgewalk.app** (GitHub Pag
 - `assets/places/` — web-size place crops (Unsplash+, credited in the footer; built by the app repo's `scripts/island/build-site-images.py`). `assets/screens/` — captures of the current app with sample data. `assets/og.jpg` — the link-sharing image.
 - `scripts/check-hidden-unicode.sh` — CI guard.
 
+## "Make it better" rounds (Nov 9 2026)
+Founder's prompt, applied five times: "Look at the site first. Then innovate: think about the user experience and think outside the box. Make one bold change that improves conversions or the look and feel, not a small tweak. Use any tool you have. You must ship a change every time."
+1. **Walk on the web** (`walk.html`, the Path Ahead): 5/10/15 minutes or open; wall-clock timer; Wake Lock where allowed; the app's kind walk lines every 2 minutes; Pause/Resume, Finish; "What did the urge do?" Passed / Eased / Stayed; Stayed shows 988, Breathe and findahelpline. Nothing saved or sent. PR #10.
+2. **Ride it out on every page**: a glass button opens a native `<dialog>`: Walk, Breathe, Ground, Talk to someone (988), findahelpline. PR #11.
+3. **Keep it on your phone**: `manifest.webmanifest`, icons 192/512, iOS metas, offline `sw.js` (bump `VERSION` when the precache list changes); a "Keep it on your phone" card at night. PR #12.
+4. **The island as a map**: `.isle` card on wide screens, drawn by `island_map.py` in the generator; the route draws in the place's colour as you scroll. Phones: a 2 px progress line. PR #13.
+5. **The night as a next step**: Tell me when it's out (mailto hello@urgewalk.app), Send it to someone (Web Share, else copy), Keep it on your phone. The hero's "Coming to iPhone." links to it. PR #14.
+
 ## How Island light works
 The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's saved choice (`localStorage` key `urgewalk.light`). `places.css` maps `[data-place=…]` to that light's `--img-wide`, `--img-tall`, `--tone` and `--deep`; only the matching photographs load. The header switch changes it live. Without JavaScript the site shows daylight.
 
