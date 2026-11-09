@@ -1,0 +1,148 @@
+<!doctype html><html lang="en" data-light="day"><head>
+<!-- pre-launch: remove at launch -->
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#231c10">
+<script>(function(){var l;try{l=localStorage.getItem('urgewalk.light')}catch(e){}if(l!=='day'&&l!=='evening'){var h=new Date().getHours();l=h>=6&&h<18?'day':'evening'}document.documentElement.setAttribute('data-light',l);if('IntersectionObserver'in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('lazy-places')})()</script>
+<title>Ride one out · Urge Walk</title><meta name="description" content="Feel an urge pass in ninety seconds: a wave rises, peaks and fades over moving water at the Shore. From Urge Walk.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Urge Walk"><meta property="og:title" content="Ride one out · Urge Walk"><meta property="og:description" content="Feel an urge pass in ninety seconds: a wave rises, peaks and fades over moving water. From Urge Walk.">
+<meta property="og:url" content="https://urgewalk.app/ride.html"><meta property="og:image" content="https://urgewalk.app/assets/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="assets/icon-w6.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32-w6.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16-w6.png"><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon-w6.png">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" crossorigin>
+<link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Urge Walk"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="site.css"><link rel="stylesheet" href="places.css"><script src="site.js" defer></script>
+<style>
+/* Ride one out (Nov 9): one urge, ninety seconds, traced as a wave over moving water at the Shore.
+   The sea's speed follows the urge, then slows and stops when it passes. Colour from the place (--deep). */
+.rio{position:relative;min-height:100svh;overflow:hidden;display:grid;grid-template-rows:1fr auto;padding-top:calc(76px + env(safe-area-inset-top,0px))}
+.rio video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rio .dim{position:absolute;inset:0;background:var(--deep);opacity:.26}
+.rio .words{position:relative;align-self:start;margin:clamp(12px,5vh,64px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));max-width:620px;padding:22px 24px 24px;background:color-mix(in srgb,var(--deep) 62%,transparent);border-radius:6px}
+.rio h1{margin:0;font-family:var(--serif,"Cormorant Garamond"),Georgia,serif;font-weight:300;font-size:clamp(44px,7vw,84px);line-height:.98;text-wrap:balance}
+.rio h1 em{font-style:italic}
+.rio .lede{margin:16px 0 0;max-width:46ch}
+.rio .after{margin:10px 0 0;max-width:46ch}
+.rio .row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:22px}
+.rio .clock{font-variant-numeric:tabular-nums}
+.rio .quiet{font:inherit;font-size:14px;color:inherit;background:none;border:0;padding:10px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.rio .quiet[hidden],.rio .pill[hidden]{display:none}
+.rio .foot{position:relative;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(84px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))} /* clears the floating Ride it out button */
+.rio .wave{display:block;width:100%;height:clamp(120px,22vh,200px);overflow:visible}
+.rio .wave .all{fill:none;stroke:#faf7f1;stroke-opacity:.3;stroke-width:1;stroke-dasharray:2 5}
+.rio .wave .area{fill:#a9cbc0;fill-opacity:.22}
+.rio .wave .trace{fill:none;stroke:#faf7f1;stroke-width:1.5}
+.rio .wave .dot{fill:#faf7f1}
+.rio .wave .base{stroke:#faf7f1;stroke-opacity:.35;stroke-width:1}
+.rio .scale{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.8;margin-top:8px}
+.rio .help{margin:14px 0 0;font-size:13px;opacity:.85;max-width:70ch}
+.rio[data-state="idle"] .trace,.rio[data-state="idle"] .dot{opacity:0}
+</style>
+</head><body data-place="shore">
+<a class="skip" href="#main">Skip to content</a><header class="site-head"><a class="brand" href="index.html"><img src="assets/icon-w6.svg" width="26" height="26" alt="">Urge Walk</a><div class="head-right"><div class="light-switch" role="group" aria-label="Island light"><button type="button" data-light="day" aria-pressed="true">Daylight</button><button type="button" data-light="evening" aria-pressed="false">Evening</button></div><nav class="site-nav" aria-label="Site"><a href="walk.html">Walk</a><a href="breathe.html" aria-current="page">Breathe</a><a href="ground.html">Ground</a><a class="wide-only" href="support.html">Support</a></nav></div></header>
+<main id="main" class="rio" data-place="shore" data-state="idle">
+<video id="sea" muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="dim"></div>
+<section class="words" aria-live="polite">
+<p class="cap">The Shore<span class="when"> · <span class="clock" id="clock">1:30</span></span> · <button class="quiet" id="mode" type="button" aria-pressed="true">Motion on</button></p>
+<h1 id="line">Ride one <em>out.</em></h1>
+<p class="lede" id="lede">An urge rises, peaks and passes. Press Start and stay with this one for ninety seconds. There is nothing to do but watch it go.</p>
+<p class="after" id="after" hidden></p>
+<div class="row"><button class="pill" id="go" type="button">Start</button><button class="quiet" id="stop" type="button" hidden>Stop</button><button class="quiet" id="again" type="button" hidden>Ride another</button><a class="quiet" id="tools" href="breathe.html" hidden>Breathe for a minute</a></div>
+</section>
+<div class="foot">
+<svg class="wave" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true"><path class="area" id="area" d=""></path><path class="all" id="all" d=""></path><path class="trace" id="trace" d=""></path><line class="base" x1="0" y1="199.5" x2="1000" y2="199.5"></line><circle class="dot" id="dot" r="4" cx="0" cy="199"></circle></svg>
+<div class="scale" aria-hidden="true"><span>Start</span><span>Peak</span><span>Passed</span></div>
+<p class="help">Urge Walk is not a crisis service and isn’t a substitute for professional care. In the US, call or text <a href="tel:988">988</a> (Suicide &amp; Crisis Lifeline, 24/7). Outside the US, <a href="https://findahelpline.com/">find a helpline</a>.</p>
+</div>
+</main>
+<script>
+(() => {
+  const T = 90, PEAK = 35, K = 2.8;                       // seconds; where it peaks; how sharp the rise
+  const level = t => { if (t <= 0) return 0; const x = t / PEAK; return Math.min(1, Math.pow(x, K) * Math.exp(K * (1 - x)) * (1 - Math.pow(t / T, 6))); };
+  const X = t => t / T * 1000, Y = v => 196 - v * 176;
+  const pts = n => { let d = ""; for (let i = 0; i <= n; i++){ const t = i / n * T; d += (i ? "L" : "M") + X(t).toFixed(1) + " " + Y(level(t)).toFixed(1); } return d; };
+  const full = pts(240);
+  document.getElementById("all").setAttribute("d", full);
+  const $ = id => document.getElementById(id);
+  const shore = document.getElementById("main"), sea = document.getElementById("sea"), line = $("line"), lede = $("lede"), after = $("after");
+  const go = $("go"), stop = $("stop"), again = $("again"), clock = $("clock"), trace = $("trace"), area = $("area"), dot = $("dot");
+  // Motion is chosen per device: 4K on large sharp screens, 1440p on ordinary ones, a tall cut on phones,
+  // and a still photograph when the device asks for less motion or less data. Anyone can switch it.
+  let reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const tall = innerHeight > innerWidth, px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
+  const file = tall ? "assets/motion/shore-phone.mp4" : px >= 2600 ? "assets/motion/shore-2160.mp4" : "assets/motion/shore-1440.mp4";
+  sea.poster = tall ? "assets/motion/shore-tall.jpg" : "assets/motion/shore-wide.jpg";
+  const modeBtn = $("mode");
+  function setMode(still){
+    reduce = still; modeBtn.textContent = still ? "Motion off" : "Motion on"; modeBtn.setAttribute("aria-pressed", String(!still));
+    if (still){ sea.pause(); }
+    else { if (!sea.getAttribute("src")){ sea.src = file; sea.preload = "auto"; } if (running){ const r = sea.play(); r && r.catch && r.catch(() => {}); } }
+  }
+  modeBtn.addEventListener("click", () => setMode(!reduce));
+  const PHASES = [
+    [0,  "It's <em>rising.</em>", "Let it. You don't have to do anything with it."],
+    [22, "Nearly at <em>the top.</em>", "This is the hardest part, and it doesn't last."],
+    [32, "The <em>peak.</em>", "It feels like it will stay. It won't."],
+    [46, "It's <em>easing.</em>", "Notice the difference from a moment ago."],
+    [70, "Almost <em>gone.</em>", "Stay a little longer."]
+  ];
+  let t0 = 0, raf = 0, phase = -1, running = false;
+  const fmt = s => Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0");
+  function draw(t){
+    const n = Math.max(2, Math.round(t / T * 240)); let d = "";
+    for (let i = 0; i <= n; i++){ const tt = i / n * t; d += (i ? "L" : "M") + X(tt).toFixed(1) + " " + Y(level(tt)).toFixed(1); }
+    trace.setAttribute("d", d);
+    area.setAttribute("d", d + `L${X(t).toFixed(1)} 199.5L0 199.5Z`);
+    dot.setAttribute("cx", X(t).toFixed(1)); dot.setAttribute("cy", Y(level(t)).toFixed(1));
+  }
+  function seaFollows(v){ if (reduce) return; sea.playbackRate = .45 + v * 1.15; }
+  function frame(){
+    const t = Math.min(T, (performance.now() - t0) / 1000);
+    draw(t); seaFollows(level(t)); clock.textContent = fmt(T - t);
+    let p = 0; for (let i = 0; i < PHASES.length; i++) if (t >= PHASES[i][0]) p = i;
+    if (p !== phase){ phase = p; line.innerHTML = PHASES[p][1]; lede.textContent = PHASES[p][2]; }
+    if (t >= T) return finish(true);
+    raf = requestAnimationFrame(frame);
+  }
+  function start(){
+    running = true; phase = -1; shore.dataset.state = "running";
+    go.hidden = true; again.hidden = true; document.getElementById("tools").hidden = true; stop.hidden = false; after.hidden = true; lede.hidden = false;
+    if (!reduce){ sea.playbackRate = .45; const r = sea.play(); r && r.catch && r.catch(() => {}); }
+    t0 = performance.now(); raf = requestAnimationFrame(frame);
+  }
+  function finish(done){
+    cancelAnimationFrame(raf); running = false; shore.dataset.state = "done"; stop.hidden = true; again.hidden = false;
+    if (done){
+      line.innerHTML = "It passed. <em>You're still here.</em>";
+      lede.textContent = "That's what an urge is: a wave. It rises, it peaks, and it passes.";
+      after.innerHTML = "Urge Walk is a quiet place to do this when one comes: walk it out, breathe, or ground yourself until it passes. It's on your phone and nothing leaves it. Coming to iPhone.";
+      after.hidden = false; clock.textContent = "0:00"; document.getElementById("tools").hidden = false;
+      // The sea slows to rest, then stills.
+      if (!reduce){ let r = sea.playbackRate; const slow = () => { r = Math.max(.15, r - .02); sea.playbackRate = r; if (r > .15) setTimeout(slow, 120); else sea.pause(); }; slow(); }
+    } else {
+      line.innerHTML = "Stopped. <em>That's okay.</em>"; lede.textContent = "Come back to it whenever you like."; sea.pause();
+    }
+  }
+  setMode(reduce);
+  go.addEventListener("click", start);
+  again.addEventListener("click", start);
+  stop.addEventListener("click", () => finish(false));
+})();
+</script>
+
+<footer class="site-foot"><div><div class="mark">Urge Walk</div>
+<p>A calm support tool for adults, coming to iPhone. Not a crisis service: in the US, call or text <a href="tel:988">988</a>.</p>
+<small>© 2026 · Made by Darius Tatum · Stock photography: <a href="https://unsplash.com/plus">Unsplash+</a> · Film: Felix-Mittermeier on <a href="https://pixabay.com/">Pixabay</a> · App screens shown with sample data · Sounds in the app: <a href="https://bigsoundbank.com/">BigSoundBank by Joseph Sardin</a> (CC0)</small></div>
+<nav aria-label="More"><a href="ride.html">Ride one out</a><a href="walk.html">Walk</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="support.html">Support</a><a href="helpers.html">For helpers</a><a href="premium.html">Premium</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:hello@urgewalk.app">Contact</a></nav></footer>
+<button class="ride-fab glass" type="button" data-ride-open aria-haspopup="dialog" aria-controls="ride"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 14c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 5 3"/><path d="M2 19c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 5 3" opacity=".55"/></svg><span>Ride it out</span></button>
+<dialog class="ride glass" id="ride" aria-labelledby="ride-h">
+<div class="ride-top"><p class="cap">Ride it out</p><button class="ride-close" type="button" data-ride-close aria-label="Close">×</button></div>
+<h2 id="ride-h">What feels doable <em>right now?</em></h2>
+<ol class="ride-list">
+<li><a href="walk.html"><b>Walk</b><span>Ten minutes, at your own pace</span></a></li>
+<li><a href="breathe.html"><b>Breathe</b><span>One slow minute</span></a></li>
+<li><a href="ground.html"><b>Ground</b><span>Five senses, one at a time</span></a></li>
+<li><a href="tel:988"><b>Talk to someone</b><span>Call or text 988, any time (US)</span></a></li>
+</ol>
+<p class="ride-note">Outside the US, <a href="https://findahelpline.com/">find a helpline</a>. If you are in danger, call your local emergency number.</p>
+</dialog>
+</body></html>

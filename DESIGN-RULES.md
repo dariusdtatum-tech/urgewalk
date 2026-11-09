@@ -44,13 +44,14 @@ The site is a walk across the island, and the island follows the visitor's time 
 ### Motion direction (founder, Nov 9 2026)
 "This is the path that we need to take moving forward": real moving footage (sea, grass, branches in the wind), 4K where the screen can use it, and a still for devices that need it. It supersedes "no looping" for footage only; the interface rules above still hold.
 - Footage from Pixabay, real camera footage only (anything tagged "ai generated" is excluded); no people, animals, houses, boats or brands.
-- Motion means something: in Ride One Out (`prototypes/ride-one-out/`) the sea's speed follows the urge, then slows and stops when it passes.
+- Motion means something: in Ride one out (`ride.html`) the sea's speed follows the urge, then slows and stops when it passes.
 - Sources per device: 2160p on large sharp screens, 1440p otherwise, a tall 1080 × 1920 cut on phones; a still poster under Reduce Motion, Save-Data or 2G, and a "Motion on / off" switch for everyone.
 - Seamless loops, no audio, a crossfade at the seam; the poster frame is always present.
 
 ## Pages
 - `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.
 - `places.css`: generated from `tones.json` (place colours) by the site generator; never edit by hand.
+- `ride.html` (Ride one out, the Shore, Nov 9): ninety seconds traced as a wave over moving 4K footage (`assets/motion/`); linked from the Coast and every footer.
 - `breathe.html` (the Tide Pool) and `ground.html` (the Shore): full-screen free tools. Timings and steps from `tools.json`.
 - `support.html`, `privacy.html`, `terms.html`, `helpers.html`, `premium.html`: reading pages under a short band of their place (Cottage, Shelter, Outlook, Cove, Trailhead). The app links to Privacy, Terms and Support: keep those addresses.
 - Every page: the same header (brand, Island light switch, Breathe, Ground, Support; glass in the current place's deep shade once scrolled), the same footer (crisis line, links, credits), the pre-launch `noindex`.
