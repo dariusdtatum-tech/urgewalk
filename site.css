@@ -380,9 +380,14 @@ html:root[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/
   background:#1d3a52 var(--arr-end) center/cover no-repeat}
 @media (min-aspect-ratio:1/1){.arrival{--arr-start:url(assets/motion/arrival-wide.webp);--arr-end:url(assets/motion/arrival-wide-end.webp)}}
 html.moving .arrival:not(.still){background-image:var(--arr-start)}
-.arrival-video{z-index:-2}
+/* Stacking without negative z-index (Nov 10): on iOS Safari a playing video at z-index -2 inside the isolated
+   section was painted over the hero's plain text until a scroll repainted it (founder's recording, 17:18).
+   Video 0, veil 1, content 2, and the words get their own layer so WebKit composites them above the video. */
+.arrival-video{z-index:0}
+.arrival>:not(.arrival-video){position:relative;z-index:2}
+.arrival-words{-webkit-transform:translateZ(0);transform:translateZ(0)}
 .arrival.still .arrival-video{display:none}
-.arrival::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+.arrival::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(9,24,36,.42) 0%,transparent 22%),linear-gradient(0deg,rgba(9,24,36,.72) 0%,rgba(9,24,36,.28) 34%,transparent 56%)}
 .arrival{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:var(--gutter);padding:clamp(96px,14vh,140px) var(--gutter) max(clamp(36px,7vh,72px),env(safe-area-inset-bottom))}
 /* App first (Nov 10): the arrival carries the pitch, the app's Home and the ask */
