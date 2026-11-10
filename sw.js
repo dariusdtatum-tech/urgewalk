@@ -1,7 +1,7 @@
 // Urge Walk — offline (round 3, Nov 9 2026). The three tools keep working with no signal: Walk, Breathe and
 // Ground, with their styles, fonts and phone-size photographs in both lights. Pages are fetched fresh when
 // online (network first) so updates arrive; everything else is served from cache and refreshed behind.
-const VERSION = 'uw-2026-11-10-r3'
+const VERSION = 'uw-2026-11-10-r4'
 const CORE = [
   './', 'index.html', 'walk.html', 'breathe.html', 'ground.html', 'ride.html', 'support.html',
   'site.css', 'places.css', 'site.js', 'tools.json', 'manifest.webmanifest',
@@ -9,9 +9,9 @@ const CORE = [
   'assets/fonts/cormorant-garamond-latin-300-normal.woff2', 'assets/fonts/cormorant-garamond-latin-300-italic.woff2',
   'assets/fonts/cormorant-garamond-latin-400-italic.woff2', 'assets/fonts/cormorant-garamond-latin-500-normal.woff2',
   'assets/fonts/inter-latin-400-normal.woff2', 'assets/fonts/inter-latin-500-normal.woff2', 'assets/fonts/inter-latin-600-normal.woff2',
-  'assets/places/path-day-tall.webp', 'assets/places/path-evening-tall.webp',
-  'assets/places/inlet-day-tall.webp', 'assets/places/inlet-evening-tall.webp',
-  'assets/places/shore-day-tall.webp', 'assets/places/shore-evening-tall.webp',
+  'assets/motion/path-tall.webp', 'assets/motion/path-evening-tall.webp',
+  'assets/motion/inlet-tall.webp', 'assets/motion/inlet-evening-tall.webp',
+  'assets/motion/shore-tall.webp', 'assets/motion/shore-evening-tall.webp',
   'assets/motion/shore-tall.jpg', 'assets/motion/shore-wide.jpg',
 ]
 self.addEventListener('install', (e) => {

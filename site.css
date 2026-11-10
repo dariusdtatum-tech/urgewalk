@@ -351,18 +351,21 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 html.lazy-places .place:not(.near) .place-bg{background-image:none}
 
 /* ---------- Living places (Nov 10): the app's still-camera loops ---------- */
-/* html.moving is set before paint by the head script (not under Reduce Motion, Save-Data, 2G or "Motion off").
-   While it is set, a place's picture is its loop's own first frame, so the footage starts without a jump. */
-html.moving [data-place=clearing]{--img-wide:url(assets/motion/clearing-wide.webp);--img-tall:url(assets/motion/clearing-tall.webp)}
-html.moving[data-light=evening] [data-place=clearing]{--img-wide:url(assets/motion/clearing-evening-wide.webp);--img-tall:url(assets/motion/clearing-evening-tall.webp)}
-html.moving [data-place=path]{--img-wide:url(assets/motion/path-wide.webp);--img-tall:url(assets/motion/path-tall.webp)}
-html.moving[data-light=evening] [data-place=path]{--img-wide:url(assets/motion/path-evening-wide.webp);--img-tall:url(assets/motion/path-evening-tall.webp)}
-html.moving [data-place=inlet]{--img-wide:url(assets/motion/inlet-wide.webp);--img-tall:url(assets/motion/inlet-tall.webp)}
-html.moving[data-light=evening] [data-place=inlet]{--img-wide:url(assets/motion/inlet-evening-wide.webp);--img-tall:url(assets/motion/inlet-evening-tall.webp)}
-html.moving [data-place=shore]{--img-wide:url(assets/motion/shore-wide.webp);--img-tall:url(assets/motion/shore-tall.webp)}
-html.moving[data-light=evening] [data-place=shore]{--img-wide:url(assets/motion/shore-evening-wide.webp);--img-tall:url(assets/motion/shore-evening-tall.webp)}
-html.moving [data-place=outlook]{--img-tall:url(assets/motion/outlook-tall.webp)} /* day, wide: the photograph stays (a boat crosses the wide frame) */
-html.moving[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/outlook-evening-wide.webp);--img-tall:url(assets/motion/outlook-evening-tall.webp)}
+/* A place that moves in the app is pictured by its footage's first frame, always (Nov 10: the old photographs showed
+   views the app no longer has), so the footage starts without a jump and stills match the app. html.moving (head script:
+   not under Reduce Motion, Save-Data, 2G or "Motion off") only decides whether the footage plays. */
+html:root [data-place=clearing]{--img-wide:url(assets/motion/clearing-wide.webp);--img-tall:url(assets/motion/clearing-tall.webp)}
+html:root[data-light=evening] [data-place=clearing]{--img-wide:url(assets/motion/clearing-evening-wide.webp);--img-tall:url(assets/motion/clearing-evening-tall.webp)}
+html:root [data-place=path]{--img-wide:url(assets/motion/path-wide.webp);--img-tall:url(assets/motion/path-tall.webp)}
+html:root[data-light=evening] [data-place=path]{--img-wide:url(assets/motion/path-evening-wide.webp);--img-tall:url(assets/motion/path-evening-tall.webp)}
+html:root [data-place=inlet]{--img-wide:url(assets/motion/inlet-wide.webp);--img-tall:url(assets/motion/inlet-tall.webp)}
+html:root[data-light=evening] [data-place=inlet]{--img-wide:url(assets/motion/inlet-evening-wide.webp);--img-tall:url(assets/motion/inlet-evening-tall.webp)}
+html:root [data-place=shore]{--img-wide:url(assets/motion/shore-wide.webp);--img-tall:url(assets/motion/shore-tall.webp)}
+html:root[data-light=evening] [data-place=shore]{--img-wide:url(assets/motion/shore-evening-wide.webp);--img-tall:url(assets/motion/shore-evening-tall.webp)}
+html:root [data-place=outlook]{--img-wide:url(assets/motion/outlook-wide.webp);--img-tall:url(assets/motion/outlook-tall.webp)} /* day, wide: a still of the same view (a boat crosses the wide footage) */
+html:root [data-place=cove]{--img-wide:url(assets/motion/cove-wide.webp);--img-tall:url(assets/motion/cove-tall.webp)} /* stills only: the Cove is a band on For helpers */
+html:root[data-light=evening] [data-place=cove]{--img-wide:url(assets/motion/cove-evening-wide.webp);--img-tall:url(assets/motion/cove-evening-tall.webp)}
+html:root[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/outlook-evening-wide.webp);--img-tall:url(assets/motion/outlook-evening-tall.webp)}
 .place-motion,.arrival-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 400ms var(--ease)}
 .place-motion.on,.arrival-video.on{opacity:1}
 .motion-switch{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;padding:0;background:none;border:0;cursor:pointer;font:500 .66rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
