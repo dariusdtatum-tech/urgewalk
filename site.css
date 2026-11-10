@@ -354,6 +354,8 @@ html.lazy-places .place:not(.near) .place-bg{background-image:none}
 /* A place that moves in the app is pictured by its footage's first frame, always (Nov 10: the old photographs showed
    views the app no longer has), so the footage starts without a jump and stills match the app. html.moving (head script:
    not under Reduce Motion, Save-Data, 2G or "Motion off") only decides whether the footage plays. */
+html:root [data-place=coast]{--img-wide:url(assets/motion/coast-wide.webp);--img-tall:url(assets/motion/coast-tall.webp)}
+html:root[data-light=evening] [data-place=coast]{--img-wide:url(assets/motion/coast-evening-wide.webp);--img-tall:url(assets/motion/coast-evening-tall.webp)}
 html:root [data-place=clearing]{--img-wide:url(assets/motion/clearing-wide.webp);--img-tall:url(assets/motion/clearing-tall.webp)}
 html:root[data-light=evening] [data-place=clearing]{--img-wide:url(assets/motion/clearing-evening-wide.webp);--img-tall:url(assets/motion/clearing-evening-tall.webp)}
 html:root [data-place=path]{--img-wide:url(assets/motion/path-wide.webp);--img-tall:url(assets/motion/path-tall.webp)}

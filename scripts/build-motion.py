@@ -5,7 +5,8 @@ Wide (1280 x 720) loops are cut from Pixabay's 1920 x 1080 renditions of the sam
 scaled down, so phones see exactly what the app shows. Every loop ends on its own first frame (a
 crossfade at the seam), no audio, H.264 with faststart. Posters are each file's first frame as WebP.
 
-  python -I scripts/build-motion.py <dir with <pixabay id>.mp4> <urge-walk-app>/assets/motion
+  python -I scripts/build-motion.py <dir with <pixabay id>.mp4> <urge-walk-app>/assets/motion [name ...]
+Names (coast, coast-evening, arrival, ...) limit the build to those clips.
 Downloads stay in a scratch folder; delete them once the outputs are saved.
 """
 import os, subprocess, sys
@@ -14,12 +15,14 @@ from PIL import Image
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC, APP = sys.argv[1], sys.argv[2]
+ONLY = set(sys.argv[3:])
 OUT = os.path.join(os.path.dirname(__file__), '..', 'assets', 'motion')
 X264 = ['-c:v', 'libx264', '-preset', 'slow', '-crf', '27', '-maxrate', '2M', '-bufsize', '4M', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart']
 
 # name: (pixabay id, start s, loop length s, seam crossfade s). None = no wide loop (still photograph).
 WIDE = {
-    # Coast (159778, 46131) and Cove (44969, 199001) left the homepage with the app-first pass (Nov 10): not built.
+    'coast': (159778, 2, 10.5, 1.5), 'coast-evening': (46131, 2, 10.5, 1.5),
+    # Cove (44969 at 2.5 s, 199001 at 3.5 s): stills only, for the For helpers band; Outlook daylight wide: 23748 at 0 s.
     'clearing': (217491, 0.2, 8, 1.5), 'clearing-evening': (62390, 0.2, 8, 1.5),
     'inlet': (278037, 2, 10.5, 1.5), 'inlet-evening': (193078, 0, 10, 1.5),
     'path': (44971, 2, 10.5, 1.5), 'path-evening': (89766, 2, 10.5, 1.5),
@@ -56,9 +59,11 @@ def tall(name, src_name, last=False, skip=0):
 
 os.makedirs(OUT, exist_ok=True)
 for name, spec in WIDE.items():
+    if ONLY and name not in ONLY: continue
     if spec: wide_loop(name, *spec)
     tall(name, name)
 # The arrival (Pixabay 59046, lumamorph): plays once, then rests on its last frame.
+if ONLY and 'arrival' not in ONLY: sys.exit(0)
 arr = os.path.join(OUT, 'arrival-wide.mp4')
 run(['-i', os.path.join(SRC, '59046.mp4'), '-t', '11', '-vf', 'scale=1280:720,fps=30,setsar=1', *X264, arr])
 poster(arr, arr.replace('.mp4', '.webp')); poster(arr, arr.replace('.mp4', '-end.webp'), at='last')
