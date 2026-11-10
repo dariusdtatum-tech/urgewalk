@@ -22,7 +22,7 @@
   buttons.forEach((b) => b.addEventListener('click', () => {
     show(b.dataset.light)
     try { localStorage.setItem('urgewalk.light', b.dataset.light) } catch { /* private mode: fine */ }
-    setDeep(); syncMotion()
+    setDeep(); syncMotion(); syncPhones()
   }))
 
   // ---------- the walk ----------
@@ -314,9 +314,12 @@
         v.muted = true; v.loop = true; v.playsInline = true
         v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true')
         v.addEventListener('playing', () => v.classList.add('on'))
-        v.src = ph.fig.dataset.motion; ph.fig.appendChild(v); ph.video = v
+        ph.fig.appendChild(v); ph.video = v
       }
       if (!ph.video) continue
+      // each recording has a daylight and an evening version, like the screen under it
+      const src = (root.dataset.light === 'evening' && ph.fig.dataset.motionEvening) || ph.fig.dataset.motion
+      if (ph.video.dataset.src !== src) { ph.video.classList.remove('on'); ph.video.dataset.src = src; ph.video.src = src }
       if (want) { const p = ph.video.play(); if (p) p.catch(() => {}) } else { ph.video.pause(); if (!moving) ph.video.classList.remove('on') }
     }
   }

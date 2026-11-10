@@ -392,7 +392,9 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
 .hero-ask{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:28px}
 .hero-ask .soon{margin:0;font-size:1.3rem}
 @media (max-width:899px){
-  .arrival{grid-template-columns:1fr;align-content:start;gap:36px}
+  .arrival{grid-template-columns:1fr;align-content:start;gap:22px;padding-top:max(88px,calc(env(safe-area-inset-top) + 76px))}
+  .arrival-words .lede{margin-top:16px}.hero-ask{margin-top:20px}
+  .arrival-words>p:last-child{display:none} /* the phone below is the next step; keeps "You're here." on the first screen */
   .arrival .phone{order:0;justify-self:center;width:min(240px,62vw);margin-right:0}
   .arrival::after{background:linear-gradient(180deg,rgba(9,24,36,.8) 0%,rgba(9,24,36,.66) 55%,rgba(9,24,36,.34) 100%)}
 }
