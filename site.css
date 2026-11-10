@@ -400,9 +400,13 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
 .c-path .top{grid-area:top;align-self:start}.c-path .phone{grid-area:phone;width:min(210px,52vw)}.c-path .inner>.words:not(.top){grid-area:words}
 .c-path .huge{font-size:clamp(4.6rem,14vw,13rem)}
 .c-outlook .top .phone{width:min(230px,52vw)}
+.c-shore .inner{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--gutter)}
+.c-shore .phone{margin-right:clamp(0px,7vw,120px)}
 @media (max-width:899px){
   .c-clearing .phone{display:block;justify-self:center}
   .c-path .inner{grid-template-columns:1fr;grid-template-areas:"top" "phone" "words"}
   .c-path .phone{justify-self:center}
   .c-outlook .top .phone{order:0;margin-inline:auto}
+  .c-shore .inner{grid-template-columns:1fr}
+  .c-shore .phone{justify-self:center;margin-right:0}
 }

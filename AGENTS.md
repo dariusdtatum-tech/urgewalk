@@ -29,7 +29,7 @@ Matching the app (Nov 9, app rounds 1 and 8): Ground opens on its first sense (n
 
 ## App first (Nov 10, proposal in PR)
 Founder: "i want people to be focused on the app". The homepage is re-composed so the phone is the subject and the island the setting: the arrival is the hero (what it is, "Urges pass, like waves.", the ask as a button, and the app's Home in a phone); then the Clearing (Ride it out), the Path (Walk), the Tide Pool (the live breath), the Shore (Ground), the Outlook (History), the Cottage (private), Night. The separate Coast screen, the Cove and the Shelter left the homepage (their photographs still serve other pages).
-- `assets/screens/`: captures of the current app (web build, 390 × 844, seeded sample data, never the founder's own): `home`, `ride`, `walk`, `history` `.webp`, and `home.mp4`, `walk.mp4` (8 s recordings, 390 × 844). A `<figure class="phone" data-motion="…mp4">` plays its recording while on screen and `html.moving` is set (`syncPhones` in `site.js`); otherwise the capture shows. Capture script: the private Sources folder for Nov 10 (`site-app-first/shoot.cjs`).
+- `assets/screens/`: captures of the current app (web build, 390 × 844, seeded sample data, never the founder's own): `home`, `ride`, `walk`, `ground`, `history` `.webp`, and `home.mp4`, `walk.mp4` (8 s recordings, 390 × 844). A `<figure class="phone" data-motion="…mp4">` plays its recording while on screen and `html.moving` is set (`syncPhones` in `site.js`); otherwise the capture shows. Capture script: the private Sources folder for Nov 10 (`site-app-first/shoot.cjs`).
 - Coast and Cove loops were removed from `assets/motion/` (no page uses them).
 
 ## Living places (Nov 10)
