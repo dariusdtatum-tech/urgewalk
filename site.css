@@ -331,25 +331,10 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 .keep-how b{color:var(--paper);font-weight:500}
 .tool .more{margin-top:28px}
 
-/* ---------- The island as a map (round 4, Nov 9) ---------- */
+/* ---------- The walk as a thin line along the top (round 4, Nov 9; the island-map card was removed Nov 10) ---------- */
 .trail{display:none!important}
-.isle{position:fixed;z-index:15;right:clamp(14px,2vw,30px);top:50%;transform:translateY(-50%);width:200px;padding:12px 12px 10px;border-radius:20px;display:none;
-  background:color-mix(in srgb,var(--cur-deep) 40%,transparent)}
-@media (min-width:1180px){.isle{display:block}.inner{padding-right:calc(var(--gutter) + 230px)}}
-.isle-svg{display:block;width:100%;height:auto;overflow:visible}
-.isle-coast{fill:color-mix(in srgb,var(--paper) 6%,transparent);stroke:rgba(250,247,241,.5);stroke-width:1}
-.isle-route{fill:none;stroke:rgba(250,247,241,.32);stroke-width:1;stroke-dasharray:2 3}
-.isle-walked{fill:none;stroke:var(--tone);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset 300ms var(--ease),stroke 300ms var(--ease)}
-.isle-hit{fill:transparent}
-.isle-dot{fill:rgba(250,247,241,.45);transform-box:fill-box;transform-origin:center;transition:transform 300ms var(--ease),fill 300ms var(--ease)}
-.isle-stop.visited .isle-dot{fill:var(--paper)}
-.isle-stop.here .isle-dot{fill:var(--tone);transform:scale(1.7);stroke:var(--paper);stroke-width:.8}
-.isle-stop:focus-visible{outline:none}.isle-stop:focus-visible .isle-dot{stroke:var(--paper);stroke-width:1.4;transform:scale(1.9)}
-.isle-here{text-align:center;margin:6px 0 0;min-height:1.4em}
-/* phones: the walk as a thin line along the top */
 .walk-progress{position:fixed;z-index:21;left:0;right:0;top:0;height:2px;pointer-events:none}
 .walk-progress span{display:block;height:100%;width:100%;background:var(--tone);transform:scaleX(0);transform-origin:left;transition:transform 300ms var(--ease),background-color 300ms var(--ease)}
-@media (min-width:1180px){.walk-progress{display:none}}
 
 /* ---------- The night as a next step (round 5, Nov 9) ---------- */
 .next{list-style:none;margin:clamp(40px,6vh,64px) 0 0;padding:0;counter-reset:n;max-width:46rem}
@@ -364,3 +349,44 @@ html.ride-open .ride-fab{opacity:0;pointer-events:none}
 .next a:hover::after{width:64px}
 /* Round 7 (Nov 9): photographs load near the visitor, so the hero gets the connection first (set before paint by the head script). */
 html.lazy-places .place:not(.near) .place-bg{background-image:none}
+
+/* ---------- Living places (Nov 10): the app's still-camera loops ---------- */
+/* html.moving is set before paint by the head script (not under Reduce Motion, Save-Data, 2G or "Motion off").
+   While it is set, a place's picture is its loop's own first frame, so the footage starts without a jump. */
+html.moving [data-place=coast]{--img-wide:url(assets/motion/coast-wide.webp);--img-tall:url(assets/motion/coast-tall.webp)}
+html.moving[data-light=evening] [data-place=coast]{--img-wide:url(assets/motion/coast-evening-wide.webp);--img-tall:url(assets/motion/coast-evening-tall.webp)}
+html.moving [data-place=clearing]{--img-wide:url(assets/motion/clearing-wide.webp);--img-tall:url(assets/motion/clearing-tall.webp)}
+html.moving[data-light=evening] [data-place=clearing]{--img-wide:url(assets/motion/clearing-evening-wide.webp);--img-tall:url(assets/motion/clearing-evening-tall.webp)}
+html.moving [data-place=path]{--img-wide:url(assets/motion/path-wide.webp);--img-tall:url(assets/motion/path-tall.webp)}
+html.moving[data-light=evening] [data-place=path]{--img-wide:url(assets/motion/path-evening-wide.webp);--img-tall:url(assets/motion/path-evening-tall.webp)}
+html.moving [data-place=inlet]{--img-wide:url(assets/motion/inlet-wide.webp);--img-tall:url(assets/motion/inlet-tall.webp)}
+html.moving[data-light=evening] [data-place=inlet]{--img-wide:url(assets/motion/inlet-evening-wide.webp);--img-tall:url(assets/motion/inlet-evening-tall.webp)}
+html.moving [data-place=shore]{--img-wide:url(assets/motion/shore-wide.webp);--img-tall:url(assets/motion/shore-tall.webp)}
+html.moving[data-light=evening] [data-place=shore]{--img-wide:url(assets/motion/shore-evening-wide.webp);--img-tall:url(assets/motion/shore-evening-tall.webp)}
+html.moving [data-place=cove]{--img-wide:url(assets/motion/cove-wide.webp);--img-tall:url(assets/motion/cove-tall.webp)}
+html.moving[data-light=evening] [data-place=cove]{--img-wide:url(assets/motion/cove-evening-wide.webp);--img-tall:url(assets/motion/cove-evening-tall.webp)}
+html.moving [data-place=outlook]{--img-tall:url(assets/motion/outlook-tall.webp)} /* day, wide: the photograph stays (a boat crosses the wide frame) */
+html.moving[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/outlook-evening-wide.webp);--img-tall:url(assets/motion/outlook-evening-tall.webp)}
+.place-motion,.arrival-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 400ms var(--ease)}
+.place-motion.on,.arrival-video.on{opacity:1}
+.motion-switch{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;padding:0;background:none;border:0;cursor:pointer;font:500 .66rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.motion-switch:hover,.motion-switch:focus-visible{color:var(--paper)}
+@media (prefers-reduced-motion:reduce){.motion-switch{display:none}}
+
+/* ---------- The arrival (Nov 10): a boat nearing the island, played once, resting on its last frame ---------- */
+.arrival{--arr-start:url(assets/motion/arrival-tall.webp);--arr-end:url(assets/motion/arrival-tall-end.webp);
+  position:relative;min-height:100vh;min-height:100svh;display:grid;align-content:end;isolation:isolate;overflow:clip;
+  background:#1d3a52 var(--arr-end) center/cover no-repeat}
+@media (min-aspect-ratio:1/1){.arrival{--arr-start:url(assets/motion/arrival-wide.webp);--arr-end:url(assets/motion/arrival-wide-end.webp)}}
+html.moving .arrival:not(.still){background-image:var(--arr-start)}
+.arrival-video{z-index:-2}
+.arrival.still .arrival-video{display:none}
+.arrival::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(9,24,36,.42) 0%,transparent 22%),linear-gradient(0deg,rgba(9,24,36,.72) 0%,rgba(9,24,36,.28) 34%,transparent 56%)}
+.arrival-words{padding:0 var(--gutter) max(clamp(36px,8vh,88px),env(safe-area-inset-bottom))}
+.arrival-words .display{margin-top:14px;font-family:var(--serif);font-weight:300;letter-spacing:-.018em;font-size:clamp(3.2rem,8vw,8rem);color:var(--paper)}
+html.walk.moving .arrival:not(.arrived) .arrival-words>*{opacity:0;transform:translateY(10px)}
+html.walk .arrival-words>*{transition:opacity 300ms var(--ease),transform 300ms var(--ease)}
+html.walk .arrival-words>:nth-child(2){transition-delay:60ms}html.walk .arrival-words>:nth-child(3){transition-delay:120ms}
+/* Phones: the Coast's loop is brighter than its photograph, so the hero's lede gets a deeper veil */
+@media (max-aspect-ratio:1/1){html.moving .c-hero .veil{background:linear-gradient(180deg,color-mix(in srgb,var(--deep) 62%,transparent) 0%,transparent 40%),linear-gradient(0deg,color-mix(in srgb,var(--deep) 90%,transparent) 0%,color-mix(in srgb,var(--deep) 60%,transparent) 50%,transparent 74%)}}

@@ -10,6 +10,7 @@
 (() => {
   const root = document.documentElement
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  let syncMotion = () => {} // living places (Nov 10), set below
 
   // ---------- Island light ----------
   const buttons = [...document.querySelectorAll('.light-switch button')]
@@ -21,7 +22,7 @@
   buttons.forEach((b) => b.addEventListener('click', () => {
     show(b.dataset.light)
     try { localStorage.setItem('urgewalk.light', b.dataset.light) } catch { /* private mode: fine */ }
-    setDeep()
+    setDeep(); syncMotion()
   }))
 
   // ---------- the walk ----------
@@ -41,15 +42,24 @@
       const k = places.indexOf(el); [k - 1, k, k + 1].forEach((j) => places[j] && places[j].classList.add('near')) // round 7: load neighbours
       el.classList.add('seen')
       trail.forEach((a) => a.setAttribute('aria-current', a.hash === '#' + el.id ? 'true' : 'false'))
-      setDeep()
+      setDeep(); syncMotion()
     }
     // "Here" is the last place whose top has crossed the middle of the screen, worked out from the scroll
     // position, so a jump, a link or a reload mid-page lands on the right place; past the last place (the
     // night) the Cottage stays.
-    let frame = 0
+    let frame = 0, wasArriving = null
+    const arrivalEl = document.querySelector('.arrival')
     const locate = () => {
       frame = 0
       const mid = innerHeight / 2
+      // The arrival (Nov 10) holds the first screen: until it has left the middle, no place is "here" yet, so
+      // the Coast's picture and words arrive as the visitor comes ashore.
+      const arriving = Boolean(arrivalEl) && arrivalEl.getBoundingClientRect().bottom > mid
+      if (arriving) {
+        if (wasArriving !== true) { places.forEach((p) => p.classList.remove('here')); current = places[0]; places[0].classList.add('near'); setDeep(); syncMotion() }
+        wasArriving = true; return
+      }
+      wasArriving = false
       let here = places[0]
       for (const p of places) { if (p.getBoundingClientRect().top <= mid) here = p; else break }
       if (here !== current || !here.classList.contains('here')) mark(here)
@@ -208,29 +218,11 @@
     addEventListener('appinstalled', () => showOnly('.keep-done'))
   }
 
-  // ---------- The island as a map (round 4, Nov 9) ----------
-  // The walk's route draws itself in the current place's colour as you scroll; the place you are in is
-  // marked, the ones behind you are lit. On phones the same progress runs as a thin line along the top.
-  const isle = document.querySelector('.isle-svg')
+  // ---------- The walk as a thin line along the top (round 4, Nov 9) ----------
+  // The island-map card that sat over the photographs on wide screens was removed (founder, Nov 10).
   const bar = document.querySelector('.walk-progress span')
-  if (places.length && (isle || bar)) {
-    const walked = isle && isle.querySelector('.isle-walked')
-    const stops = isle ? [...isle.querySelectorAll('.isle-stop')] : []
-    const hereEl = document.querySelector('.isle-here')
-    // How far along the route each stop lies (0..100), found once by sampling the drawn path.
-    let at = places.map((_, i) => (100 * i) / (places.length - 1))
-    if (walked && walked.getTotalLength) {
-      const L = walked.getTotalLength(), samples = []
-      for (let s = 0; s <= 400; s++) { const pt = walked.getPointAtLength((L * s) / 400); samples.push([pt.x, pt.y]) }
-      at = stops.map((stop) => {
-        const c = stop.querySelector('.isle-dot'), x = +c.getAttribute('cx'), y = +c.getAttribute('cy')
-        let best = 0, bd = Infinity
-        samples.forEach(([sx, sy], s) => { const d = (sx - x) ** 2 + (sy - y) ** 2; if (d < bd) { bd = d; best = s } })
-        return best / 4
-      })
-    }
-    const names = places.map((p) => (stops.find((s) => s.dataset.stop === p.id)?.getAttribute('aria-label')) || p.id)
-    let shownHere = -1, frame2 = 0
+  if (places.length && bar) {
+    let frame2 = 0
     const draw = () => {
       frame2 = 0
       const mid = innerHeight / 2
@@ -240,19 +232,88 @@
       const frac = Math.min(1, Math.max(0, (mid - r.top) / r.height))
       const last = places.length - 1
       const pastEnd = places[last].getBoundingClientRect().bottom < mid
-      const v = pastEnd ? 100 : (i < last ? at[i] + frac * (at[i + 1] - at[i]) : at[last] + frac * (100 - at[last]))
-      if (walked) walked.style.strokeDashoffset = String(100 - v)
-      if (bar) bar.style.transform = `scaleX(${(v / 100).toFixed(4)})`
-      if (i !== shownHere) {
-        shownHere = i
-        stops.forEach((s, k) => { s.classList.toggle('here', k === i); s.classList.toggle('visited', k <= i) })
-        if (hereEl) hereEl.textContent = names[i]
-      }
+      const v = pastEnd ? 1 : (i + frac) / (last + 1)
+      bar.style.transform = `scaleX(${v.toFixed(4)})`
     }
     draw()
     addEventListener('scroll', () => { if (!frame2) frame2 = requestAnimationFrame(draw) }, { passive: true })
     addEventListener('resize', draw)
   }
+
+  // ---------- Living places and the arrival (Nov 10) ----------
+  // The app's slow, still-camera loops (assets/motion, built by scripts/build-motion.py) replace a place's
+  // photograph while html.moving is set (head script: not under Reduce Motion, Save-Data, 2G or Motion off).
+  // A loop's poster is its own first frame, so nothing jumps. Footage loads only for the place you are in and
+  // its neighbours, and only the place you are in plays.
+  const LOOPS = ['coast', 'clearing', 'path', 'inlet', 'shore', 'cove', 'outlook']
+  const wideMq = matchMedia('(min-aspect-ratio: 1/1)')
+  const shape = () => (wideMq.matches ? 'wide' : 'tall')
+  const loopFor = (place) => {
+    if (!LOOPS.includes(place)) return null
+    const evening = root.dataset.light === 'evening'
+    if (place === 'outlook' && !evening && shape() === 'wide') return null // a boat crosses the wide frame: the photograph stays
+    return `assets/motion/${place}${evening ? '-evening' : ''}-${shape()}`
+  }
+  const arrival = document.querySelector('.arrival')
+  const layers = [...document.querySelectorAll('.place-bg')].map((bg) => ({ bg, holder: bg.closest('[data-place]'), section: bg.closest('.place'), video: null }))
+  syncMotion = () => {
+    const moving = root.classList.contains('moving')
+    const arriving = Boolean(arrival) && arrival.getBoundingClientRect().bottom > innerHeight / 2
+    const at = places.indexOf(current)
+    for (const l of layers) {
+      const base = moving && l.holder ? loopFor(l.holder.dataset.place) : null
+      const near = !l.section || Math.abs(places.indexOf(l.section) - at) <= 1 // this place and its neighbours only
+      if (l.video && !near && l.video.dataset.src) { l.video.pause(); l.video.classList.remove('on'); l.video.dataset.src = ''; l.video.removeAttribute('src'); l.video.load(); continue } // let go of footage left behind
+      if (!base || !near) {
+        if (l.video) l.video.pause()
+        if (l.video && !base && l.video.dataset.src) { l.video.classList.remove('on'); l.video.dataset.src = ''; l.video.removeAttribute('src'); l.video.load() }
+        continue
+      }
+      if (!l.video) {
+        const v = document.createElement('video')
+        v.className = 'place-motion'; v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'
+        v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true')
+        v.addEventListener('playing', () => v.classList.add('on'))
+        l.bg.appendChild(v); l.video = v
+      }
+      const v = l.video
+      const play = (!l.section || (l.section.classList.contains('here') && !arriving)) && !document.hidden
+      if (v.dataset.src !== base) { v.classList.remove('on'); v.dataset.src = base; v.poster = base + '.webp'; v.preload = play ? 'auto' : 'metadata'; v.src = base + '.mp4' }
+      if (play) { v.preload = 'auto'; const p = v.play(); if (p) p.catch(() => {}) } else v.pause()
+    }
+  }
+  if (wideMq.addEventListener) wideMq.addEventListener('change', syncMotion)
+  document.addEventListener('visibilitychange', syncMotion)
+  syncMotion()
+
+  if (arrival) {
+    const v = arrival.querySelector('video')
+    const rest = () => arrival.classList.add('arrived') // the words come in once the boat has arrived
+    const still = () => { arrival.classList.add('still'); rest() } // the last frame, as a picture
+    if (root.classList.contains('moving') && v) {
+      new Image().src = `assets/motion/arrival-${shape()}-end.webp` // ready to take over from the ended clip
+      v.poster = `assets/motion/arrival-${shape()}.webp`
+      v.src = `assets/motion/arrival-${shape()}.mp4`
+      v.addEventListener('playing', () => v.classList.add('on'), { once: true })
+      v.addEventListener('ended', still) // the clip rests on its last frame, held as a picture (frees the decoder)
+      v.addEventListener('error', still)
+      const p = v.play(); if (p) p.catch(still) // autoplay refused: rest on the last frame
+      setTimeout(rest, 14000) // a slow connection never keeps the words away
+    } else still()
+  }
+
+  // Motion on / off, for everyone (remembered on this device only); Reduce Motion always wins.
+  document.querySelectorAll('[data-motion-switch]').forEach((btn) => {
+    const label = () => { const on = root.classList.contains('moving'); btn.textContent = on ? 'Motion on' : 'Motion off'; btn.setAttribute('aria-pressed', String(on)) }
+    label()
+    btn.addEventListener('click', () => {
+      const on = !root.classList.contains('moving')
+      root.classList.toggle('moving', on)
+      try { localStorage.setItem('urgewalk.motion', on ? 'on' : 'off') } catch { /* private mode: fine */ }
+      if (arrival && !on) { const av = arrival.querySelector('video'); if (av) av.pause(); arrival.classList.add('still', 'arrived') }
+      label(); syncMotion()
+    })
+  })
 
   // ---------- The night as a next step (round 5, Nov 9) ----------
   // "Send it to someone": the phone's own share sheet, or the link copied. Nothing is tracked.

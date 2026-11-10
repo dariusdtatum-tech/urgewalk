@@ -47,6 +47,7 @@ The site is a walk across the island, and the island follows the visitor's time 
 - Motion means something: in Ride one out (`ride.html`) the sea's speed follows the urge, then slows and stops when it passes.
 - Sources per device: 2160p on large sharp screens, 1440p otherwise, a tall 1080 × 1920 cut on phones; a still poster under Reduce Motion, Save-Data or 2G, and a "Motion on / off" switch for everyone.
 - Seamless loops, no audio, a crossfade at the seam; the poster frame is always present.
+- Living places (Nov 10, founder: the site should open with an arrival and "move throughout", like the app): the walk opens on the arrival (boat nearing the island, played once, resting on its last frame), and every place with an app loop moves; only the place in view plays, footage loads only near the visitor, the poster is the loop's first frame. The island-map card is gone (founder, Nov 10).
 
 ## Pages
 - `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.
