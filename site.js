@@ -245,7 +245,7 @@
   // photograph while html.moving is set (head script: not under Reduce Motion, Save-Data, 2G or Motion off).
   // A loop's poster is its own first frame, so nothing jumps. Footage loads only for the place you are in and
   // its neighbours, and only the place you are in plays.
-  const LOOPS = ['clearing', 'path', 'inlet', 'shore', 'outlook']
+  const LOOPS = ['coast', 'clearing', 'path', 'inlet', 'shore', 'outlook']
   const wideMq = matchMedia('(min-aspect-ratio: 1/1)')
   const shape = () => (wideMq.matches ? 'wide' : 'tall')
   const loopFor = (place) => {
