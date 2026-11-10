@@ -245,7 +245,7 @@
   // photograph while html.moving is set (head script: not under Reduce Motion, Save-Data, 2G or Motion off).
   // A loop's poster is its own first frame, so nothing jumps. Footage loads only for the place you are in and
   // its neighbours, and only the place you are in plays.
-  const LOOPS = ['coast', 'clearing', 'path', 'inlet', 'shore', 'cove', 'outlook']
+  const LOOPS = ['clearing', 'path', 'inlet', 'shore', 'outlook']
   const wideMq = matchMedia('(min-aspect-ratio: 1/1)')
   const shape = () => (wideMq.matches ? 'wide' : 'tall')
   const loopFor = (place) => {
@@ -302,6 +302,30 @@
     } else still()
   }
 
+  // App screens that move (Nov 10): a short recording of the real app (sample data) plays inside the phone
+  // while it is on screen; the capture underneath is its first frame. Stills when motion is off.
+  const phones = [...document.querySelectorAll('.phone[data-motion]')].map((fig) => ({ fig, video: null, seen: false }))
+  const syncPhones = () => {
+    const moving = root.classList.contains('moving')
+    for (const ph of phones) {
+      const want = moving && ph.seen && !document.hidden
+      if (want && !ph.video) {
+        const v = document.createElement('video')
+        v.muted = true; v.loop = true; v.playsInline = true
+        v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true')
+        v.addEventListener('playing', () => v.classList.add('on'))
+        v.src = ph.fig.dataset.motion; ph.fig.appendChild(v); ph.video = v
+      }
+      if (!ph.video) continue
+      if (want) { const p = ph.video.play(); if (p) p.catch(() => {}) } else { ph.video.pause(); if (!moving) ph.video.classList.remove('on') }
+    }
+  }
+  if (phones.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => { entries.forEach((e) => { const ph = phones.find((x) => x.fig === e.target); if (ph) ph.seen = e.isIntersecting }); syncPhones() }, { threshold: 0.15 })
+    phones.forEach((ph) => io.observe(ph.fig))
+    document.addEventListener('visibilitychange', syncPhones)
+  }
+
   // Motion on / off, for everyone (remembered on this device only); Reduce Motion always wins.
   document.querySelectorAll('[data-motion-switch]').forEach((btn) => {
     const label = () => { const on = root.classList.contains('moving'); btn.textContent = on ? 'Motion on' : 'Motion off'; btn.setAttribute('aria-pressed', String(on)) }
@@ -311,7 +335,7 @@
       root.classList.toggle('moving', on)
       try { localStorage.setItem('urgewalk.motion', on ? 'on' : 'off') } catch { /* private mode: fine */ }
       if (arrival && !on) { const av = arrival.querySelector('video'); if (av) av.pause(); arrival.classList.add('still', 'arrived') }
-      label(); syncMotion()
+      label(); syncMotion(); syncPhones()
     })
   })
 
