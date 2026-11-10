@@ -353,8 +353,6 @@ html.lazy-places .place:not(.near) .place-bg{background-image:none}
 /* ---------- Living places (Nov 10): the app's still-camera loops ---------- */
 /* html.moving is set before paint by the head script (not under Reduce Motion, Save-Data, 2G or "Motion off").
    While it is set, a place's picture is its loop's own first frame, so the footage starts without a jump. */
-html.moving [data-place=coast]{--img-wide:url(assets/motion/coast-wide.webp);--img-tall:url(assets/motion/coast-tall.webp)}
-html.moving[data-light=evening] [data-place=coast]{--img-wide:url(assets/motion/coast-evening-wide.webp);--img-tall:url(assets/motion/coast-evening-tall.webp)}
 html.moving [data-place=clearing]{--img-wide:url(assets/motion/clearing-wide.webp);--img-tall:url(assets/motion/clearing-tall.webp)}
 html.moving[data-light=evening] [data-place=clearing]{--img-wide:url(assets/motion/clearing-evening-wide.webp);--img-tall:url(assets/motion/clearing-evening-tall.webp)}
 html.moving [data-place=path]{--img-wide:url(assets/motion/path-wide.webp);--img-tall:url(assets/motion/path-tall.webp)}
@@ -363,8 +361,6 @@ html.moving [data-place=inlet]{--img-wide:url(assets/motion/inlet-wide.webp);--i
 html.moving[data-light=evening] [data-place=inlet]{--img-wide:url(assets/motion/inlet-evening-wide.webp);--img-tall:url(assets/motion/inlet-evening-tall.webp)}
 html.moving [data-place=shore]{--img-wide:url(assets/motion/shore-wide.webp);--img-tall:url(assets/motion/shore-tall.webp)}
 html.moving[data-light=evening] [data-place=shore]{--img-wide:url(assets/motion/shore-evening-wide.webp);--img-tall:url(assets/motion/shore-evening-tall.webp)}
-html.moving [data-place=cove]{--img-wide:url(assets/motion/cove-wide.webp);--img-tall:url(assets/motion/cove-tall.webp)}
-html.moving[data-light=evening] [data-place=cove]{--img-wide:url(assets/motion/cove-evening-wide.webp);--img-tall:url(assets/motion/cove-evening-tall.webp)}
 html.moving [data-place=outlook]{--img-tall:url(assets/motion/outlook-tall.webp)} /* day, wide: the photograph stays (a boat crosses the wide frame) */
 html.moving[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/outlook-evening-wide.webp);--img-tall:url(assets/motion/outlook-evening-tall.webp)}
 .place-motion,.arrival-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 400ms var(--ease)}
@@ -383,10 +379,34 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
 .arrival.still .arrival-video{display:none}
 .arrival::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg,rgba(9,24,36,.42) 0%,transparent 22%),linear-gradient(0deg,rgba(9,24,36,.72) 0%,rgba(9,24,36,.28) 34%,transparent 56%)}
-.arrival-words{padding:0 var(--gutter) max(clamp(36px,8vh,88px),env(safe-area-inset-bottom))}
-.arrival-words .display{margin-top:14px;font-family:var(--serif);font-weight:300;letter-spacing:-.018em;font-size:clamp(3.2rem,8vw,8rem);color:var(--paper)}
-html.walk.moving .arrival:not(.arrived) .arrival-words>*{opacity:0;transform:translateY(10px)}
-html.walk .arrival-words>*{transition:opacity 300ms var(--ease),transform 300ms var(--ease)}
-html.walk .arrival-words>:nth-child(2){transition-delay:60ms}html.walk .arrival-words>:nth-child(3){transition-delay:120ms}
-/* Phones: the Coast's loop is brighter than its photograph, so the hero's lede gets a deeper veil */
-@media (max-aspect-ratio:1/1){html.moving .c-hero .veil{background:linear-gradient(180deg,color-mix(in srgb,var(--deep) 62%,transparent) 0%,transparent 40%),linear-gradient(0deg,color-mix(in srgb,var(--deep) 90%,transparent) 0%,color-mix(in srgb,var(--deep) 60%,transparent) 50%,transparent 74%)}}
+.arrival{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:var(--gutter);padding:clamp(96px,14vh,140px) var(--gutter) max(clamp(36px,7vh,72px),env(safe-area-inset-bottom))}
+/* App first (Nov 10): the arrival carries the pitch, the app's Home and the ask */
+.arrival-words{max-width:40rem}
+.arrival-words .display{margin-top:14px;font-size:clamp(3.2rem,7vw,7.4rem)}
+.arrival .phone{align-self:center;margin-right:clamp(0px,7vw,120px)}
+.hero-ask{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:28px}
+.hero-ask .soon{margin:0;font-size:1.3rem}
+@media (max-width:899px){
+  .arrival{grid-template-columns:1fr;align-content:start;gap:36px}
+  .arrival .phone{order:0;justify-self:center;width:min(240px,62vw);margin-right:0}
+  .arrival::after{background:linear-gradient(180deg,rgba(9,24,36,.8) 0%,rgba(9,24,36,.66) 55%,rgba(9,24,36,.34) 100%)}
+}
+/* app screens that move: a short recording of the real app plays inside the phone while it is in view */
+.phone{position:relative}
+.phone video{position:absolute;inset:9px;width:calc(100% - 18px);height:calc(100% - 18px);object-fit:cover;border-radius:35px;opacity:0;transition:opacity 400ms var(--ease)}
+.phone video.on{opacity:1}
+/* the Path and the Outlook carry their screens */
+.c-path .inner{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"phone top" "words words";row-gap:28px}
+.c-path .top{grid-area:top;align-self:start}.c-path .phone{grid-area:phone;width:min(210px,52vw)}.c-path .inner>.words:not(.top){grid-area:words}
+.c-path .huge{font-size:clamp(4.6rem,14vw,13rem)}
+.c-outlook .top .phone{width:min(230px,52vw)}
+.c-shore .inner{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--gutter)}
+.c-shore .phone{margin-right:clamp(0px,7vw,120px)}
+@media (max-width:899px){
+  .c-clearing .phone{display:block;justify-self:center}
+  .c-path .inner{grid-template-columns:1fr;grid-template-areas:"top" "phone" "words"}
+  .c-path .phone{justify-self:center}
+  .c-outlook .top .phone{order:0;margin-inline:auto}
+  .c-shore .inner{grid-template-columns:1fr}
+  .c-shore .phone{justify-self:center;margin-right:0}
+}

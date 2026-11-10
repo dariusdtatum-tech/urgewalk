@@ -19,14 +19,13 @@ X264 = ['-c:v', 'libx264', '-preset', 'slow', '-crf', '27', '-maxrate', '2M', '-
 
 # name: (pixabay id, start s, loop length s, seam crossfade s). None = no wide loop (still photograph).
 WIDE = {
-    'coast': (159778, 2, 10.5, 1.5), 'coast-evening': (46131, 2, 10.5, 1.5),
+    # Coast (159778, 46131) and Cove (44969, 199001) left the homepage with the app-first pass (Nov 10): not built.
     'clearing': (217491, 0.2, 8, 1.5), 'clearing-evening': (62390, 0.2, 8, 1.5),
     'inlet': (278037, 2, 10.5, 1.5), 'inlet-evening': (193078, 0, 10, 1.5),
     'path': (44971, 2, 10.5, 1.5), 'path-evening': (89766, 2, 10.5, 1.5),
     'outlook': None,  # 23748: a boat leaves the rock within the first second; the app's tall crop avoids it
     'outlook-evening': (216997, 1, 10.5, 1.5),
     'shore': (103447, 2, 10.5, 1.5), 'shore-evening': (372136, 0, 10, 1.5),
-    'cove': (44969, 1, 10.5, 1.5), 'cove-evening': (199001, 2, 10.5, 1.5),
 }
 
 def run(args):
