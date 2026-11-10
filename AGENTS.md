@@ -6,7 +6,7 @@ Read `DESIGN-RULES.md` first; it is the source of truth for this site and overri
 The public pre-launch site for Urge Walk at **https://urgewalk.app** (GitHub Pages custom domain since Nov 9 2026; the old `dariusdtatum-tech.github.io/urgewalk/` address redirects; `urgewalk.com` is also registered), rebuilt from nothing on Nov 8 2026 as a walk across the island. Plain static files, no build step: one stylesheet (`site.css`), a generated one (`places.css`: each place's colour and photographs per light), one script (`site.js`, progressive enhancement only), and the pages. An inline script in every page's head sets `html[data-light]` (Island light) before the stylesheets paint.
 
 ## Files
-- `index.html` — the walk. Each place is `<section class="place c-…" id="…" data-place="…">` with a `.place-bg` (CSS background from `places.css`), a `.veil` in the place's deep shade only where the words are, and its own composition class (`c-hero`, `c-clearing`, `c-path`, `c-pool`, `c-shore`, `c-cove`, `c-shelter`, `c-outlook`, `c-cottage`).
+- `index.html` — the walk. It opens on **the arrival** (`<section class="arrival">`, Nov 10): a boat nearing a sunlit rocky island (Pixabay 59046, as in the app), played once, resting on its last frame, then "You're here. / Come ashore". Each place is `<section class="place c-…" id="…" data-place="…">` with a `.place-bg` (CSS background from `places.css`), a `.veil` in the place's deep shade only where the words are, and its own composition class (`c-hero`, `c-clearing`, `c-path`, `c-pool`, `c-shore`, `c-cove`, `c-shelter`, `c-outlook`, `c-cottage`).
 - `ride.html` — Ride one out (Nov 9): a 90-second pass at the Shore over 4K motion (`assets/motion/shore-{2160,1440,phone}.mp4`, posters `.jpg`); `sw.js` never caches `.mp4` or range requests. Rules in `DESIGN-RULES.md`.
 - `breathe.html`, `ground.html` — free tools; `tools.json` holds the breath timings and the grounding steps (shared with the app's wording).
 - `support.html`, `privacy.html`, `terms.html`, `helpers.html`, `premium.html` — reading pages. Privacy, Terms and Support are linked from the app: never rename them.
@@ -18,7 +18,7 @@ Founder's prompt, applied five times: "Look at the site first. Then innovate: th
 1. **Walk on the web** (`walk.html`, the Path Ahead): 5/10/15 minutes or open; wall-clock timer; Wake Lock where allowed; the app's kind walk lines every 2 minutes; Pause/Resume, Finish; "What did the urge do?" Passed / Eased / Stayed; Stayed shows 988, Breathe and findahelpline. Nothing saved or sent. PR #10.
 2. **Ride it out on every page**: a glass button opens a native `<dialog>`: Walk, Breathe, Ground, Talk to someone (988), findahelpline. PR #11.
 3. **Keep it on your phone**: `manifest.webmanifest`, icons 192/512, iOS metas, offline `sw.js` (bump `VERSION` when the precache list changes); a "Keep it on your phone" card at night. PR #12.
-4. **The island as a map**: `.isle` card on wide screens, drawn by `island_map.py` in the generator; the route draws in the place's colour as you scroll. Phones: a 2 px progress line. PR #13.
+4. **The island as a map**: `.isle` card on wide screens, drawn by `island_map.py` in the generator; the route draws in the place's colour as you scroll. Phones: a 2 px progress line. PR #13. **Removed Nov 10** (founder: remove the Tide Pool box entirely); the 2 px line now runs on every screen width.
 5. **The night as a next step**: Tell me when it's out (mailto hello@urgewalk.app), Send it to someone (Web Share, else copy), Keep it on your phone. The hero's "Coming to iPhone." links to it. PR #14.
 
 Then "one change per round" (Goal: the launch email; limit +100 lines):
@@ -26,6 +26,11 @@ Then "one change per round" (Goal: the launch email; limit +100 lines):
 7. **Hero photo first**: `html.lazy-places` (head script; not under Reduce Motion or without IntersectionObserver) hides every place photograph except the current place and its neighbours (`.near`, set in `mark()`), so the hero's photo stops competing with eight others. Throttled phone, local: hero photo 3.2 s → 2.1 s. PR #16.
 
 Matching the app (Nov 9, app rounds 1 and 8): Ground opens on its first sense (no intro or Start; Back is off on sense 1, Start again returns to sense 1), and the Ride it out dialog appears without an entrance animation.
+
+## Living places (Nov 10)
+The app's still-camera loops move the site: Coast, Clearing, Path Ahead, Tide Pool (`inlet`), Shore, Cove and Outlook, each per light, on `index.html`, `breathe.html`, `ground.html` and `walk.html`. Files in `assets/motion/`: `{place}[-evening]-{wide,tall}.mp4` (1280 × 720 / 720 × 1280, ≤ 2 Mb/s, ~1–3 MB) and a `.webp` poster that is the loop's own first frame; `arrival-{wide,tall}.mp4` with `-end.webp`. Built by `scripts/build-motion.py`: wide loops cut from Pixabay's 1080p renditions of the app's footage (sources and trims in the script), tall loops are the app's own loops scaled down. Outlook daylight has no wide loop (a boat crosses the wide frame), so wide screens keep its photograph.
+- The head script sets `html.moving` unless Reduce Motion, Save-Data, 2G, or the footer's "Motion off" (`localStorage` `urgewalk.motion`). With it, `site.css` swaps each place's `--img-*` for the loop's poster; `site.js` (`syncMotion`) gives footage only to the current place and its neighbours and plays only the current one; others are released.
+- Without `html.moving` everything is the photographs, and the arrival is its last frame with the words shown.
 
 ## How Island light works
 The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's saved choice (`localStorage` key `urgewalk.light`). `places.css` maps `[data-place=…]` to that light's `--img-wide`, `--img-tall`, `--tone` and `--deep`; only the matching photographs load. The header switch changes it live. Without JavaScript the site shows daylight.
