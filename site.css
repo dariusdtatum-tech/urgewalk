@@ -198,7 +198,7 @@ html:not([data-light=evening]) .is-evening,html[data-light=evening] .is-day{disp
 .trail a[aria-current=true]::after{width:30px;background:var(--tone)}
 .trail a span{opacity:0;transform:translateX(4px);transition:opacity 200ms var(--ease),transform 200ms var(--ease)}
 .trail:hover a span,.trail a[aria-current=true] span,.trail a:focus-visible span{opacity:1;transform:none}
-@media (min-width:1180px){.trail{display:block}.inner{padding-right:calc(var(--gutter) + 120px)}}
+@media (min-width:1180px){.trail{display:block}} /* the trail is hidden (see the walk line below), so it no longer reserves room on the right */
 
 /* ---------- the walk (JavaScript, motion allowed): one stage behind the page ---------- */
 html.walk .place-bg,html.walk .veil{position:fixed;opacity:0;transition:opacity var(--fade) var(--ease)}
@@ -413,7 +413,7 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
 .c-path .huge{font-size:clamp(4.6rem,14vw,13rem)}
 .c-outlook .top .phone{width:min(230px,52vw)}
 .c-shore .inner{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--gutter)}
-.c-shore .phone{margin-right:clamp(0px,7vw,120px)}
+.c-shore .phone{width:min(230px,52vw);margin-right:clamp(0px,7vw,120px)} /* the Outlook's width, so the cascade keeps its room */
 @media (max-width:899px){
   .c-clearing .phone{display:block;justify-self:center}
   .c-path .inner{grid-template-columns:1fr;grid-template-areas:"top" "phone" "words"}
