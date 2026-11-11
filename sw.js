@@ -1,11 +1,11 @@
 // Urge Walk — offline (round 3, Nov 9 2026). The three tools keep working with no signal: Walk, Breathe and
 // Ground, with their styles, fonts and phone-size photographs in both lights. Pages are fetched fresh when
 // online (network first) so updates arrive; everything else is served from cache and refreshed behind.
-const VERSION = 'uw-2026-11-10-r9'
+const VERSION = 'uw-2026-11-11-r1'
 const CORE = [
   './', 'index.html', 'walk.html', 'breathe.html', 'ground.html', 'ride.html', 'support.html',
   'site.css', 'places.css', 'site.js', 'tools.json', 'manifest.webmanifest',
-  'assets/icon-n10.svg', 'assets/icon-192-n10.png', 'assets/icon-512-n10.png',
+  'assets/icon-sg11.svg', 'assets/icon-192-sg11.png', 'assets/icon-512-sg11.png',
   'assets/fonts/cormorant-garamond-latin-300-normal.woff2', 'assets/fonts/cormorant-garamond-latin-300-italic.woff2',
   'assets/fonts/cormorant-garamond-latin-400-italic.woff2', 'assets/fonts/cormorant-garamond-latin-500-normal.woff2',
   'assets/fonts/inter-latin-400-normal.woff2', 'assets/fonts/inter-latin-500-normal.woff2', 'assets/fonts/inter-latin-600-normal.woff2',
