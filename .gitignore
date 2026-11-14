@@ -1,0 +1,6 @@
+# Local quality-check tooling (not part of the live site)
+node_modules/
+.lighthouseci/
+playwright-report/
+test-results/
+.DS_Store
