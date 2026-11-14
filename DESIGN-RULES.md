@@ -71,4 +71,4 @@ The site is a walk across the island, and the island follows the visitor's time 
 - Wherever help is mentioned, the crisis line is one line away: 988 in the US, findahelpline.com elsewhere.
 
 ## Before you ship
-Check every page at 390 px and 1440 px, with and without Reduce Motion; no horizontal scroll; every image loads; tap targets at least 44 px; text contrast at least 4.5:1; `scripts/check-hidden-unicode.sh` passes; no banned words.
+Check every page at 390 px and 1440 px, with and without Reduce Motion; no horizontal scroll; every image loads; tap targets at least 44 px; text contrast at least 4.5:1; `scripts/check-hidden-unicode.sh` passes; no banned words. Also run `npm run check` (see AGENTS.md, Before you open a PR) and paste the summary into the PR.

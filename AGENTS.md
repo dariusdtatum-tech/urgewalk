@@ -59,3 +59,22 @@ The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's 
 ## Working agreement (founder, Nov 9 2026)
 
 "Yeah merge any small verified site fixes then." Small, verified fixes to this site are merged by the agent without asking, then reported. Larger changes (a new direction, a new page such as Ride One Out going live) still wait for "merge".
+
+## Before you open a PR
+
+These steps sit alongside the rules above; they do not replace them.
+
+1. Look up current HTML, CSS and JavaScript patterns in Chrome's Modern Web Guidance before writing new front-end code:
+   - Search: `npx modern-web-guidance@latest search <topic>`
+   - Read a guide: `npx modern-web-guidance@latest retrieve <guide-id>`
+   - Repo: https://github.com/googlechrome/modern-web-guidance
+2. Before using any newer platform feature, confirm it works in iPhone Safari (caniuse.com or MDN), or add a fallback. iPhone Safari comes first.
+3. Run the quality check from the repo root and paste its summary into the PR:
+
+   ```bash
+   npm install
+   npm run check
+   ```
+
+   `./tools/check.sh` does the same, and runs `npm install` on the first use. The check is local and free. Do not add a GitHub Action for it while the Actions minutes limit is in effect (until 1 December 2026). The Modern Web Guidance scan is advice; the check fails on axe violations, a Lighthouse accessibility score under 95, broken internal links or assets, console errors, horizontal overflow at 390px, or a personal Google mail address in tracked files.
+4. One editor per repo at a time. Use single-purpose commits. Never merge your own PR.
