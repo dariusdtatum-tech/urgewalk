@@ -28,11 +28,11 @@
 .rio .quiet[hidden],.rio .pill[hidden]{display:none}
 .rio .foot{position:relative;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(84px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))} /* clears the floating Ride it out button */
 .rio .wave{display:block;width:100%;height:clamp(120px,22vh,200px);overflow:visible}
-.rio .wave .all{fill:none;stroke:#faf7f1;stroke-opacity:.3;stroke-width:1;stroke-dasharray:2 5}
-.rio .wave .area{fill:#a9cbc0;fill-opacity:.22}
-.rio .wave .trace{fill:none;stroke:#faf7f1;stroke-width:1.5}
-.rio .wave .dot{fill:#faf7f1}
-.rio .wave .base{stroke:#faf7f1;stroke-opacity:.35;stroke-width:1}
+.rio .wave .all{fill:none;stroke:var(--paper);stroke-opacity:.3;stroke-width:1;stroke-dasharray:2 5}
+.rio .wave .area{fill:var(--tone);fill-opacity:.22}
+.rio .wave .trace{fill:none;stroke:var(--paper);stroke-width:1.5}
+.rio .wave .dot{fill:var(--paper)}
+.rio .wave .base{stroke:var(--paper);stroke-opacity:.35;stroke-width:1}
 .rio .scale{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.8;margin-top:8px}
 .rio .help{margin:14px 0 0;font-size:13px;opacity:.85;max-width:70ch}
 .rio[data-state="idle"] .trace,.rio[data-state="idle"] .dot{opacity:0}
