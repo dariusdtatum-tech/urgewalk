@@ -72,8 +72,24 @@
   // and a still photograph when the device asks for less motion or less data. Anyone can switch it.
   let reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const tall = innerHeight > innerWidth, px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
-  const file = tall ? "assets/motion/shore-phone.mp4" : px >= 2600 ? "assets/motion/shore-2160.mp4" : "assets/motion/shore-1440.mp4";
-  sea.poster = tall ? "assets/motion/shore-tall.jpg" : "assets/motion/shore-wide.jpg";
+  // Evening plays the Shore's evening loop (shore-evening-tall / -wide) with its own poster.
+  const SEA = {
+    day: { file: tall ? "assets/motion/shore-phone.mp4" : px >= 2600 ? "assets/motion/shore-2160.mp4" : "assets/motion/shore-1440.mp4",
+           poster: tall ? "assets/motion/shore-tall.jpg" : "assets/motion/shore-wide.jpg" },
+    evening: { file: tall ? "assets/motion/shore-evening-tall.mp4" : "assets/motion/shore-evening-wide.mp4",
+               poster: tall ? "assets/motion/shore-evening-tall.webp" : "assets/motion/shore-evening-wide.webp" }
+  };
+  const root = document.documentElement;
+  let file = "", seaLight = "";
+  // Match the sea to Island light. A switch during a pass waits for the next Start (see start()).
+  function matchLight(){
+    const l = root.dataset.light === "evening" ? "evening" : "day";
+    if (l === seaLight) return;
+    seaLight = l; file = SEA[l].file; sea.poster = SEA[l].poster;
+    if (sea.getAttribute("src")) sea.src = file;
+  }
+  matchLight();
+  new MutationObserver(() => { if (shore.dataset.state === "idle") matchLight(); }).observe(root, { attributes: true, attributeFilter: ["data-light"] });
   const modeBtn = $("mode");
   function setMode(still){
     reduce = still; modeBtn.textContent = still ? "Motion off" : "Motion on"; modeBtn.setAttribute("aria-pressed", String(!still));
@@ -107,7 +123,7 @@
     raf = requestAnimationFrame(frame);
   }
   function start(){
-    running = true; phase = -1; shore.dataset.state = "running";
+    matchLight(); running = true; phase = -1; shore.dataset.state = "running";
     go.hidden = true; again.hidden = true; document.getElementById("tools").hidden = true; stop.hidden = false; after.hidden = true; lede.hidden = false;
     if (!reduce){ sea.playbackRate = .45; const r = sea.play(); r && r.catch && r.catch(() => {}); }
     t0 = performance.now(); raf = requestAnimationFrame(frame);
