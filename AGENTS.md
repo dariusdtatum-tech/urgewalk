@@ -49,7 +49,7 @@ The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's 
 - urgewalk.app and urgewalk.com registered by the founder at Cloudflare Registrar (Nov 9 2026). urgewalk.app DNS: four A (185.199.108–111.153), four AAAA (2606:50c0:8000–8003::153) and `www` CNAME to `dariusdtatum-tech.github.io`, all DNS only (not proxied, so GitHub issues the HTTPS certificate). `CNAME` file in this repo holds `urgewalk.app`; never delete it.
 
 ## Rules that bite
-- Contact address: hello@urgewalk.app (founder, Nov 9), forwarded to urgewalk@gmail.com by Cloudflare Email Routing. The site generator replaces any older address.
+- Contact address: hello@urgewalk.app (founder, Nov 9), forwarded by Cloudflare Email Routing to the founder's private inbox (address not recorded in the public repo). The site generator replaces any older address.
 - Night is never navy: it is the page's place's `--deep` (set by `data-place` on `<body>`).
 - Keep the `noindex` meta until launch. No fake App Store badge.
 - Never commit original or full-size photographs; never add images a page doesn't use.
