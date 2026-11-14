@@ -27,14 +27,17 @@
 .rio .quiet{font:inherit;font-size:14px;color:inherit;background:none;border:0;padding:0;min-height:44px;display:inline-flex;align-items:center;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
 .rio .quiet[hidden],.rio .pill[hidden]{display:none}
 .rio .foot{position:relative;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(84px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))} /* clears the floating Ride it out button */
+/* A veil in the Shore's own deep shade, only behind the wave, the scale and the 988 line; the water above stays open. */
+.rio .foot::before{content:"";position:absolute;left:0;right:0;bottom:0;height:min(46vh,320px);pointer-events:none;background:linear-gradient(to top,color-mix(in srgb,var(--deep) 92%,transparent),color-mix(in srgb,var(--deep) 58%,transparent) 60%,transparent)}
+.rio .foot>*{position:relative;z-index:1}
 .rio .wave{display:block;width:100%;height:clamp(120px,22vh,200px);overflow:visible}
 .rio .wave .all{fill:none;stroke:var(--paper);stroke-opacity:.3;stroke-width:1;stroke-dasharray:2 5}
 .rio .wave .area{fill:var(--tone);fill-opacity:.22}
 .rio .wave .trace{fill:none;stroke:var(--paper);stroke-width:1.5}
 .rio .wave .dot{fill:var(--paper)}
 .rio .wave .base{stroke:var(--paper);stroke-opacity:.35;stroke-width:1}
-.rio .scale{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.8;margin-top:8px}
-.rio .help{margin:14px 0 0;font-size:13px;opacity:.85;max-width:70ch}
+.rio .scale{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-top:8px}
+.rio .help{margin:14px 0 0;font-size:13px;color:var(--ink);max-width:70ch}
 .rio[data-state="idle"] .trace,.rio[data-state="idle"] .dot{opacity:0}
 </style>
 </head><body data-place="shore">
