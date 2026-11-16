@@ -40,3 +40,7 @@ Founder (verbatim): "merge #33 and audit the site using all of the information y
 - The head script was run with the hour set to 4, 5, 16 and 17: evening, day, day, evening.
 - The hidden-Unicode check passes.
 - Not checked in a browser beyond that; the changes are text and one comparison.
+
+## Merged and live (16 Nov)
+
+- Founder, here (verbatim): "Merge". PR #34 merged as `8005e84`. The Walk and History placeholders above were then fixed in PR #35 (see `2026-11-16--app-parity.md`).

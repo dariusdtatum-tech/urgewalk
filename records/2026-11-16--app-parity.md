@@ -64,3 +64,14 @@ Founder (verbatim): "It's changed now. Not tonight." The app had committed Histo
 
 - **History by day:** the app marks the tower a placeholder. If it changes, rebuild `outlook-tall`, cut a new wide still, re-record History and re-run both checks.
 - **Path tones:** the Path's colour tones (`places.css`) still come from the Nov 8 photographs. The new footage reads fine against them.
+
+## Merged and live (16 Nov)
+
+- **Request:** founder, here (verbatim): "Merge".
+- **Merge:** PR #35 merged as `95be306` (head `b7584dd`). All four checks passed.
+- **Pages:** the build of `95be306` finished as "built". The live cache is `uw-2026-11-16-r2`.
+- **Checked on urgewalk.app:**
+  - The light-switch test: 67 pictures, 0 failing. Before the merge, the same test on the live site failed 10.
+  - `outlook-wide.webp`, `outlook-tall.mp4` and `history.mp4` match the repo byte for byte.
+  - `records/` and `scripts/` return 404 (not published).
+- **Seen once:** a missing page answered 503 instead of 404 on one of four tries, right after the deploy. This is GitHub Pages or Cloudflare, not the site's files. Re-check it on the next routine check.
