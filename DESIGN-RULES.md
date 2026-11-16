@@ -12,7 +12,7 @@ What that means here:
 - **Rules that came from tools are not rules:** the earlier navy-everywhere look and the ban on glass were defaults (the app's palette, a generic "anti-slop" skill, the old site's rules), not the founder's. Founder direction wins; skills inform craft.
 
 ## The idea
-The site is a walk across the island, and the island follows the visitor's time of day (Island light, as in the app: daylight 6:00–17:59, evening otherwise; a Daylight · Evening switch overrides it, remembered on this device only). The site is a walk across the island. Each place of the app is a full-screen photograph with a caption (number · place · light) and a few lines; scrolling dissolves the island from one place to the next and ends at night. Every feature is said through its place, never as a feature grid. Each place has its own composition (elegance pass, Nov 8):
+The site is a walk across the island, and the island follows the visitor's time of day (Island light, as in the app: daylight 5:00–16:59, evening otherwise; a Daylight · Evening switch overrides it, remembered on this device only). The site is a walk across the island. Each place of the app is a full-screen photograph with a caption (number · place · light) and a few lines; scrolling dissolves the island from one place to the next and ends at night. Every feature is said through its place, never as a feature grid. Each place has its own composition (elegance pass, Nov 8):
 
 | Place | Composition |
 |---|---|

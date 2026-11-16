@@ -1,6 +1,6 @@
 // Urge Walk — the island site (elegance pass, Nov 8 2026). Progressive enhancement: every page reads and
 // works without this file.
-// 1. Island light: the island follows the visitor's time of day (daylight 6:00–17:59, evening otherwise), as the
+// 1. Island light: the island follows the visitor's time of day (daylight 5:00–16:59, evening otherwise), as the
 //    app does; the Daylight · Evening switch overrides it (remembered on this device only). The inline script in
 //    each page's <head> sets html[data-light] before the stylesheet paints, so only one set of photographs loads.
 // 2. The walk: the place crossing the middle of the screen is "here"; its photograph fades in behind the page
