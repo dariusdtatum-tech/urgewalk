@@ -72,4 +72,7 @@ After the audit and plan (six phones, all out of date, all able to move), the fo
 
 - **Merge order:** merge only after the app's glass work (`4b35df9`) is pushed and merged. If the app changes again before then, re-run `scripts/capture-app/`.
 - **Daylight Walk:** waits for the founder's new daylight picture. Swap `walk-evening` back to a day/evening pair, and drop the Path override in `site.js` (`loopFor`) and `site.css`.
-- **iPhone cuts:** any iPhone recording cut needs the founder's OK per clip.
+- **Daylight History** (founder, 16 Nov, relayed): History by day must show the lighthouse, as it does by evening. A daylight lighthouse picture still has to be found, so the daylight History phone in this PR is not final. Re-capture it once the app has the new picture.
+- **Home** stays moving. The founder confirmed (verbatim, relayed): "home's water visibly moves on my phone".
+- **iPhone cuts:** none used. The web build was clearer in every comparison; see the private shared notes for 16 Nov.
+- **iPhone cuts (rule):** any iPhone recording cut needs the founder's OK per clip.
