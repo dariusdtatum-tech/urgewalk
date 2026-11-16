@@ -358,7 +358,7 @@ html:root [data-place=coast]{--img-wide:url(assets/motion/coast-wide.webp);--img
 html:root[data-light=evening] [data-place=coast]{--img-wide:url(assets/motion/coast-evening-wide.webp);--img-tall:url(assets/motion/coast-evening-tall.webp)}
 html:root [data-place=clearing]{--img-wide:url(assets/motion/clearing-wide.webp);--img-tall:url(assets/motion/clearing-tall.webp)}
 html:root[data-light=evening] [data-place=clearing]{--img-wide:url(assets/motion/clearing-evening-wide.webp);--img-tall:url(assets/motion/clearing-evening-tall.webp)}
-html:root [data-place=path]{--img-wide:url(assets/motion/path-wide.webp);--img-tall:url(assets/motion/path-tall.webp)}
+html:root [data-place=path]{--tone:#cb924d;--deep:#231a10;--img-wide:url(assets/motion/path-evening-wide.webp);--img-tall:url(assets/motion/path-evening-tall.webp)} /* Nov 15: the evening Path in both lights until a new daylight picture is chosen */
 html:root[data-light=evening] [data-place=path]{--img-wide:url(assets/motion/path-evening-wide.webp);--img-tall:url(assets/motion/path-evening-tall.webp)}
 html:root [data-place=inlet]{--img-wide:url(assets/motion/inlet-wide.webp);--img-tall:url(assets/motion/inlet-tall.webp)}
 html:root[data-light=evening] [data-place=inlet]{--img-wide:url(assets/motion/inlet-evening-wide.webp);--img-tall:url(assets/motion/inlet-evening-tall.webp)}
@@ -403,6 +403,10 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
   .arrival .phone{order:0;justify-self:center;width:min(240px,62vw);margin-right:0}
   .arrival::after{background:linear-gradient(180deg,rgba(9,24,36,.8) 0%,rgba(9,24,36,.66) 55%,rgba(9,24,36,.34) 100%)}
 }
+/* the Tide Pool's phone (Nov 15): beside the breathing ring on wide screens, under it on narrow ones */
+.c-pool .inner{grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(32px,6vw,96px)}
+.c-pool .phone{width:min(230px,52vw)}
+@media (max-width:899px){.c-pool .inner{grid-template-columns:1fr;row-gap:28px}.c-pool .phone{order:0;justify-self:center}}
 /* app screens that move: a short recording of the real app plays inside the phone while it is in view */
 .phone{position:relative}
 .phone video{position:absolute;inset:9px;width:calc(100% - 18px);height:calc(100% - 18px);object-fit:cover;border-radius:35px;opacity:0;transition:opacity 400ms var(--ease)}
