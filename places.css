@@ -6,8 +6,8 @@ html[data-light=evening] [data-place=coast]{--tone:#c58f69;--deep:#231810;--img-
 html[data-light=evening] [data-place=trailhead]{--tone:#c4bcab;--deep:#1d1b16;--img-wide:url(assets/places/trailhead-evening-wide.webp);--img-tall:url(assets/places/trailhead-evening-tall.webp)}
 [data-place=cottage]{--tone:#a2a574;--deep:#1e1e15;--img-wide:url(assets/places/cottage-day-wide.webp);--img-tall:url(assets/places/cottage-day-tall.webp)}
 html[data-light=evening] [data-place=cottage]{--tone:#c7baa8;--deep:#1e1a15;--img-wide:url(assets/places/cottage-evening-wide.webp);--img-tall:url(assets/places/cottage-evening-tall.webp)}
-[data-place=shelter]{--tone:#bfb9af;--deep:#1c1a17;--img-wide:url(assets/places/shelter-day-wide.webp);--img-tall:url(assets/places/shelter-day-tall.webp)}
-html[data-light=evening] [data-place=shelter]{--tone:#c8bfa8;--deep:#1e1c15;--img-wide:url(assets/places/shelter-evening-wide.webp);--img-tall:url(assets/places/shelter-evening-tall.webp)}
+[data-place=shelter]{--tone:#a29776;--deep:#1e1c15;--img-wide:url(assets/places/shelter-day-wide.webp);--img-tall:url(assets/places/shelter-day-tall.webp)}
+html[data-light=evening] [data-place=shelter]{--tone:#a39275;--deep:#1e1b15;--img-wide:url(assets/places/shelter-evening-wide.webp);--img-tall:url(assets/places/shelter-evening-tall.webp)}
 [data-place=clearing]{--tone:#cbaa4d;--deep:#231e10;--img-wide:url(assets/places/clearing-day-wide.webp);--img-tall:url(assets/places/clearing-day-tall.webp)}
 html[data-light=evening] [data-place=clearing]{--tone:#7686a6;--deep:#15181e;--img-wide:url(assets/places/clearing-evening-wide.webp);--img-tall:url(assets/places/clearing-evening-tall.webp)}
 [data-place=path]{--tone:#aebdc1;--deep:#171b1c;--img-wide:url(assets/places/path-day-wide.webp);--img-tall:url(assets/places/path-day-tall.webp)}
