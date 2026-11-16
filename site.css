@@ -364,7 +364,7 @@ html:root [data-place=inlet]{--img-wide:url(assets/motion/inlet-wide.webp);--img
 html:root[data-light=evening] [data-place=inlet]{--img-wide:url(assets/motion/inlet-evening-wide.webp);--img-tall:url(assets/motion/inlet-evening-tall.webp)}
 html:root [data-place=shore]{--img-wide:url(assets/motion/shore-wide.webp);--img-tall:url(assets/motion/shore-tall.webp)}
 html:root[data-light=evening] [data-place=shore]{--img-wide:url(assets/motion/shore-evening-wide.webp);--img-tall:url(assets/motion/shore-evening-tall.webp)}
-html:root [data-place=outlook]{--img-wide:url(assets/motion/outlook-wide.webp);--img-tall:url(assets/motion/outlook-tall.webp)} /* day, wide: a still of the same view (a boat crosses the wide footage) */
+html:root [data-place=outlook]{--img-wide:url(assets/motion/outlook-wide.webp);--img-tall:url(assets/motion/outlook-tall.webp)} /* day, wide: a still band of the tower clip (upright source) */
 html:root [data-place=cove]{--img-wide:url(assets/motion/cove-wide.webp);--img-tall:url(assets/motion/cove-tall.webp)} /* stills only: the Cove is a band on For helpers */
 html:root[data-light=evening] [data-place=cove]{--img-wide:url(assets/motion/cove-evening-wide.webp);--img-tall:url(assets/motion/cove-evening-tall.webp)}
 html:root[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/outlook-evening-wide.webp);--img-tall:url(assets/motion/outlook-evening-tall.webp)}

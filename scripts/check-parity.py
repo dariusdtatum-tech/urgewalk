@@ -12,6 +12,9 @@ Reads the app's pictures from Git at the given ref (never from uncommitted trial
 2. Wide screens (assets/motion/<place>[-evening]-wide.webp) are cut from the full-width source of the same
    footage, so they can't be copies. Each is searched for the app's picture, frame by frame across the app's
    loop; below 0.60 fails, 0.60 to 0.85 is listed for a look (moving water and grass lower the score).
+   A wide still cut as a band across an upright source (Outlook by day, Nov 16) can't hold the app's frame,
+   so a wide that scores under 0.85 also gets the keypoint test from 3; 0.60 or more there passes as "kp".
+   (Nov 16: the tower band scored 0.57 to 0.69 over seven source frames; old and wrong pictures 0.11 to 0.12.)
 3. Places without footage (trailhead, cottage, shelter): assets/places/<place>-<light>-tall.webp, the site's
    own crop and grade of the photograph, matched to the app's plate by keypoints: 0.60 or more of the matches
    agree on one placement (Nov 16: the same photos scored 0.92 to 0.98, different ones 0.08 to 0.28).
@@ -93,6 +96,8 @@ for place in FOOTAGE:
             big = grey(wide, 180)
             sc = max(float(cv2.matchTemplate(big, f, cv2.TM_CCOEFF_NORMED).max()) for f in loop_frames(mp4))
             verdict = 'ok' if sc >= 0.85 else ('look' if sc >= 0.60 else 'FAIL')
+            if verdict != 'ok' and same_photo(wide, ref) >= 0.60:
+                sc, verdict = same_photo(wide, ref), 'kp'
             failed += verdict == 'FAIL'; look += verdict == 'look'
             print(f'{verdict:4} {sc:.2f}  wide  {place:9} {light}')
             rows.append((wide, ref, sc, verdict))
@@ -111,7 +116,7 @@ for site_p, app_p, sc, verdict in rows:
     a = cv2.resize(a, (round(a.shape[1] * H / a.shape[0]), H)); b = cv2.resize(b, (round(b.shape[1] * H / b.shape[0]), H))
     row = np.full((H, 460, 3), 20, np.uint8)
     row[:, :min(a.shape[1], 300)] = a[:, :300]; row[:, 310:310 + min(b.shape[1], 150)] = b[:, :150]
-    colour = {'ok': (0, 200, 0), 'look': (0, 200, 255), 'FAIL': (0, 0, 255)}[verdict]
+    colour = {'ok': (0, 200, 0), 'kp': (0, 200, 0), 'look': (0, 200, 255), 'FAIL': (0, 0, 255)}[verdict]
     cv2.putText(row, f'{os.path.basename(site_p)} {sc:.2f}', (4, 14), cv2.FONT_HERSHEY_SIMPLEX, 0.4, colour, 1)
     sheet.append(row)
 os.makedirs(os.path.join(SITE, 'previews'), exist_ok=True)

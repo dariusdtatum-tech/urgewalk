@@ -22,13 +22,14 @@ X264 = ['-c:v', 'libx264', '-preset', 'slow', '-crf', '27', '-maxrate', '2M', '-
 # name: (pixabay id, start s, loop length s, seam crossfade s). None = no wide loop (still photograph).
 WIDE = {
     'coast': (159778, 2, 10.5, 1.5), 'coast-evening': (46131, 2, 10.5, 1.5),
-    # Cove (44969 at 2.5 s, 199001 at 3.5 s): stills only, for the For helpers band; Outlook daylight wide: 23748 at 0 s.
+    # Cove (44969 at 2.5 s, 199001 at 3.5 s): stills only, for the For helpers band; Outlook daylight wide (Nov 16, the app's
+    # History by day, 23d1562): a still, a 16:9 band of Pexels 32448186 at 6.0 s (y 1500-2715 of 2160x3840), checked for people.
     'clearing': (217491, 0.2, 8, 1.5), 'clearing-evening': (62390, 0.2, 8, 1.5),
     'inlet': (278037, 2, 10.5, 1.5), 'inlet-evening': (193078, 0, 10, 1.5),
     # Path (Nov 16, matching the app's Nov 13 Walk): dune grass and flowers by day (239428, Nils Vega), sunset over a
     # wide beach by evening (134196); start times found by matching the app's loop inside each clip.
     'path': (239428, 6.5, 10.5, 1.5), 'path-evening': (134196, 5.5, 10.5, 1.5),
-    'outlook': None,  # 23748: a boat leaves the rock within the first second; the app's tall crop avoids it
+    'outlook': None,  # wide is a still: the source is an upright handheld phone clip; tall copies the app's loop
     'outlook-evening': (216997, 1, 10.5, 1.5),
     'shore': (103447, 2, 10.5, 1.5), 'shore-evening': (372136, 0, 10, 1.5),
 }

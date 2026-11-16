@@ -28,9 +28,9 @@ Found against the app at `66c2009`:
 | Walk phone | evening in both lights | day and evening | fixed |
 | All phones | glass from `4b35df9` | brighter glass (`c4da3c2`) | re-recorded at `66c2009` |
 | Shelter (Privacy and reading pages), both lights | an older square window and doorway | the arched window (Nov 9), the dusk window (Nov 10) | fixed; tones updated |
-| History (Outlook), day | the rock headland (23748) | the hilltop stone spire (`66c2009`, Pexels 30285475); another trial is uncommitted tonight | **left:** still moving in the app |
+| History (Outlook), day | the rock headland (23748) | the stone tower on the beach (`23d1562`, Pexels 32448186), tray "Lower to the tower" (`39c9261`) | fixed (see below) |
 
-Inlet and Shore wide scored 0.78 and 0.67 ("look"): checked by eye, same footage, with the water moving.
+Inlet and Shore wide scored 0.78 and 0.67 ("look"): checked by eye, same footage, with the water moving. The keypoint fallback added later (below) confirms them: 0.93 and 0.94.
 
 ## Changes (branch `site/app-parity-2026-11-16`)
 
@@ -40,16 +40,27 @@ Inlet and Shore wide scored 0.78 and 0.67 ("look"): checked by eye, same footage
 - **Shelter:** `assets/places/shelter-*` re-cropped with the app's own `scripts/island/build-site-images.py` functions from the originals in the private Sources folder (Nov 8). Only the web crops are published, and they were checked by eye: no people. `places.css` tones updated.
 - **Other:** AGENTS.md says when to run the two checks. `sw.js` cache is `uw-2026-11-16-r2`.
 
+## History by day (added 16 Nov)
+
+Founder (verbatim): "It's changed now. Not tonight." The app had committed History by day: `23d1562` (the stone tower on the beach, Pexels 32448186, marked placeholder in the app) and `39c9261` (the tray says "Lower to the tower").
+
+- **Tall:** `outlook-tall.mp4/.webp` copied from the app's `assets/motion/outlook.mp4` at `39c9261` by `build-motion.py` (720 × 1280).
+- **Wide:** the source is an upright 4K phone clip (2160 × 3840) in the private Sources folder, so no landscape loop exists. `outlook-wide.webp` is a still: a 16:9 band (y 1500 to 2715) of the frame at 6.0 s, 1280 × 720, with the tower, its base, the sea and the beach. Checked at full size: no people, only a distant boat. Only this web-size still is published.
+- **History phone:** re-recorded in both lights from the app at `39c9261` (scratch copy, `history.cjs`, `pingpong` in `encode.py`). By day it lowers to the tower, by evening to the lighthouse.
+- **Parity judge:** a band of an upright source can't contain the app's frame, so wide pictures that score under 0.85 now also get the keypoint test (0.60 or more passes, shown as `kp`). Seven frames of the tower band scored 0.57 to 0.69, and the 6.0 s frame was picked at 0.69 (0.76 after the webp save). The old rock headland and two wrong places scored 0.11 to 0.12.
+- **App note (for the main session):** in the evening the tray also says "Lower to the tower" over the lighthouse. The site shows what the app shows.
+
 ## Verification
 
-- **Parity:** 34 pictures; 2 fail, both History by day (left, see above); 2 "look", checked by eye.
+- **Parity** (app `39c9261`): 34 pictures, 0 failed, 0 to look at. (Before the History update: 2 failed, both History by day.)
 - **Switch:** 67 pictures on the branch, 0 failing. The same test on the live site fails 10 (the Walk), so the test catches the problem.
+- **Switch, after the History update:** 67 pictures, 0 failing.
 - **No motion:** Reduce Motion, Motion off and no-JS: no recording starts, and the stills show the daylight Walk by day.
 - **Other checks:** the hidden-Unicode check passes, and index.html and walk.html parse.
-- **Before and after:** `previews/app-parity-2026-11-16-{390,1440}-{day,evening}.jpg`.
+- **Before and after:** `previews/app-parity-2026-11-16-{390,1440}-{day,evening}.jpg`; History by day: `previews/history-day-2026-11-16-{390,1440}.jpg` (live on the left, the branch on the right).
 - Not checked on a real iPhone.
 
 ## Open
 
-- **History by day:** re-run `check-parity.py` once the founder settles it. Rebuild `outlook-tall` from the app's loop, and choose a wide picture: the source is a 4K Pexels clip the app stabilises by hand.
+- **History by day:** the app marks the tower a placeholder. If it changes, rebuild `outlook-tall`, cut a new wide still, re-record History and re-run both checks.
 - **Path tones:** the Path's colour tones (`places.css`) still come from the Nov 8 photographs. The new footage reads fine against them.
