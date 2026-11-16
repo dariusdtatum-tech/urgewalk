@@ -76,3 +76,14 @@ After the audit and plan (six phones, all out of date, all able to move), the fo
 - **Home** stays moving. The founder confirmed (verbatim, relayed): "home's water visibly moves on my phone".
 - **iPhone cuts:** none used. The web build was clearer in every comparison; see the private shared notes for 16 Nov.
 - **iPhone cuts (rule):** any iPhone recording cut needs the founder's OK per clip.
+
+## Merged and live (16 Nov)
+
+- **Request:** founder, relayed by the main session (verbatim): "Have website merge everything so it shows up on the site." The founder then said here (verbatim): "Merge".
+- **Merge:** PR #32 merged as `9bfac3a`. All checks passed. The app's glass work (`4b35df9`) was not yet pushed or merged; the founder chose to go live anyway.
+- **Pages:** the build of `9bfac3a` finished as "built".
+- **Checked on urgewalk.app:**
+  - The cache is `uw-2026-11-15-r1`, and all seven phones carry their recordings.
+  - At 390 and 1440 px, day and evening, all seven play, with no sideways scroll.
+  - `records/` and `scripts/` return 404 (not published), and the old `walk.mp4` is gone.
+- **Not merged:** PRs #29 and #31 belong to other sessions.
