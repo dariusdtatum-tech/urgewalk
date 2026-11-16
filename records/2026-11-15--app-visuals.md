@@ -50,7 +50,7 @@ After the audit and plan (six phones, all out of date, all able to move), the fo
   - Home, Ride, Ground and the arrival dissolve their last 1.5 s into their first.
   - Walk and Breathe cut. Breathe is 13 s, one full breath.
   - History plays its clip backwards and then forwards, so it starts and ends with the tray raised.
-  - Each still is the loop's first frame, as a webp at 585 × 1266.
+  - Each still is the loop's first frame, as a webp at 390 × 844 (Chrome's screencast frames are CSS pixels, so DPR 1.5 didn't apply). The Nov 10 stills were 585 × 1266. Under Reduce Motion, Motion off or no-JS the stills are a little softer on high-density screens; a 585 × 1266 re-take needs the app's web build running again.
 - **Sizes:** loops are 0.1 to 1.1 MB each. Each loads only while its phone is on screen.
 - No iPhone recordings were used. The private Sources folder wasn't opened: the main session hasn't sent a list of usable clips.
 
