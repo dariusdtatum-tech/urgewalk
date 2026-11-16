@@ -250,7 +250,8 @@
   const shape = () => (wideMq.matches ? 'wide' : 'tall')
   const loopFor = (place) => {
     if (!LOOPS.includes(place)) return null
-    const evening = root.dataset.light === 'evening'
+    // The Path by day (Nov 15): the evening footage until a new daylight picture is chosen
+    const evening = root.dataset.light === 'evening' || place === 'path'
     if (place === 'outlook' && !evening && shape() === 'wide') return null // a boat crosses the wide frame: the photograph stays
     return `assets/motion/${place}${evening ? '-evening' : ''}-${shape()}`
   }
