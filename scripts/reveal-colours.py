@@ -23,6 +23,9 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PLACES = ['arrival', 'coast', 'clearing', 'path', 'inlet', 'shore', 'outlook']
 PAPER = (250, 247, 241)
+# The founder's picks where the picture's own main hue read wrong. The Path by day came out brown (dark sand) on a
+# bright sunny beach; he chose the sea's deep blue with sun-yellow accents from a specimen of four (Nov 17: "C").
+OVERRIDES = {('path', 'day'): {'--deep': '#0f2238', '--tone': '#f2c94c'}}
 
 
 def lum(c):
@@ -111,6 +114,10 @@ def main():
     for name in PLACES:
         for light in (('day',) if name == 'arrival' else ('day', 'evening')):  # the arrival has one film for both lights
             v, c = place(name, light)
+            if (name, light) in OVERRIDES:
+                v.update(OVERRIDES[(name, light)])
+                rgbh = lambda x: tuple(int(x[i:i + 2], 16) for i in (1, 3, 5))
+                c = (contrast(rgbh(v['--deep']), PAPER), contrast(rgbh(v['--deep']), rgbh(v['--tone'])), c[2])
             sel = '#arrival,html[data-light=evening] #arrival' if name == 'arrival' else f'.place[data-reveal][data-place={name}]'
             if light == 'evening':
                 sel = ','.join('html[data-light=evening] ' + s for s in sel.split(','))

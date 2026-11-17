@@ -551,7 +551,7 @@ html.place-open .ride-fab{opacity:0;pointer-events:none}
 html[data-light=evening] .place[data-reveal][data-place=coast]{--deep:#121623;--tone:#a0abcf;--card-a:#233f81;--card-m:#455693;--card-b:#17295b;--card-ink:#faf7f1;--card-line:#3e65c2}
 .place[data-reveal][data-place=clearing]{--deep:#1b2412;--tone:#b8d0a0;--card-a:#245728;--card-m:#3c5525;--card-b:#445c27;--card-ink:#faf7f1;--card-line:#2e6533}
 html[data-light=evening] .place[data-reveal][data-place=clearing]{--deep:#261610;--tone:#e1b78f;--card-a:#dc9a55;--card-m:#b46626;--card-b:#a85b21;--card-ink:#faf7f1;--card-line:#e8c7a4}
-.place[data-reveal][data-place=path]{--deep:#261c10;--tone:#d8bb97;--card-a:#3c87dd;--card-m:#3d557c;--card-b:#ca9f68;--card-ink:#261c10;--card-line:#86b7ef}
+.place[data-reveal][data-place=path]{--deep:#0f2238;--tone:#f2c94c;--card-a:#3c87dd;--card-m:#3d557c;--card-b:#ca9f68;--card-ink:#261c10;--card-line:#86b7ef}
 html[data-light=evening] .place[data-reveal][data-place=path]{--deep:#171a1f;--tone:#a2b4cd;--card-a:#6d80a9;--card-m:#dea944;--card-b:#b39c67;--card-ink:#171a1f;--card-line:#a8b3c9}
 .place[data-reveal][data-place=inlet]{--deep:#141a21;--tone:#a2b6cd;--card-a:#6796cb;--card-m:#889baa;--card-b:#63a0cf;--card-ink:#141a21;--card-line:#c8d8ea}
 html[data-light=evening] .place[data-reveal][data-place=inlet]{--deep:#221914;--tone:#cdb3a2;--card-a:#cf9f63;--card-m:#ae9784;--card-b:#3d3b46;--card-ink:#faf7f1;--card-line:#ebdbc6}
