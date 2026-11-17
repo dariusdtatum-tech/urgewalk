@@ -26,9 +26,14 @@ WIDE = {
     # History by day, 23d1562): a still, a 16:9 band of Pexels 32448186 at 6.0 s (y 1500-2715 of 2160x3840), checked for people.
     'clearing': (217491, 0.2, 8, 1.5), 'clearing-evening': (62390, 0.2, 8, 1.5),
     'inlet': (278037, 2, 10.5, 1.5), 'inlet-evening': (193078, 0, 10, 1.5),
-    # Path (Nov 16, matching the app's Nov 13 Walk): dune grass and flowers by day (239428, Nils Vega), sunset over a
-    # wide beach by evening (134196); start times found by matching the app's loop inside each clip.
-    'path': (239428, 6.5, 10.5, 1.5), 'path-evening': (134196, 5.5, 10.5, 1.5),
+    # Path by evening (Nov 16, matching the app's Nov 13 Walk): sunset over a wide beach (134196); start found by
+    # matching the app's loop inside the clip.
+    # Path by day (Nov 16, app 376b215, founder: "We'll keep beach"): the beach through seed heads and dune grass, Pexels
+    # 27303501 (Nils Vega), 4K, from the private Sources folder (run with SRC there and ONLY=path). The same 20-32 s as
+    # the app's loop. The wide window starts at x 2600: a towel and a beige shape lie at the waterline between x 2120
+    # and 2560, which the app's upright slice (x 2560) also leaves out. 1240 x 698, so scaled up 3%.
+    'path': ('pexels-27303501-3840x2160-30fps', 20, 10.5, 1.5, 'crop=1240:698:2600:680'),
+    'path-evening': (134196, 5.5, 10.5, 1.5),
     'outlook': None,  # wide is a still: the source is an upright handheld phone clip; tall copies the app's loop
     'outlook-evening': (216997, 1, 10.5, 1.5),
     'shore': (103447, 2, 10.5, 1.5), 'shore-evening': (372136, 0, 10, 1.5),
@@ -44,9 +49,9 @@ def poster(mp4, webp, at='first'):
     Image.open(png).save(webp, 'WEBP', quality=72, method=6)
     os.remove(png)
 
-def wide_loop(name, pid, s, L, F):
+def wide_loop(name, pid, s, L, F, window=None):
     out = os.path.join(OUT, f'{name}-wide.mp4')
-    scale = 'scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=30,setsar=1'
+    scale = (f'{window},' if window else '') + 'scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=30,setsar=1'
     # body: [s+F, s+F+L]; head: [s, s+F] laid over the body's last F seconds, so the loop ends where it began.
     fc = (f'[0:v]trim={s+F}:{s+F+L},setpts=PTS-STARTPTS,{scale}[a];'
           f'[0:v]trim={s}:{s+F},setpts=PTS-STARTPTS,{scale}[b];'

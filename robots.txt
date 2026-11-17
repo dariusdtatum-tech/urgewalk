@@ -1,0 +1,4 @@
+# Pre-launch: every page carries noindex. At launch, remove it and add:
+# Sitemap: https://urgewalk.app/sitemap.xml
+User-agent: *
+Allow: /
