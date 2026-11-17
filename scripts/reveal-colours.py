@@ -21,7 +21,7 @@ import numpy as np
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PLACES = ['arrival', 'coast', 'clearing', 'path', 'inlet', 'shore', 'outlook']
+PLACES = ['arrival', 'coast', 'clearing', 'path', 'inlet', 'shore', 'outlook', 'cottage']
 PAPER = (250, 247, 241)
 # The founder's picks where the picture's own main hue read wrong. The Path by day came out brown (dark sand) on a
 # bright sunny beach; he chose the sea's deep blue with sun-yellow accents from a specimen of four (Nov 17: "C").
@@ -81,9 +81,14 @@ def hexs(c):
 
 def place(name, light):
     sfx = '' if light == 'day' else '-evening'
-    t, w = (f'{name}{sfx}-tall', f'{name}{sfx}-wide') if name != 'arrival' else ('arrival-tall-end', 'arrival-wide-end')
-    tall = load(os.path.join(ROOT, f'assets/motion/{t}.webp'), 60)
-    wide = load(os.path.join(ROOT, f'assets/motion/{w}.webp'), 120)
+    if name == 'arrival':
+        t, w = 'assets/motion/arrival-tall-end', 'assets/motion/arrival-wide-end'
+    elif name == 'cottage':  # a still place, as in the app: its photographs
+        t, w = f'assets/places/cottage-{light}-tall', f'assets/places/cottage-{light}-wide'
+    else:
+        t, w = f'assets/motion/{name}{sfx}-tall', f'assets/motion/{name}{sfx}-wide'
+    tall = load(os.path.join(ROOT, f'{t}.webp'), 60)
+    wide = load(os.path.join(ROOT, f'{w}.webp'), 120)
     both = np.concatenate([tall.reshape(-1, 3), wide.reshape(-1, 3)])
     h0, _, s0 = hls(main_colour(both))
     hv, lv, sv = hls(main_colour(both, colourful=True))
