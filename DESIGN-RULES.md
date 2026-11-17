@@ -53,7 +53,9 @@ The site is a walk across the island, and the island follows the visitor's time 
 ## The place on the phone (proposed Nov 17 2026; waiting for the founder's OK, see `records/2026-11-17--windows.md`)
 Founder: "I think it would be cool if the only visual of the place was on the phone/app and then you click it to reveal the visual"
 - If merged, this changes two rules above for the homepage: a place's words sit on its own deep colour, and its photograph shows only inside the app's phone until the visitor taps it (not a full-screen photograph while you scroll); and clip-path joins the optical exceptions (the place growing from the phone to the full screen, 520 ms; 300 ms to close).
-- Each phone sits in a card of the place's tone mixed into its deep colour, with "Step in". Tapping it fills the screen with the place's footage, never the app. Close with the ✕ or Escape; "Next: …" and "Need help now? 988" stay at the foot.
+- Colour comes from the picture the visitor sees (founder, Nov 17: "make the colors connect with the visuals"): `scripts/reveal-colours.py` reads each loop's first frame and sets the page colour (its main hue, dark, cream text at least 12:1), the accent, and the card (the picture's sky, horizon and ground, top to bottom, with "Step in" at least 4.5:1). Never pick these by hand.
+- Placement (founder, Nov 17: "the phone/app should be placed on in a way that makes sense relative to the words"): each place is one pair, its words and its phone side by side and centred together, the phone on alternate sides down the walk. On phones the words come first and the phone right under them.
+- Each phone sits in its card, with "Step in". Tapping it fills the screen with the place's footage, never the app. Close with the ✕ or Escape; "Next: …" and "Need help now? 988" stay at the foot.
 - A place with no phone (the Cottage) keeps its words on its colour, with no picture.
 - The arrival: its words on the Coast's colour and a screen-wide card of the boat footage with the phone inside; tapping either opens the footage alone.
 - No sound (founder, Nov 17: "we dont need sound if there is an issue").

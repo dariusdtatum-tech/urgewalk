@@ -460,22 +460,29 @@ html.place-open .ride-fab{opacity:0;pointer-events:none}
 .place[data-reveal]>.veil{display:none}
 .place[data-reveal]>.place-bg{display:none}
 .pcard{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;align-self:center;padding:clamp(18px,2.4vw,34px) clamp(22px,3vw,48px) 14px;border-radius:28px;
-  background:color-mix(in srgb,var(--tone) 28%,var(--deep));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tone) 44%,transparent)}
+  background:linear-gradient(180deg,var(--card-a),var(--card-m) 50%,var(--card-b));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--card-line) 60%,transparent)}
 .pcard .phone{order:0;margin:0}
-.pcard-hint{display:none;align-items:center;gap:10px;min-height:30px;font:500 .7rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--paper)}
+.pcard-hint{display:none;align-items:center;gap:10px;min-height:30px;font:500 .7rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--card-ink)}
 html.reveal .pcard-hint{display:inline-flex}
 .pcard-open{position:absolute;inset:0;z-index:2;width:100%;border:0;border-radius:28px;padding:0;background:none;cursor:zoom-in}
 .pcard-open:focus-visible{outline-offset:-6px}
-@media (hover:hover) and (pointer:fine){html.reveal .pcard:hover{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tone) 80%,transparent)}}
-/* the compositions placed the phone; its card takes its place */
-.c-path .pcard{grid-area:phone;align-self:start}
-.c-shore .pcard{margin-right:clamp(0px,7vw,120px)}
+@media (hover:hover) and (pointer:fine){html.reveal .pcard:hover{box-shadow:inset 0 0 0 2px var(--card-line)}}
+/* Placement (founder, Nov 17: "the phone/app should be placed on in a way that makes sense relative to the words").
+   Every place with a phone is one pair: its words and its phone side by side, centred together, the phone on
+   alternate sides down the walk (.flip puts it on the left). On phones: the words, then the phone right under them. */
+.place.paired .inner{display:grid;grid-template-columns:minmax(0,34rem) auto;grid-template-areas:"words card";grid-template-rows:auto;
+  justify-content:center;align-content:center;align-items:center;column-gap:clamp(48px,7vw,112px);row-gap:0;text-align:left;place-items:center start}
+.place.paired.flip .inner{grid-template-columns:auto minmax(0,34rem);grid-template-areas:"card words"}
+.place.paired .inner>.words{grid-area:words;justify-self:stretch;max-width:none;margin:0;text-align:left}
+.place.paired .inner>.pcard{grid-area:card;justify-self:center;align-self:center;margin:0}
+.place.paired .pcard .phone{display:block;width:min(232px,56vw)}
+.place.paired .words .lede{margin-inline:0}
+.c-path.paired .huge{font-size:clamp(3.6rem,7.4vw,7rem);margin-top:10px}
+.c-pool.paired .inner>.words{text-align:center}.c-pool.paired .words .lede{margin-inline:auto}
+.c-outlook.paired .horizon{margin-top:28px}.c-outlook.paired .horizon b{font-size:clamp(2.2rem,3.6vw,3.4rem)}
 @media (max-width:899px){
-  .place .pcard{order:-1;justify-self:center}
-  .c-pool .pcard{order:0}
-  .c-outlook .top .pcard{order:0;margin-inline:auto}
-  .c-shore .pcard{margin-right:0}
-  .c-clearing .pcard .phone{display:block}
+  .place.paired .inner,.place.paired.flip .inner{grid-template-columns:minmax(0,1fr);grid-template-areas:"words" "card";row-gap:clamp(28px,5vh,40px);justify-content:stretch}
+  .place.paired .pcard .phone{width:min(210px,52vw)}
 }
 /* opened: the place alone, full screen */
 .place[data-reveal].opened{z-index:45}
@@ -518,13 +525,13 @@ html.moving .arrival:not(.still){background-image:none}
   .arrival-words>.lede{grid-area:lede;margin-top:0}.arrival-words>.hero-ask{grid-area:ask}.arrival-words>p:last-child{grid-area:more}
 }
 .arrival-card{position:relative;--pad:clamp(8px,1vw,14px);margin-top:clamp(28px,5vh,56px);width:100%;aspect-ratio:16/9;max-height:calc(100svh - 110px);border-radius:24px;
-  background:color-mix(in srgb,var(--tone) 30%,var(--deep));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tone) 46%,transparent)}
+  background:linear-gradient(180deg,var(--card-a),var(--card-m) 50%,var(--card-b));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--card-line) 60%,transparent)}
 .arrival-media{position:absolute;inset:var(--pad);border-radius:16px;overflow:hidden;background:var(--deep) var(--arr-end) center/cover no-repeat}
 html.moving .arrival:not(.still) .arrival-media{background-image:var(--arr-start)}
 .arrival-open{position:absolute;inset:0;z-index:2;width:100%;border:0;border-radius:24px;padding:0;background:none;cursor:zoom-in}
 .arrival-open:focus-visible{outline-offset:-6px}
 .arrival .arrival-card .phone{position:absolute;z-index:3;top:50%;translate:0 -50%;right:clamp(20px,7%,120px);width:min(240px,21%);margin:0;cursor:zoom-in}
-@media (hover:hover) and (pointer:fine){.arrival-card.can-open:hover{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tone) 80%,transparent)}}
+@media (hover:hover) and (pointer:fine){.arrival-card.can-open:hover{box-shadow:inset 0 0 0 2px var(--card-line)}}
 @media (max-width:899px){
   .arrival-card{aspect-ratio:4/5;max-height:none;border-radius:20px}
   .arrival-media{border-radius:13px}
@@ -538,3 +545,18 @@ html.moving .arrival:not(.still) .arrival-media{background-image:var(--arr-start
 .arrival-media.full .place-ctl,.arrival-media.full .place-foot{opacity:1}
 .arrival-media.still-mode .play-still{display:inline-flex}
 html.place-open .ride-fab{opacity:0;pointer-events:none}
+/* reveal-colours:start. Generated by scripts/reveal-colours.py from the loops' first frames (assets/motion); never edit by hand. */
+#arrival,html[data-light=evening] #arrival{--deep:#102026;--tone:#98c5d8;--card-a:#277da0;--card-m:#85a5ad;--card-b:#265275;--card-ink:#faf7f1;--card-line:#55abce}
+.place[data-reveal][data-place=coast]{--deep:#131c23;--tone:#a2bacd;--card-a:#7199c1;--card-m:#929da0;--card-b:#788591;--card-ink:#131c23;--card-line:#becfe0}
+html[data-light=evening] .place[data-reveal][data-place=coast]{--deep:#121623;--tone:#a0abcf;--card-a:#233f81;--card-m:#455693;--card-b:#17295b;--card-ink:#faf7f1;--card-line:#3e65c2}
+.place[data-reveal][data-place=clearing]{--deep:#1b2412;--tone:#b8d0a0;--card-a:#245728;--card-m:#3c5525;--card-b:#445c27;--card-ink:#faf7f1;--card-line:#2e6533}
+html[data-light=evening] .place[data-reveal][data-place=clearing]{--deep:#261610;--tone:#e1b78f;--card-a:#dc9a55;--card-m:#b46626;--card-b:#a85b21;--card-ink:#faf7f1;--card-line:#e8c7a4}
+.place[data-reveal][data-place=path]{--deep:#261c10;--tone:#d8bb97;--card-a:#3c87dd;--card-m:#3d557c;--card-b:#ca9f68;--card-ink:#261c10;--card-line:#86b7ef}
+html[data-light=evening] .place[data-reveal][data-place=path]{--deep:#171a1f;--tone:#a2b4cd;--card-a:#6d80a9;--card-m:#dea944;--card-b:#b39c67;--card-ink:#171a1f;--card-line:#a8b3c9}
+.place[data-reveal][data-place=inlet]{--deep:#141a21;--tone:#a2b6cd;--card-a:#6796cb;--card-m:#889baa;--card-b:#63a0cf;--card-ink:#141a21;--card-line:#c8d8ea}
+html[data-light=evening] .place[data-reveal][data-place=inlet]{--deep:#221914;--tone:#cdb3a2;--card-a:#cf9f63;--card-m:#ae9784;--card-b:#3d3b46;--card-ink:#faf7f1;--card-line:#ebdbc6}
+.place[data-reveal][data-place=shore]{--deep:#131923;--tone:#a2b4cd;--card-a:#4785c9;--card-m:#748ebe;--card-b:#413333;--card-ink:#faf7f1;--card-line:#91b4da}
+html[data-light=evening] .place[data-reveal][data-place=shore]{--deep:#262010;--tone:#e2ca8d;--card-a:#e0c752;--card-m:#ca9968;--card-b:#e0a252;--card-ink:#262010;--card-line:#fdf0b5}
+.place[data-reveal][data-place=outlook]{--deep:#121b23;--tone:#a1b8ce;--card-a:#7e96b4;--card-m:#71a2c1;--card-b:#b19c81;--card-ink:#121b23;--card-line:#c2cdda}
+html[data-light=evening] .place[data-reveal][data-place=outlook]{--deep:#101925;--tone:#9cb2d3;--card-a:#243756;--card-m:#273b54;--card-b:#303a49;--card-ink:#faf7f1;--card-line:#2d4061}
+/* reveal-colours:end */
