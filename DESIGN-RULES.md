@@ -50,6 +50,13 @@ The site is a walk across the island, and the island follows the visitor's time 
 - Seamless loops, no audio, a crossfade at the seam; the poster frame is always present.
 - Living places (Nov 10, founder: the site should open with an arrival and "move throughout", like the app): the walk opens on the arrival (boat nearing the island, played once, resting on its last frame), and every place with an app loop moves; only the place in view plays, footage loads only near the visitor, the poster is the loop's first frame. The island-map card is gone (founder, Nov 10).
 
+## Windows (proposed Nov 17 2026; waiting for the founder's OK, see `records/2026-11-17--windows.md`)
+Founder: "What if instead of the site having the visuals be fully expanded, they were placed within cards and when someone hovers or clicks the card the visual expands into a full looped experience, with sound?"
+- If merged, this changes three rules above for the homepage: five places are windows until opened (not full-screen photographs while you scroll); clip-path joins the optical exceptions (the reveal, and a window growing to the full screen, 520 ms); and an opened place has sound.
+- Windows are a zig-zag walk, never an even grid. An opened place is the place's own full section, so nothing it said is lost.
+- Sound starts only from the click that opens a place, never on hover or load; Sound on / off is remembered on this device; "Need help now? 988" stays in every opened place.
+- Without JavaScript the page is the full walk. Under Reduce Motion or Motion off nothing plays until the visitor presses "Play the loop".
+
 ## Pages
 - `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.
 - `places.css`: generated from `tones.json` (place colours) by the site generator; never edit by hand.

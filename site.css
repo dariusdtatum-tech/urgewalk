@@ -431,3 +431,93 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
   .c-shore .inner{grid-template-columns:1fr}
   .c-shore .phone{justify-self:center;margin-right:0}
 }
+
+/* ---------- Windows (Nov 17, founder: "placed within cards and when someone hovers or clicks the card the visual expands
+   into a full looped experience, with sound"). With JavaScript (html.win) the five places after the arrival are
+   windows in a zig-zag walk; opening one grows that place's own section to the full screen, with its loop and its
+   sound. Without JavaScript none of this applies and the places read as full sections. One more optical exception
+   to "transform and opacity only": the window grows by clip-path (520 ms open, 300 ms close). ---------- */
+.stops,.places-menu,.place-bar{display:none}
+html.win .stops{display:block;position:relative;z-index:1;padding:clamp(80px,14vh,160px) var(--gutter) clamp(40px,8vh,90px)}
+html.win .walk-progress{display:none}
+.stops-head{max-width:40rem;margin:0 0 clamp(56px,10vh,120px)}
+.stops-head .title{margin-top:14px;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1}
+.stops-head .lede{color:var(--soft)}
+.stop{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(24px,5vw,72px);align-items:end;margin:0 0 clamp(72px,14vh,150px)}
+.stop:nth-of-type(even){grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+.stop:nth-of-type(even) .window{order:2}
+.stop:nth-of-type(3n){margin-left:6%}
+.stop-words h3{font:300 clamp(2rem,3.6vw,3.3rem)/1.02 var(--serif);letter-spacing:-.01em;margin:.35em 0}
+.stop-words h3 em{font-style:italic}
+.stop-words p:not(.cap){color:var(--soft);margin:0 0 10px;max-width:24rem}
+.step{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0;border:0;background:none;cursor:pointer;font:500 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--tone)}
+.arw{display:inline-block;transition:transform 200ms var(--ease)}
+.step:hover .arw,.window:hover .arw,.places-panel a:hover .arw,.places-panel a:focus-visible .arw,.place-foot .ctl:hover .arw{transform:translateX(4px)}
+.window{position:relative;display:block;aspect-ratio:16/10;border-radius:4px;overflow:hidden;background:var(--deep);box-shadow:0 0 0 1px var(--hair);transition:transform 300ms var(--ease),box-shadow 300ms var(--ease)}
+.window img,.window video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.window video{opacity:0;transition:opacity 300ms var(--ease)}
+.window.live video{opacity:1}
+.window .tag,.window .hint{position:absolute;bottom:12px;z-index:1;font:500 .68rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--paper);text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.window .tag{left:14px}
+.window .hint{right:14px;opacity:0;transform:translateY(4px);transition:opacity 200ms var(--ease),transform 200ms var(--ease)}
+.window:focus-visible .hint{opacity:1;transform:none}
+@media (hover:hover) and (pointer:fine){.window:hover{transform:scale(1.015);box-shadow:0 0 0 1px rgba(250,247,241,.42)}.window:hover .hint{opacity:1;transform:none}}
+@media (max-width:760px){
+  .stop,.stop:nth-of-type(even){grid-template-columns:1fr;gap:18px}
+  .stop:nth-of-type(even) .window{order:0;margin-left:auto}
+  .stop:nth-of-type(3n){margin-left:0}
+  .window{aspect-ratio:4/5;width:86%}
+}
+
+/* The opened place: the section itself, fixed over the page */
+html.win .place[data-window]{display:none}
+html.win .place[data-window].open{display:grid;position:fixed;inset:0;z-index:40;min-height:0;overflow:hidden auto;overscroll-behavior:contain;background:var(--deep);
+  clip-path:inset(var(--ct,0px) var(--cr,0px) var(--cb,0px) var(--cl,0px) round 4px)}
+html.win .place.open.anim{transition:clip-path var(--fade) cubic-bezier(.16,1,.3,1)}
+html.win .place.open.closing{transition:clip-path 300ms cubic-bezier(.7,0,.84,0)}
+html.win .place.open.full{clip-path:inset(0 0 0 0 round 0)}
+html.win .place.open .place-bg,html.win .place.open .veil{position:fixed;opacity:1;transform:none}
+html.win .place.open .inner{min-height:100%;padding-bottom:calc(clamp(44px,8vh,88px) + 64px)}
+html.win.place-open,html.win.place-open body{overflow:hidden}
+html.win .place.open .place-bar{display:block}
+.place-ctl,.place-foot{position:fixed;z-index:3;left:var(--gutter);right:var(--gutter);display:flex;align-items:center;gap:8px;opacity:0;transition:opacity 200ms var(--ease) 300ms}
+.place-ctl{top:max(14px,env(safe-area-inset-top));justify-content:flex-end;pointer-events:none}
+.place-ctl>*{pointer-events:auto}
+.place-foot{bottom:max(14px,env(safe-area-inset-bottom));justify-content:space-between;font-size:.82rem;color:var(--paper);pointer-events:none}
+.place-foot>*{pointer-events:auto}
+.place-foot>span{background:color-mix(in srgb,var(--deep) 72%,transparent);padding:8px 12px;border-radius:999px}
+.place.full .place-ctl,.place.full .place-foot{opacity:1}
+.ctl{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(250,247,241,.3);color:var(--paper);
+  background:color-mix(in srgb,var(--deep) 62%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);cursor:pointer;font:500 .8rem/1 var(--sans)}
+.ctl svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ctl[aria-pressed=false] .wave,.ctl[aria-pressed=true] .slash{display:none}
+.play-still{display:none}
+.place.still-mode .play-still{display:inline-flex}
+
+/* Places menu, wide screens: each place previews its picture */
+@media (min-width:761px){html.win .places-menu{display:block;position:relative}}
+.places-btn{font:500 .7rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--soft);background:none;border:0;min-height:44px;padding:0 10px;cursor:pointer;transition:color 150ms var(--ease)}
+.places-btn:hover,.places-btn[aria-expanded=true]{color:var(--paper)}
+.places-panel{position:absolute;right:0;top:calc(100% + 10px);width:min(560px,calc(100vw - 2*var(--gutter)));display:grid;grid-template-columns:1fr 1.15fr;gap:14px;padding:14px;border-radius:10px;border:1px solid var(--hair);background:color-mix(in srgb,var(--cur-deep,var(--deep)) 88%,transparent)}
+.places-panel[hidden]{display:none}
+.places-panel ul{list-style:none;margin:0;padding:0}
+.places-panel a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;min-height:44px;padding:8px 10px;border-radius:6px;text-decoration:none;color:var(--paper)}
+.places-panel a:hover,.places-panel a:focus-visible,.places-panel a.on{background:rgba(250,247,241,.08)}
+.places-panel b{display:block;font:300 1.25rem/1.1 var(--serif)}
+.places-panel small{display:block;font:400 .75rem/1.4 var(--sans);color:var(--soft);margin-top:2px}
+.places-peek{position:relative;border-radius:6px;overflow:hidden;min-height:220px;background:var(--deep)}
+.places-peek img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 200ms var(--ease)}
+.places-peek img.on{opacity:1}
+
+/* Reveal: with motion on, the arrival opens as a small window and grows to the full screen; then the words rise */
+@media (prefers-reduced-motion:no-preference){
+  html.moving .arrival{animation:uw-reveal 1100ms cubic-bezier(.16,1,.3,1) 250ms both}
+  html.moving .arrival-words>*,html.moving .arrival>.phone{animation:uw-rise 300ms var(--ease) both;animation-delay:1350ms}
+  html.moving .arrival-words>:nth-child(2){animation-delay:1410ms}html.moving .arrival-words>:nth-child(3){animation-delay:1470ms}
+  html.moving .arrival-words>:nth-child(n+4),html.moving .arrival>.phone{animation-delay:1530ms}
+  html.moving body:has(.arrival) .site-head{animation:uw-fade 300ms var(--ease) 1350ms both}
+}
+@keyframes uw-reveal{from{clip-path:inset(30% 34% 30% 34% round 6px)}to{clip-path:inset(0 0 0 0 round 0)}}
+@keyframes uw-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes uw-fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.window,.window .hint,.arw,.place-ctl,.place-foot{transition:none}.window:hover{transform:none}}
