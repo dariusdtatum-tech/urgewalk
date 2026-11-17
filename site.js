@@ -194,6 +194,21 @@
     // Very old browsers: the button simply goes to Breathe.
     document.querySelector('[data-ride-open]').addEventListener('click', () => { location.href = 'breathe.html' })
   }
+  // The floating button steps aside while it would cover a tool's own buttons (Walk, Breathe, Ground: Start,
+  // Next, Finish). Nov 16 audit: on a 375 px phone it hid 88% of Ground's Next until the page was scrolled.
+  const fab = document.querySelector('.ride-fab'), toolBtns = [...document.querySelectorAll('.tool-controls button, .tool-controls a')]
+  if (fab && toolBtns.length) {
+    let pend = 0
+    const clear = () => {
+      pend = 0; root.classList.remove('fab-aside')
+      const f = fab.getBoundingClientRect()
+      const hit = toolBtns.some((x) => { if (!x.offsetParent) return false; const n = x.getBoundingClientRect(); return n.right > f.left && n.left < f.right && n.bottom > f.top && n.top < f.bottom })
+      root.classList.toggle('fab-aside', hit)
+    }
+    const soon = () => { if (!pend) pend = requestAnimationFrame(clear) }
+    addEventListener('scroll', soon, { passive: true }); addEventListener('resize', soon)
+    document.addEventListener('click', () => setTimeout(soon, 60)); clear()
+  }
 
   // ---------- Keep it on your phone (round 3, Nov 9) ----------
   // The site installs like an app (manifest + service worker); Walk, Breathe and Ground work offline.

@@ -15,6 +15,9 @@ Reads the app's pictures from Git at the given ref (never from uncommitted trial
    A wide still cut as a band across an upright source (Outlook by day, Nov 16) can't hold the app's frame,
    so a wide that scores under 0.85 also gets the keypoint test from 3; 0.60 or more there passes as "kp".
    (Nov 16: the tower band scored 0.57 to 0.69 over seven source frames; old and wrong pictures 0.11 to 0.12.)
+   A wide window cut from inside the app's own slice (the Walk by day, Nov 16, app 376b215: a landscape clip whose
+   wide window is a third of the app frame's height) is found by searching its middle, at several scales, inside
+   each frame of the app's loop; 0.85 or more passes as "in" (the Walk scored 0.91; wrong places 0.33 to 0.71).
 3. Places without footage (trailhead, cottage, shelter): assets/places/<place>-<light>-tall.webp, the site's
    own crop and grade of the photograph, matched to the app's plate by keypoints: 0.60 or more of the matches
    agree on one placement (Nov 16: the same photos scored 0.92 to 0.98, different ones 0.08 to 0.28).
@@ -65,6 +68,20 @@ def same(a, b, h=180):
     return float(cv2.matchTemplate(x, y, cv2.TM_CCOEFF_NORMED).max())
 
 
+def inside(wide, mp4):
+    """The middle 80% of a wide still, searched at 14 scales inside every frame of the app's loop."""
+    w = grey(wide, 360); h, wd = w.shape
+    t = w[int(h * .1):int(h * .9), int(wd * .1):int(wd * .9)]
+    best = 0.0
+    for f in loop_frames(mp4, 720):
+        for k in np.linspace(.35, 1.0, 14):
+            tw = int(f.shape[1] * k); th = int(t.shape[0] * tw / t.shape[1])
+            if th >= f.shape[0] or tw < 20:
+                continue
+            best = max(best, float(cv2.matchTemplate(f, cv2.resize(t, (tw, th), interpolation=cv2.INTER_AREA), cv2.TM_CCOEFF_NORMED).max()))
+    return best
+
+
 def same_photo(a, b):
     """A photograph cropped and graded differently: ORB keypoints matched between the two, then a RANSAC fit.
     Returns the share of the site crop's good matches that agree on one placement (same photo: 0.6 or more)."""
@@ -98,6 +115,8 @@ for place in FOOTAGE:
             verdict = 'ok' if sc >= 0.85 else ('look' if sc >= 0.60 else 'FAIL')
             if verdict != 'ok' and same_photo(wide, ref) >= 0.60:
                 sc, verdict = same_photo(wide, ref), 'kp'
+            if verdict not in ('ok', 'kp') and inside(wide, mp4) >= 0.85:
+                sc, verdict = inside(wide, mp4), 'in'
             failed += verdict == 'FAIL'; look += verdict == 'look'
             print(f'{verdict:4} {sc:.2f}  wide  {place:9} {light}')
             rows.append((wide, ref, sc, verdict))
@@ -116,7 +135,7 @@ for site_p, app_p, sc, verdict in rows:
     a = cv2.resize(a, (round(a.shape[1] * H / a.shape[0]), H)); b = cv2.resize(b, (round(b.shape[1] * H / b.shape[0]), H))
     row = np.full((H, 460, 3), 20, np.uint8)
     row[:, :min(a.shape[1], 300)] = a[:, :300]; row[:, 310:310 + min(b.shape[1], 150)] = b[:, :150]
-    colour = {'ok': (0, 200, 0), 'kp': (0, 200, 0), 'look': (0, 200, 255), 'FAIL': (0, 0, 255)}[verdict]
+    colour = {'ok': (0, 200, 0), 'kp': (0, 200, 0), 'in': (0, 200, 0), 'look': (0, 200, 255), 'FAIL': (0, 0, 255)}[verdict]
     cv2.putText(row, f'{os.path.basename(site_p)} {sc:.2f}', (4, 14), cv2.FONT_HERSHEY_SIMPLEX, 0.4, colour, 1)
     sheet.append(row)
 os.makedirs(os.path.join(SITE, 'previews'), exist_ok=True)

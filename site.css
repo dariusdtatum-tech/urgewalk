@@ -31,7 +31,7 @@ body{margin:0;background:var(--deep);color:var(--paper);font:400 16.5px/1.65 var
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration-thickness:1px;text-underline-offset:5px;text-decoration-color:color-mix(in srgb,var(--tone) 70%,transparent)}
 a:hover{text-decoration-color:var(--paper)}
-:focus-visible{outline:1px solid var(--paper);outline-offset:4px;border-radius:3px}
+:focus-visible{outline:2px solid var(--paper);outline-offset:4px;border-radius:3px;box-shadow:0 0 0 6px rgb(0 0 0 / .45)}
 ::selection{background:var(--tone);color:#111}
 h1,h2,h3{font-family:var(--serif);font-weight:300;margin:0;letter-spacing:-.018em;text-wrap:balance}
 em{font-style:italic;font-weight:300}
@@ -177,6 +177,8 @@ html:not([data-light=evening]) .is-evening,html[data-light=evening] .is-day{disp
 .note li:first-child{border-top:0}
 .note p{font-size:.86rem;color:var(--soft);margin-top:14px}
 .help{font-size:.84rem;color:var(--soft);margin-top:18px;max-width:30rem}
+/* Nov 16 audit: the crisis line on the tool pages sat at 2 to 2.9 : 1 over bright photographs; a soft backing keeps it readable */
+.tool .help,.rio .help{background:color-mix(in srgb,var(--deep) 72%,transparent);padding:10px 14px;border-radius:12px;color:var(--paper)}
 .help a{white-space:nowrap}
 
 /* ---------- night ---------- */
@@ -250,6 +252,8 @@ html.walk .seen .rise:nth-child(2){transition-delay:60ms}html.walk .seen .rise:n
 .tool{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;isolation:isolate}
 .tool .veil{background:radial-gradient(ellipse 70% 60% at 50% 50%,color-mix(in srgb,var(--deep) 70%,transparent) 0%,color-mix(in srgb,var(--deep) 30%,transparent) 100%)}
 .tool-inner{width:100%;max-width:40rem;margin:0 auto;padding:120px 24px 70px;text-align:center}
+/* Nov 16 audit: room under the controls and the crisis line for the floating Ride it out button (52 px + gap) */
+@media (max-width:760px){.tool-inner{padding-bottom:calc(84px + env(safe-area-inset-bottom))}}
 .tool h1{font-size:clamp(3rem,8vw,5.6rem);line-height:.92;margin-top:16px}
 .tool .lede{margin:18px auto 0}
 .tool .help{margin:46px auto 0;text-align:left}
@@ -301,6 +305,7 @@ html.walk .seen .rise:nth-child(2){transition-delay:60ms}html.walk .seen .rise:n
 .ride-fab:hover{transform:translateY(-2px)}
 .ride-fab svg{color:var(--tone)}
 html.ride-open .ride-fab{opacity:0;pointer-events:none}
+html.fab-aside .ride-fab{opacity:0;pointer-events:none;visibility:hidden}
 .ride{width:min(30rem,calc(100vw - 24px));max-height:calc(100dvh - 24px);margin:auto auto max(12px,env(safe-area-inset-bottom));padding:24px 26px 22px;border-radius:22px;color:var(--paper);
   background:color-mix(in srgb,var(--cur-deep) 70%,transparent);overflow:auto}
 @media (min-width:700px){.ride{margin:auto}}
