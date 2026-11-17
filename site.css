@@ -431,3 +431,132 @@ html.moving .arrival:not(.still){background-image:var(--arr-start)}
   .c-shore .inner{grid-template-columns:1fr}
   .c-shore .phone{justify-self:center;margin-right:0}
 }
+
+/* ---------- Full-screen controls (Nov 17): close, "Play the loop", Next and the crisis line, over an opened picture ---------- */
+.place-bar{display:none}
+.place-ctl,.place-foot{position:fixed;z-index:3;left:var(--gutter);right:var(--gutter);display:flex;align-items:center;gap:8px;opacity:0;transition:opacity 200ms var(--ease) 300ms;pointer-events:none}
+.place-ctl>*,.place-foot>*{pointer-events:auto}
+.place-ctl{top:max(14px,env(safe-area-inset-top));justify-content:flex-end}
+.place-foot{bottom:max(14px,env(safe-area-inset-bottom));justify-content:space-between;font-size:.82rem;color:var(--paper)}
+.place-foot>span{background:color-mix(in srgb,var(--deep) 72%,transparent);padding:8px 12px;border-radius:999px}
+.ctl{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(250,247,241,.3);color:var(--paper);
+  background:color-mix(in srgb,var(--deep) 62%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);cursor:pointer;font:500 .8rem/1 var(--sans)}
+.ctl svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ctl[hidden]{display:none}
+.play-still{display:none}
+.arw{display:inline-block;transition:transform 200ms var(--ease)}
+.ctl:hover .arw,.pcard:hover .arw{transform:translateX(4px)}
+html.place-open,html.place-open body{overflow:hidden}
+html.place-open .ride-fab{opacity:0;pointer-events:none}
+
+/* ---------- The phone opens the place (Nov 17) ----------
+   Founder: "I think it would be cool if the only visual of the place was on the phone/app and then you click it to
+   reveal the visual" (after: "Each page should have a complimenting style/card with the visuals next to the words ...
+   the card would be of a color that compliments the page its on and it you would make the text legible").
+   A place is its words on its own deep shade (no photograph behind them) and its app phone in a card of the place's
+   tone. Its photograph and footage stay off the page until the phone is opened: then they grow from the phone's screen
+   to the full screen (clip-path, 520 ms; 300 ms back). The Cottage has no phone: it keeps its words and note. */
+.place[data-reveal]{background:var(--deep)}
+.place[data-reveal]>.veil{display:none}
+.place[data-reveal]>.place-bg{display:none}
+.pcard{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;align-self:center;padding:clamp(18px,2.4vw,34px) clamp(22px,3vw,48px) 14px;border-radius:28px;
+  background:linear-gradient(180deg,var(--card-a),var(--card-m) 50%,var(--card-b));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--card-line) 60%,transparent)}
+.pcard .phone{order:0;margin:0}
+.pcard-hint{display:none;align-items:center;gap:10px;min-height:30px;font:500 .7rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--card-ink)}
+html.reveal .pcard-hint{display:inline-flex}
+.pcard-open{position:absolute;inset:0;z-index:2;width:100%;border:0;border-radius:28px;padding:0;background:none;cursor:zoom-in}
+.pcard-open:focus-visible{outline-offset:-6px}
+@media (hover:hover) and (pointer:fine){html.reveal .pcard:hover{box-shadow:inset 0 0 0 2px var(--card-line)}}
+/* Placement (founder, Nov 17: "the phone/app should be placed on in a way that makes sense relative to the words").
+   Every place with a phone is one pair: its words and its phone side by side, centred together, the phone on
+   alternate sides down the walk (.flip puts it on the left). On phones: the words, then the phone right under them. */
+.place.paired .inner{display:grid;grid-template-columns:minmax(0,34rem) auto;grid-template-areas:"words card";grid-template-rows:auto;
+  justify-content:center;align-content:center;align-items:center;column-gap:clamp(48px,7vw,112px);row-gap:0;text-align:left;place-items:center start}
+.place.paired.flip .inner{grid-template-columns:auto minmax(0,34rem);grid-template-areas:"card words"}
+.place.paired .inner>.words{grid-area:words;justify-self:stretch;max-width:none;margin:0;text-align:left}
+.place.paired .inner>.pcard{grid-area:card;justify-self:center;align-self:center;margin:0}
+.place.paired .pcard .phone{display:block;width:min(232px,56vw)}
+.place.paired .words .lede{margin-inline:0}
+.c-path.paired .huge{font-size:clamp(3.6rem,7.4vw,7rem);margin-top:10px}
+.c-pool.paired .inner>.words{text-align:center}.c-pool.paired .words .lede{margin-inline:auto}
+.c-outlook.paired .horizon{margin-top:28px}.c-outlook.paired .horizon b{font-size:clamp(2.2rem,3.6vw,3.4rem)}
+@media (max-width:899px){
+  .place.paired .inner,.place.paired.flip .inner{grid-template-columns:minmax(0,1fr);grid-template-areas:"words" "card";row-gap:clamp(28px,5vh,40px);justify-content:stretch}
+  .place.paired .pcard .phone{width:min(210px,52vw)}
+}
+/* opened: the place alone, full screen */
+.place[data-reveal].opened{z-index:45}
+html .place[data-reveal].opened>.place-bg{display:block;position:fixed;inset:0;z-index:40;opacity:1;transform:none;transition:none;pointer-events:auto;background-image:var(--img-tall);
+  clip-path:inset(var(--ct,0px) var(--cr,0px) var(--cb,0px) var(--cl,0px) round 35px)}
+@media (min-aspect-ratio:1/1){html .place[data-reveal].opened>.place-bg{background-image:var(--img-wide)}}
+html .place[data-reveal].opened>.place-bg.anim{transition:clip-path var(--fade) cubic-bezier(.16,1,.3,1)}
+html .place[data-reveal].opened>.place-bg.closing{transition:clip-path 300ms cubic-bezier(.7,0,.84,0)}
+html .place[data-reveal].opened>.place-bg.full{clip-path:inset(0 0 0 0 round 0)}
+.place.opened .place-bar{display:block}
+.place.opened .place-bg.full .place-ctl,.place.opened .place-bg.full .place-foot{opacity:1}
+.place.still-mode .play-still{display:inline-flex}
+
+/* Reveal: with motion on, the arrival's card opens as a small window and grows to its full size while the words rise.
+   "backwards", not "both": a clip-path left on the card would clip the full-screen picture inside it. */
+@media (prefers-reduced-motion:no-preference){
+  html.moving .arrival-card{animation:uw-reveal 1100ms cubic-bezier(.16,1,.3,1) 250ms backwards}
+  html.moving .arrival-words>*{animation:uw-rise 300ms var(--ease) backwards}
+  html.moving .arrival-words>:nth-child(2){animation-delay:60ms}html.moving .arrival-words>:nth-child(3){animation-delay:120ms}
+  html.moving .arrival-words>:nth-child(n+4){animation-delay:180ms}
+}
+@keyframes uw-reveal{from{clip-path:inset(30% 34% 30% 34% round 6px)}to{clip-path:inset(0 0 0 0 round 0)}}
+@keyframes uw-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.arw,.place-ctl,.place-foot{transition:none}}
+
+/* ---------- The arrival as words and a card (Nov 17) ----------
+   Founder: "the words that are on that page would be there, there would be a screenwide card with the onboarding
+   visuals within them ... the card would be of a color that compliments the page its on and you would make the text
+   legible". The words sit on the page's own colour (the Coast's deep shade, where the boat lands); the card is the
+   Coast's tone mixed into that shade, a warm frame around the blue sea; the app's phone sits inside the card. */
+.arrival{display:block;min-height:0;background:var(--deep);padding:clamp(100px,15vh,150px) var(--gutter) clamp(48px,8vh,96px)}
+html.moving .arrival:not(.still){background-image:none}
+.arrival::after{content:none}
+.arrival.opened{z-index:45}
+.arrival-words{max-width:none}
+.arrival-words .display{font-size:clamp(3.2rem,7vw,7.4rem)}
+@media (min-width:900px){
+  .arrival-words{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-areas:"cap cap" "title lede" "title ask" "title more";column-gap:clamp(32px,6vw,96px);align-items:end}
+  .arrival-words>.cap{grid-area:cap}.arrival-words>.display{grid-area:title;margin-bottom:0}
+  .arrival-words>.lede{grid-area:lede;margin-top:0}.arrival-words>.hero-ask{grid-area:ask}.arrival-words>p:last-child{grid-area:more}
+}
+.arrival-card{position:relative;--pad:clamp(8px,1vw,14px);margin-top:clamp(28px,5vh,56px);width:100%;aspect-ratio:16/9;max-height:calc(100svh - 110px);border-radius:24px;
+  background:linear-gradient(180deg,var(--card-a),var(--card-m) 50%,var(--card-b));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--card-line) 60%,transparent)}
+.arrival-media{position:absolute;inset:var(--pad);border-radius:16px;overflow:hidden;background:var(--deep) var(--arr-end) center/cover no-repeat}
+html.moving .arrival:not(.still) .arrival-media{background-image:var(--arr-start)}
+.arrival-open{position:absolute;inset:0;z-index:2;width:100%;border:0;border-radius:24px;padding:0;background:none;cursor:zoom-in}
+.arrival-open:focus-visible{outline-offset:-6px}
+.arrival .arrival-card .phone{position:absolute;z-index:3;top:50%;translate:0 -50%;right:clamp(20px,7%,120px);width:min(240px,21%);margin:0;cursor:zoom-in}
+@media (hover:hover) and (pointer:fine){.arrival-card.can-open:hover{box-shadow:inset 0 0 0 2px var(--card-line)}}
+@media (max-width:899px){
+  .arrival-card{aspect-ratio:4/5;max-height:none;border-radius:20px}
+  .arrival-media{border-radius:13px}
+  .arrival .arrival-card .phone{right:auto;left:50%;translate:-50% -50%;width:min(200px,46%)}
+}
+/* The card opened: the footage alone fills the screen (the phone stays behind in the card) */
+.arrival-media.open{position:fixed;inset:0;z-index:40;border-radius:0;clip-path:inset(var(--ct,0px) var(--cr,0px) var(--cb,0px) var(--cl,0px) round 16px)}
+.arrival-media.open.anim{transition:clip-path var(--fade) cubic-bezier(.16,1,.3,1)}
+.arrival-media.open.closing{transition:clip-path 300ms cubic-bezier(.7,0,.84,0)}
+.arrival-media.open.full{clip-path:inset(0 0 0 0 round 0)}
+.arrival-media.full .place-ctl,.arrival-media.full .place-foot{opacity:1}
+.arrival-media.still-mode .play-still{display:inline-flex}
+html.place-open .ride-fab{opacity:0;pointer-events:none}
+/* reveal-colours:start. Generated by scripts/reveal-colours.py from the loops' first frames (assets/motion); never edit by hand. */
+#arrival,html[data-light=evening] #arrival{--deep:#102026;--tone:#98c5d8;--card-a:#277da0;--card-m:#85a5ad;--card-b:#265275;--card-ink:#faf7f1;--card-line:#55abce}
+.place[data-reveal][data-place=coast]{--deep:#131c23;--tone:#a2bacd;--card-a:#7199c1;--card-m:#929da0;--card-b:#788591;--card-ink:#131c23;--card-line:#becfe0}
+html[data-light=evening] .place[data-reveal][data-place=coast]{--deep:#121623;--tone:#a0abcf;--card-a:#233f81;--card-m:#455693;--card-b:#17295b;--card-ink:#faf7f1;--card-line:#3e65c2}
+.place[data-reveal][data-place=clearing]{--deep:#1b2412;--tone:#b8d0a0;--card-a:#245728;--card-m:#3c5525;--card-b:#445c27;--card-ink:#faf7f1;--card-line:#2e6533}
+html[data-light=evening] .place[data-reveal][data-place=clearing]{--deep:#261610;--tone:#e1b78f;--card-a:#dc9a55;--card-m:#b46626;--card-b:#a85b21;--card-ink:#faf7f1;--card-line:#e8c7a4}
+.place[data-reveal][data-place=path]{--deep:#0f2238;--tone:#f2c94c;--card-a:#3c87dd;--card-m:#3d557c;--card-b:#ca9f68;--card-ink:#261c10;--card-line:#86b7ef}
+html[data-light=evening] .place[data-reveal][data-place=path]{--deep:#171a1f;--tone:#a2b4cd;--card-a:#6d80a9;--card-m:#dea944;--card-b:#b39c67;--card-ink:#171a1f;--card-line:#a8b3c9}
+.place[data-reveal][data-place=inlet]{--deep:#141a21;--tone:#a2b6cd;--card-a:#6796cb;--card-m:#889baa;--card-b:#63a0cf;--card-ink:#141a21;--card-line:#c8d8ea}
+html[data-light=evening] .place[data-reveal][data-place=inlet]{--deep:#221914;--tone:#cdb3a2;--card-a:#cf9f63;--card-m:#ae9784;--card-b:#3d3b46;--card-ink:#faf7f1;--card-line:#ebdbc6}
+.place[data-reveal][data-place=shore]{--deep:#131923;--tone:#a2b4cd;--card-a:#4785c9;--card-m:#748ebe;--card-b:#413333;--card-ink:#faf7f1;--card-line:#91b4da}
+html[data-light=evening] .place[data-reveal][data-place=shore]{--deep:#262010;--tone:#e2ca8d;--card-a:#e0c752;--card-m:#ca9968;--card-b:#e0a252;--card-ink:#262010;--card-line:#fdf0b5}
+.place[data-reveal][data-place=outlook]{--deep:#121b23;--tone:#a1b8ce;--card-a:#7e96b4;--card-m:#71a2c1;--card-b:#b19c81;--card-ink:#121b23;--card-line:#c2cdda}
+html[data-light=evening] .place[data-reveal][data-place=outlook]{--deep:#101925;--tone:#9cb2d3;--card-a:#243756;--card-m:#273b54;--card-b:#303a49;--card-ink:#faf7f1;--card-line:#2d4061}
+/* reveal-colours:end */
