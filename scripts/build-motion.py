@@ -34,7 +34,7 @@ WIDE = {
     # and 2560, which the app's upright slice (x 2560) also leaves out. 1240 x 698, so scaled up 3%.
     'path': ('pexels-27303501-3840x2160-30fps', 20, 10.5, 1.5, 'crop=1240:698:2600:680'),
     'path-evening': (134196, 5.5, 10.5, 1.5),
-    'outlook': None,  # wide is a still: the source is an upright handheld phone clip; tall copies the app's loop
+    'outlook': None,  # no landscape source (an upright handheld phone clip): the wide loop is a band of the app's loop, below
     'outlook-evening': (216997, 1, 10.5, 1.5),
     'shore': (103447, 2, 10.5, 1.5), 'shore-evening': (372136, 0, 10, 1.5),
 }
@@ -59,6 +59,16 @@ def wide_loop(name, pid, s, L, F, window=None):
     run(['-i', os.path.join(SRC, f'{pid}.mp4'), '-filter_complex', fc, '-map', '[v]', *X264, out])
     poster(out, out.replace('.mp4', '.webp'))
 
+# Outlook by day, wide (Nov 17, founder: "day history doesnt move"): a full-width 16:9 band of the app's own loop
+# (1216 x 2160, already steadied on the tower and closed with a crossfade), at y 864: the band that best matches the
+# old wide still (correlation 0.92). 1216 x 684, scaled up 5% to 1280 x 720.
+BANDS = {'outlook': 'crop=1216:684:0:864'}
+
+def band(name, src_name, window):
+    out = os.path.join(OUT, f'{name}-wide.mp4')
+    run(['-i', os.path.join(APP, f'{src_name}.mp4'), '-vf', f'{window},scale=1280:720,fps=30,setsar=1', *X264, out])
+    poster(out, out.replace('.mp4', '.webp'))
+
 def tall(name, src_name, last=False, skip=0):
     out = os.path.join(OUT, f'{name}-tall.mp4')
     run(['-ss', str(skip), '-i', os.path.join(APP, f'{src_name}.mp4'), '-vf', 'scale=720:1280,setsar=1', *X264, out])
@@ -69,6 +79,7 @@ os.makedirs(OUT, exist_ok=True)
 for name, spec in WIDE.items():
     if ONLY and name not in ONLY: continue
     if spec: wide_loop(name, *spec)
+    elif name in BANDS: band(name, name, BANDS[name])
     tall(name, name)
 # The arrival (Pixabay 59046, lumamorph). Since Nov 16 a nonstop loop with the island held still: the clips below are
 # rebuilt by scripts/steady-loop.py (see its notes) and copied over these outputs; the -end stills stay for Reduce Motion.

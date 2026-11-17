@@ -479,7 +479,7 @@ html.reveal .pcard-hint{display:inline-flex}
 .place.paired .words .lede{margin-inline:0}
 .c-path.paired .huge{font-size:clamp(3.6rem,7.4vw,7rem);margin-top:10px}
 .c-pool.paired .inner>.words{text-align:center}.c-pool.paired .words .lede{margin-inline:auto}
-.c-outlook.paired .horizon{margin-top:28px}.c-outlook.paired .horizon b{font-size:clamp(2.2rem,3.6vw,3.4rem)}
+.c-outlook.paired .horizon{margin-top:28px}.c-cottage.paired .note{margin-top:24px}.c-cottage.paired .note li{font-size:1.32rem;padding:6px 0}.c-outlook.paired .horizon b{font-size:clamp(2.2rem,3.6vw,3.4rem)}
 @media (max-width:899px){
   .place.paired .inner,.place.paired.flip .inner{grid-template-columns:minmax(0,1fr);grid-template-areas:"words" "card";row-gap:clamp(28px,5vh,40px);justify-content:stretch}
   .place.paired .pcard .phone{width:min(210px,52vw)}
@@ -557,6 +557,8 @@ html[data-light=evening] .place[data-reveal][data-place=path]{--deep:#171a1f;--t
 html[data-light=evening] .place[data-reveal][data-place=inlet]{--deep:#221914;--tone:#cdb3a2;--card-a:#cf9f63;--card-m:#ae9784;--card-b:#3d3b46;--card-ink:#faf7f1;--card-line:#ebdbc6}
 .place[data-reveal][data-place=shore]{--deep:#131923;--tone:#a2b4cd;--card-a:#4785c9;--card-m:#748ebe;--card-b:#413333;--card-ink:#faf7f1;--card-line:#91b4da}
 html[data-light=evening] .place[data-reveal][data-place=shore]{--deep:#262010;--tone:#e2ca8d;--card-a:#e0c752;--card-m:#ca9968;--card-b:#e0a252;--card-ink:#262010;--card-line:#fdf0b5}
-.place[data-reveal][data-place=outlook]{--deep:#121b23;--tone:#a1b8ce;--card-a:#7e96b4;--card-m:#71a2c1;--card-b:#b19c81;--card-ink:#121b23;--card-line:#c2cdda}
+.place[data-reveal][data-place=outlook]{--deep:#151b21;--tone:#a2b8cd;--card-a:#7e96b4;--card-m:#75a3bd;--card-b:#b19c81;--card-ink:#151b21;--card-line:#c2cdda}
 html[data-light=evening] .place[data-reveal][data-place=outlook]{--deep:#101925;--tone:#9cb2d3;--card-a:#243756;--card-m:#273b54;--card-b:#303a49;--card-ink:#faf7f1;--card-line:#2d4061}
+.place[data-reveal][data-place=cottage]{--deep:#1d1f17;--tone:#cccda2;--card-a:#4e5540;--card-m:#616743;--card-b:#696f4c;--card-ink:#faf7f1;--card-line:#7d8769}
+html[data-light=evening] .place[data-reveal][data-place=cottage]{--deep:#1f1b17;--tone:#cdbba2;--card-a:#a79d8b;--card-m:#b6967c;--card-b:#333f27;--card-ink:#faf7f1;--card-line:#dddad4}
 /* reveal-colours:end */

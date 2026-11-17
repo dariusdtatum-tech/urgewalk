@@ -266,7 +266,6 @@
   const loopFor = (place) => {
     if (!LOOPS.includes(place)) return null
     const evening = root.dataset.light === 'evening'
-    if (place === 'outlook' && !evening && shape() === 'wide') return null // the tower clip is upright: wide keeps a still band of it
     return `assets/motion/${place}${evening ? '-evening' : ''}-${shape()}`
   }
   const arrival = document.querySelector('.arrival')
