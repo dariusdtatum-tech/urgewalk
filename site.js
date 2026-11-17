@@ -336,6 +336,58 @@
     } else still()
   }
 
+  // ---------- The arrival card (Nov 17) ----------
+  // Founder: "people would be able to click the visual and reach it, we could even allow the visual of the iphone with
+  // the app being displayed, be clickable and when they click that it becomes the whole screen but the whole screen is
+  // of the onboarding visual, not of the app". The card's picture grows from its own rectangle to the full screen
+  // (clip-path, 520 ms); close with the button or Escape. Under Reduce Motion or Motion off it opens at once, as a still,
+  // with "Play the loop".
+  const card = arrival && arrival.querySelector('.arrival-card')
+  if (card) {
+    const media = card.querySelector('.arrival-media'), openBtn = card.querySelector('.arrival-open'), ctl = media.querySelector('.arrival-ctl')
+    const av = media.querySelector('video'), phone = card.querySelector('.phone'), closeBtn = ctl.querySelector('[data-arrival-close]')
+    openBtn.hidden = false; card.classList.add('can-open')
+    let isOpen = false, offs = null, played = false
+    const inertAround = (el, on) => { for (let n = el; n && n !== document.body; n = n.parentNode) [...n.parentNode.children].forEach((s) => { if (s !== n && s.tagName !== 'SCRIPT') s.inert = on }) }
+    const setInset = (r) => { media.style.setProperty('--ct', Math.max(0, r.top) + 'px'); media.style.setProperty('--cl', Math.max(0, r.left) + 'px'); media.style.setProperty('--cr', Math.max(0, innerWidth - r.right) + 'px'); media.style.setProperty('--cb', Math.max(0, innerHeight - r.bottom) + 'px') }
+    const openCard = () => {
+      if (isOpen) return
+      isOpen = true
+      const c = card.getBoundingClientRect(), m = media.getBoundingClientRect()
+      offs = { t: m.top - c.top, l: m.left - c.left, r: c.right - m.right, b: c.bottom - m.bottom }
+      setInset(m)
+      media.classList.remove('full', 'anim', 'closing')
+      media.classList.toggle('still-mode', !root.classList.contains('moving'))
+      media.classList.add('open'); arrival.classList.add('opened'); root.classList.add('place-open')
+      ctl.hidden = false; inertAround(media, true)
+      media.setAttribute('role', 'dialog'); media.setAttribute('aria-modal', 'true'); media.setAttribute('aria-label', 'The arrival, full screen')
+      if (!reduce) { media.getBoundingClientRect(); media.classList.add('anim'); requestAnimationFrame(() => media.classList.add('full')) } else media.classList.add('full')
+      setTimeout(() => { if (isOpen) closeBtn.focus({ preventScroll: true }) }, reduce ? 0 : 360)
+    }
+    const closeCard = () => {
+      if (!isOpen) return
+      isOpen = false
+      inertAround(media, false); root.classList.remove('place-open')
+      const finish = () => {
+        media.classList.remove('open', 'full', 'anim', 'closing', 'still-mode'); arrival.classList.remove('opened'); ctl.hidden = true
+        media.removeAttribute('role'); media.removeAttribute('aria-modal'); media.removeAttribute('aria-label')
+        if (played && !root.classList.contains('moving')) { av.pause(); arrival.classList.add('still'); played = false } // the visitor's own play ends with the full screen
+      }
+      if (!reduce) { const c = card.getBoundingClientRect(); setInset({ top: c.top + offs.t, left: c.left + offs.l, right: c.right - offs.r, bottom: c.bottom - offs.b }); media.classList.remove('anim'); media.classList.add('closing'); media.classList.remove('full'); setTimeout(finish, 320) } else finish()
+      openBtn.focus({ preventScroll: true })
+    }
+    openBtn.addEventListener('click', openCard)
+    if (phone) phone.addEventListener('click', openCard) // the phone opens the footage too, not the app
+    closeBtn.addEventListener('click', closeCard)
+    ctl.querySelector('[data-arrival-play]').addEventListener('click', () => {
+      played = true; media.classList.remove('still-mode'); arrival.classList.remove('still')
+      if (!av.getAttribute('src')) { av.loop = true; av.src = `assets/motion/arrival-${shape()}.mp4`; av.addEventListener('playing', () => av.classList.add('on'), { once: true }) }
+      const p = av.play(); if (p) p.catch(() => {})
+      closeBtn.focus({ preventScroll: true }) // the button hides itself once the loop plays
+    })
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen && !document.querySelector('dialog[open]')) { e.preventDefault(); closeCard() } })
+  }
+
   // App screens that move (Nov 10): a short recording of the real app (sample data) plays inside the phone
   // while it is on screen; the capture underneath is its first frame. Stills when motion is off.
   const phones = [...document.querySelectorAll('.phone[data-motion]')].map((fig) => ({ fig, video: null, seen: false }))
@@ -366,48 +418,17 @@
   // ---------- Windows (Nov 17) ----------
   // Founder: "placed within cards and when someone hovers or clicks the card the visual expands into a full looped
   // experience, with sound". Each window opens its own place section over the page: the section grows from the
-  // window's rectangle (clip-path), its loop plays (syncMotion), its phone wakes (syncPhones) and its sound fades in.
-  // The sound starts only from the click that opens the place; Sound on / off is remembered on this device only.
+  // window's rectangle (clip-path), its loop plays (syncMotion) and its phone wakes (syncPhones). No sound for now
+  // (founder, Nov 17: "we dont need sound if there is an issue"; the Pixabay licence bars sounds served on their own).
   if (winOn) {
     const stops = [...document.querySelectorAll('.stop')].map((el) => ({ el, win: el.querySelector('.window'), section: document.getElementById(el.dataset.for) })).filter((s) => s.section)
     const barEl = document.querySelector('.place-bar')
-    const soundBtn = barEl.querySelector('[data-place-sound]'), nextBtn = barEl.querySelector('[data-place-next]')
+    const nextBtn = barEl.querySelector('[data-place-next]')
     const fine = matchMedia('(hover: hover) and (pointer: fine)')
     const narrow = matchMedia('(max-width: 760px)')
     const others = () => [...document.body.children].filter((n) => n.tagName !== 'MAIN' && n.tagName !== 'SCRIPT' && n.tagName !== 'DIALOG')
-    let open = null, soundOn = true
-    try { soundOn = localStorage.getItem('urgewalk.sound') !== 'off' } catch { /* private mode: fine */ }
+    let open = null
     barEl.hidden = false
-
-    // Sound: one player through a gain node, so the fade also works on iPhone (which ignores audio.volume).
-    const LEVEL = 0.45
-    let player = null, ctx = null, gain = null, fadeFrame = 0, stopTimer = 0
-    const level = (to, ms) => {
-      cancelAnimationFrame(fadeFrame)
-      if (gain) { const now = ctx.currentTime; gain.gain.cancelScheduledValues(now); gain.gain.setValueAtTime(gain.gain.value, now); gain.gain.linearRampToValueAtTime(to, now + ms / 1000); return }
-      const from = player.volume, t0 = performance.now()
-      const tick = (t) => { const k = Math.min(1, (t - t0) / ms); player.volume = from + (to - from) * k; if (k < 1) fadeFrame = requestAnimationFrame(tick) }
-      fadeFrame = requestAnimationFrame(tick)
-    }
-    const startSound = (name) => {
-      clearTimeout(stopTimer)
-      if (!soundOn || !name) return
-      if (!player) {
-        player = new Audio(); player.loop = true; player.preload = 'auto'
-        const AC = window.AudioContext || window.webkitAudioContext
-        if (AC) { try { ctx = new AC(); gain = ctx.createGain(); gain.gain.value = 0; ctx.createMediaElementSource(player).connect(gain); gain.connect(ctx.destination) } catch { ctx = null; gain = null } }
-      }
-      const src = `assets/sounds/${name}.m4a`
-      if (player.dataset.src !== src) { player.dataset.src = src; player.src = src }
-      if (gain) gain.gain.value = 0; else player.volume = 0
-      if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {})
-      const p = player.play(); if (p) p.then(() => level(LEVEL, 1500)).catch(() => {})
-    }
-    const stopSound = (ms) => {
-      if (!player || player.paused) return
-      level(0, ms); clearTimeout(stopTimer); stopTimer = setTimeout(() => player.pause(), ms + 40)
-    }
-    const paintSound = () => { soundBtn.setAttribute('aria-pressed', String(soundOn)); soundBtn.querySelector('span').textContent = soundOn ? 'Sound on' : 'Sound off' }
 
     const insetFrom = (section, el) => {
       const r = el.getBoundingClientRect()
@@ -429,7 +450,6 @@
       section.scrollTop = 0
       root.classList.add('place-open')
       others().forEach((n) => { n.inert = true }); [...section.parentNode.children].forEach((n) => { n.inert = n !== section })
-      paintSound(); startSound(section.dataset.sound)
       if (grow && !reduce) { section.getBoundingClientRect(); section.classList.add('anim'); requestAnimationFrame(() => section.classList.add('full')) } else section.classList.add('full')
       syncMotion(); syncPhones()
       setTimeout(() => { if (open === s) barEl.querySelector('[data-place-close]').focus({ preventScroll: true }) }, grow && !reduce ? 360 : 0)
@@ -446,7 +466,6 @@
     const close = () => {
       if (!open) return
       const s = open; open = null
-      stopSound(400)
       root.classList.remove('place-open')
       others().forEach((n) => { n.inert = false }); [...s.section.parentNode.children].forEach((n) => { n.inert = false })
       hide(s, true)
@@ -484,14 +503,7 @@
       show(nx, false)
     })
     barEl.querySelector('[data-place-play]').addEventListener('click', () => { if (!open) return; open.section.dataset.play = '1'; open.section.classList.remove('still-mode'); syncMotion(); syncPhones() })
-    soundBtn.addEventListener('click', () => {
-      soundOn = !soundOn
-      try { localStorage.setItem('urgewalk.sound', soundOn ? 'on' : 'off') } catch { /* private mode: fine */ }
-      paintSound()
-      if (soundOn) startSound(open && open.section.dataset.sound); else stopSound(300)
-    })
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !document.querySelector('dialog[open]')) { e.preventDefault(); close() } })
-    document.addEventListener('visibilitychange', () => { if (!player || !open) return; if (document.hidden) player.pause(); else if (soundOn) startSound(open.section.dataset.sound) })
 
     // Links to a windowed place (#coast ...) lead to its window instead of the hidden section
     const toStop = (hash) => stops.find((s) => '#' + s.section.id === hash)

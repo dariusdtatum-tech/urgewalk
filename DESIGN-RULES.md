@@ -52,10 +52,12 @@ The site is a walk across the island, and the island follows the visitor's time 
 
 ## Windows (proposed Nov 17 2026; waiting for the founder's OK, see `records/2026-11-17--windows.md`)
 Founder: "What if instead of the site having the visuals be fully expanded, they were placed within cards and when someone hovers or clicks the card the visual expands into a full looped experience, with sound?"
-- If merged, this changes three rules above for the homepage: five places are windows until opened (not full-screen photographs while you scroll); clip-path joins the optical exceptions (the reveal, and a window growing to the full screen, 520 ms); and an opened place has sound.
+- If merged, this changes three rules above for the homepage: five places are windows until opened (not full-screen photographs while you scroll); clip-path joins the optical exceptions (the reveal, and a window growing to the full screen, 520 ms); and the arrival is words plus a card.
 - Windows are a zig-zag walk, never an even grid. An opened place is the place's own full section, so nothing it said is lost.
 - Sound starts only from the click that opens a place, never on hover or load; Sound on / off is remembered on this device; "Need help now? 988" stays in every opened place.
 - Without JavaScript the page is the full walk. Under Reduce Motion or Motion off nothing plays until the visitor presses "Play the loop".
+- No sound (founder, Nov 17: "we dont need sound if there is an issue").
+- The arrival (Nov 17): its words on the page's own colour, and a screen-wide card of the boat footage in a matching tone, with the app's phone inside; clicking either opens the footage alone, full screen.
 
 ## Pages
 - `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.
