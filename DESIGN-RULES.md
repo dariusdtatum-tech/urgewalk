@@ -50,14 +50,14 @@ The site is a walk across the island, and the island follows the visitor's time 
 - Seamless loops, no audio, a crossfade at the seam; the poster frame is always present.
 - Living places (Nov 10, founder: the site should open with an arrival and "move throughout", like the app): the walk opens on the arrival (boat nearing the island, played once, resting on its last frame), and every place with an app loop moves; only the place in view plays, footage loads only near the visitor, the poster is the loop's first frame. The island-map card is gone (founder, Nov 10).
 
-## Windows (proposed Nov 17 2026; waiting for the founder's OK, see `records/2026-11-17--windows.md`)
-Founder: "What if instead of the site having the visuals be fully expanded, they were placed within cards and when someone hovers or clicks the card the visual expands into a full looped experience, with sound?"
-- If merged, this changes three rules above for the homepage: five places are windows until opened (not full-screen photographs while you scroll); clip-path joins the optical exceptions (the reveal, and a window growing to the full screen, 520 ms); and the arrival is words plus a card.
-- Windows are a zig-zag walk, never an even grid. An opened place is the place's own full section, so nothing it said is lost.
-- Sound starts only from the click that opens a place, never on hover or load; Sound on / off is remembered on this device; "Need help now? 988" stays in every opened place.
-- Without JavaScript the page is the full walk. Under Reduce Motion or Motion off nothing plays until the visitor presses "Play the loop".
+## The place on the phone (proposed Nov 17 2026; waiting for the founder's OK, see `records/2026-11-17--windows.md`)
+Founder: "I think it would be cool if the only visual of the place was on the phone/app and then you click it to reveal the visual"
+- If merged, this changes two rules above for the homepage: a place's words sit on its own deep colour, and its photograph shows only inside the app's phone until the visitor taps it (not a full-screen photograph while you scroll); and clip-path joins the optical exceptions (the place growing from the phone to the full screen, 520 ms; 300 ms to close).
+- Each phone sits in a card of the place's tone mixed into its deep colour, with "Step in". Tapping it fills the screen with the place's footage, never the app. Close with the ✕ or Escape; "Next: …" and "Need help now? 988" stay at the foot.
+- A place with no phone (the Cottage) keeps its words on its colour, with no picture.
+- The arrival: its words on the Coast's colour and a screen-wide card of the boat footage with the phone inside; tapping either opens the footage alone.
 - No sound (founder, Nov 17: "we dont need sound if there is an issue").
-- The arrival (Nov 17): its words on the page's own colour, and a screen-wide card of the boat footage in a matching tone, with the app's phone inside; clicking either opens the footage alone, full screen.
+- Without JavaScript the cards show and nothing opens. Under Reduce Motion or Motion off an opened place shows its still until "Play the loop".
 
 ## Pages
 - `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.

@@ -11,12 +11,6 @@
   const root = document.documentElement
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
   let syncMotion = () => {} // living places (Nov 10), set below
-  // Windows (Nov 17): with this script the five places after the arrival are windows; see the block further down.
-  const stopsEl = document.querySelector('.stops')
-  const winOn = Boolean(stopsEl && document.querySelector('.place-bar'))
-  if (winOn) root.classList.add('win')
-  const windowed = (el) => winOn && Boolean(el) && el.hasAttribute('data-window')
-  let overStops = false // the windows sit on the page's own night, so no place is "here" while they cross the middle
 
   // ---------- Island light ----------
   const buttons = [...document.querySelectorAll('.light-switch button')]
@@ -32,12 +26,12 @@
   }))
 
   // ---------- the walk ----------
-  const places = [...document.querySelectorAll('.place[id]')].filter((p) => !windowed(p)) // a windowed place is out of the walk until opened
+  const places = [...document.querySelectorAll('.place[id]')]
   const trail = [...document.querySelectorAll('.trail a')]
   let current = places[0] || document.querySelector('.band, .tool')
   function setDeep() {
     if (!current) return
-    const d = getComputedStyle(overStops ? document.body : current).getPropertyValue('--deep').trim()
+    const d = getComputedStyle(current).getPropertyValue('--deep').trim()
     if (d) root.style.setProperty('--cur-deep', d)
   }
   if (places.length) {
@@ -60,9 +54,7 @@
       const mid = innerHeight / 2
       // The arrival (Nov 10) holds the first screen: until it has left the middle, no place is "here" yet, so
       // the Coast's picture and words arrive as the visitor comes ashore.
-      const lead = winOn ? stopsEl : arrivalEl
-      const arriving = Boolean(lead) && lead.getBoundingClientRect().bottom > mid
-      overStops = winOn && arriving
+      const arriving = Boolean(arrivalEl) && arrivalEl.getBoundingClientRect().bottom > mid
       if (arriving) {
         if (wasArriving !== true) { places.forEach((p) => p.classList.remove('here')); current = places[0]; places[0].classList.add('near'); setDeep(); syncMotion() }
         wasArriving = true; return
@@ -281,13 +273,13 @@
   const layers = [...document.querySelectorAll('.place-bg')].map((bg) => ({ bg, holder: bg.closest('[data-place]'), section: bg.closest('.place'), video: null }))
   syncMotion = () => {
     const moving = root.classList.contains('moving')
-    const lead = winOn ? stopsEl : arrival
-    const arriving = Boolean(lead) && lead.getBoundingClientRect().bottom > innerHeight / 2
+    const arriving = Boolean(arrival) && arrival.getBoundingClientRect().bottom > innerHeight / 2
     const at = places.indexOf(current)
     for (const l of layers) {
-      const opened = windowed(l.section) && l.section.classList.contains('open') // an opened window plays, even over the windows
-      const base = (moving || (opened && l.section.dataset.play)) && l.holder ? loopFor(l.holder.dataset.place) : null // "Play the loop" is the visitor's own choice
-      const near = windowed(l.section) ? opened : (!l.section || Math.abs(places.indexOf(l.section) - at) <= 1) // this place and its neighbours only
+      const opened = Boolean(l.section) && l.section.classList.contains('opened')
+      const kept = Boolean(l.section) && l.section.hasAttribute('data-reveal') && !opened // Nov 17: a place's picture shows only once its phone opens it
+      const base = !kept && (moving || (opened && l.section.dataset.play)) && l.holder ? loopFor(l.holder.dataset.place) : null // "Play the loop" is the visitor's own choice
+      const near = opened || (!kept && (!l.section || Math.abs(places.indexOf(l.section) - at) <= 1)) // this place and its neighbours only
       if (l.video && !near && l.video.dataset.src) { l.video.pause(); l.video.classList.remove('on'); l.video.dataset.src = ''; l.video.removeAttribute('src'); l.video.load(); continue } // let go of footage left behind
       if (!base || !near) {
         if (l.video) l.video.pause()
@@ -388,6 +380,71 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen && !document.querySelector('dialog[open]')) { e.preventDefault(); closeCard() } })
   }
 
+  // ---------- The phone opens the place (Nov 17) ----------
+  // Founder: "I think it would be cool if the only visual of the place was on the phone/app and then you click it to
+  // reveal the visual". A place shows its words on its own colour and its app phone in a card of its tone; its
+  // photograph and footage are not on the page. The card (or the phone in it) opens the place full screen: the picture
+  // grows from the phone's screen, its loop plays, and ✕ or Escape shrinks it back to the phone. Under Reduce Motion
+  // or Motion off it opens at once as a still, with "Play the loop" where the place has a loop.
+  const reveals = [...document.querySelectorAll('.place[data-reveal]')].map((section) => ({ section, card: section.querySelector('.pcard'), bg: section.querySelector(':scope > .place-bg') })).filter((r) => r.card && r.bg)
+  const pbar = document.querySelector('.place-bar')
+  if (reveals.length && pbar) {
+    root.classList.add('reveal')
+    const nextBtn = pbar.querySelector('[data-place-next]'), closeBtn = pbar.querySelector('[data-place-close]'), playBtn = pbar.querySelector('[data-place-play]')
+    pbar.hidden = false
+    let open = null
+    reveals.forEach((r) => { r.label = r.bg.getAttribute('aria-label') || ''; r.button = r.card.querySelector('.pcard-open'); r.button.hidden = false })
+    const nameOf = (r) => { const n = r.section.querySelector('.cap .n'); return n && n.nextSibling ? n.nextSibling.textContent.trim() : '' }
+    const inertAround = (el, on) => { for (let n = el; n && n !== document.body; n = n.parentNode) [...n.parentNode.children].forEach((s) => { if (s !== n && s.tagName !== 'SCRIPT') s.inert = on }) }
+    const setInset = (el, r) => { el.style.setProperty('--ct', Math.max(0, r.top) + 'px'); el.style.setProperty('--cl', Math.max(0, r.left) + 'px'); el.style.setProperty('--cr', Math.max(0, innerWidth - r.right) + 'px'); el.style.setProperty('--cb', Math.max(0, innerHeight - r.bottom) + 'px') }
+    const fromPhone = (r) => (r.card.querySelector('.phone') || r.card).getBoundingClientRect()
+    const show = (r, grow) => {
+      const { section, bg } = r
+      open = r
+      bg.appendChild(pbar)
+      const nx = reveals[reveals.indexOf(r) + 1]
+      nextBtn.hidden = !nx
+      if (nx) nextBtn.innerHTML = `Next: ${nameOf(nx)} <span class="arw" aria-hidden="true">→</span>`
+      section.classList.toggle('still-mode', !root.classList.contains('moving') && Boolean(loopFor(section.dataset.place)))
+      bg.classList.remove('full', 'anim', 'closing')
+      setInset(bg, fromPhone(r))
+      section.classList.add('opened', 'near')
+      bg.setAttribute('role', 'dialog'); bg.setAttribute('aria-modal', 'true'); bg.setAttribute('aria-label', `${nameOf(r)}, full screen`)
+      root.classList.add('place-open'); inertAround(bg, true)
+      syncMotion()
+      if (grow && !reduce) { bg.getBoundingClientRect(); bg.classList.add('anim'); requestAnimationFrame(() => bg.classList.add('full')) } else bg.classList.add('full')
+      setTimeout(() => { if (open === r) closeBtn.focus({ preventScroll: true }) }, grow && !reduce ? 360 : 0)
+    }
+    const hide = (r, shrink) => {
+      const { section, bg } = r
+      inertAround(bg, false)
+      const finish = () => {
+        bg.classList.remove('full', 'anim', 'closing'); section.classList.remove('opened', 'still-mode'); delete section.dataset.play
+        bg.setAttribute('role', 'img'); bg.removeAttribute('aria-modal'); bg.setAttribute('aria-label', r.label)
+        syncMotion()
+      }
+      if (shrink && !reduce) { setInset(bg, fromPhone(r)); bg.classList.remove('anim'); bg.classList.add('closing'); bg.classList.remove('full'); setTimeout(finish, 320) } else finish()
+    }
+    const close = () => {
+      if (!open) return
+      const r = open; open = null
+      root.classList.remove('place-open')
+      hide(r, true)
+      r.button.focus({ preventScroll: true })
+    }
+    reveals.forEach((r) => r.button.addEventListener('click', () => { if (!open) show(r, true) }))
+    closeBtn.addEventListener('click', close)
+    nextBtn.addEventListener('click', () => {
+      if (!open) return
+      const r = open, nx = reveals[reveals.indexOf(r) + 1]; if (!nx) return
+      hide(r, false)
+      nx.card.scrollIntoView({ block: 'center', behavior: 'auto' }) // the page behind follows, so closing lands on this phone
+      show(nx, false)
+    })
+    playBtn.addEventListener('click', () => { if (!open) return; open.section.dataset.play = '1'; open.section.classList.remove('still-mode'); syncMotion(); closeBtn.focus({ preventScroll: true }) })
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !document.querySelector('dialog[open]')) { e.preventDefault(); close() } })
+  }
+
   // App screens that move (Nov 10): a short recording of the real app (sample data) plays inside the phone
   // while it is on screen; the capture underneath is its first frame. Stills when motion is off.
   const phones = [...document.querySelectorAll('.phone[data-motion]')].map((fig) => ({ fig, video: null, seen: false }))
@@ -413,137 +470,6 @@
     const io = new IntersectionObserver((entries) => { entries.forEach((e) => { const ph = phones.find((x) => x.fig === e.target); if (ph) ph.seen = e.isIntersecting }); syncPhones() }, { threshold: 0.15 })
     phones.forEach((ph) => io.observe(ph.fig))
     document.addEventListener('visibilitychange', syncPhones)
-  }
-
-  // ---------- Windows (Nov 17) ----------
-  // Founder: "placed within cards and when someone hovers or clicks the card the visual expands into a full looped
-  // experience, with sound". Each window opens its own place section over the page: the section grows from the
-  // window's rectangle (clip-path), its loop plays (syncMotion) and its phone wakes (syncPhones). No sound for now
-  // (founder, Nov 17: "we dont need sound if there is an issue"; the Pixabay licence bars sounds served on their own).
-  if (winOn) {
-    const stops = [...document.querySelectorAll('.stop')].map((el) => ({ el, win: el.querySelector('.window'), section: document.getElementById(el.dataset.for) })).filter((s) => s.section)
-    const barEl = document.querySelector('.place-bar')
-    const nextBtn = barEl.querySelector('[data-place-next]')
-    const fine = matchMedia('(hover: hover) and (pointer: fine)')
-    const narrow = matchMedia('(max-width: 760px)')
-    const others = () => [...document.body.children].filter((n) => n.tagName !== 'MAIN' && n.tagName !== 'SCRIPT' && n.tagName !== 'DIALOG')
-    let open = null
-    barEl.hidden = false
-
-    const insetFrom = (section, el) => {
-      const r = el.getBoundingClientRect()
-      section.style.setProperty('--ct', Math.max(0, r.top) + 'px'); section.style.setProperty('--cl', Math.max(0, r.left) + 'px')
-      section.style.setProperty('--cr', Math.max(0, innerWidth - r.right) + 'px'); section.style.setProperty('--cb', Math.max(0, innerHeight - r.bottom) + 'px')
-    }
-    const show = (s, grow) => {
-      const { section } = s
-      open = s
-      stops.forEach((x) => { x.win.classList.remove('live'); const v = x.win.querySelector('video'); if (v) v.pause() })
-      section.appendChild(barEl)
-      const nx = stops[(stops.indexOf(s) + 1) % stops.length]
-      nextBtn.innerHTML = `Next: ${nx.el.querySelector('.cap').lastChild.textContent} <span class="arw" aria-hidden="true">→</span>`
-      section.classList.remove('full', 'anim', 'closing')
-      section.classList.toggle('still-mode', !root.classList.contains('moving'))
-      insetFrom(section, s.win)
-      section.classList.add('open', 'here', 'seen', 'near')
-      section.setAttribute('role', 'dialog'); section.setAttribute('aria-modal', 'true')
-      section.scrollTop = 0
-      root.classList.add('place-open')
-      others().forEach((n) => { n.inert = true }); [...section.parentNode.children].forEach((n) => { n.inert = n !== section })
-      if (grow && !reduce) { section.getBoundingClientRect(); section.classList.add('anim'); requestAnimationFrame(() => section.classList.add('full')) } else section.classList.add('full')
-      syncMotion(); syncPhones()
-      setTimeout(() => { if (open === s) barEl.querySelector('[data-place-close]').focus({ preventScroll: true }) }, grow && !reduce ? 360 : 0)
-    }
-    const hide = (s, shrink) => {
-      const { section } = s
-      const finish = () => {
-        section.classList.remove('open', 'here', 'full', 'anim', 'closing', 'still-mode')
-        section.removeAttribute('role'); section.removeAttribute('aria-modal'); delete section.dataset.play
-        syncMotion(); syncPhones()
-      }
-      if (shrink && !reduce) { insetFrom(section, s.win); section.classList.remove('anim'); section.classList.add('closing'); section.classList.remove('full'); setTimeout(finish, 320) } else finish()
-    }
-    const close = () => {
-      if (!open) return
-      const s = open; open = null
-      root.classList.remove('place-open')
-      others().forEach((n) => { n.inert = false }); [...s.section.parentNode.children].forEach((n) => { n.inert = false })
-      hide(s, true)
-      s.win.focus({ preventScroll: true })
-    }
-    const openAt = (s) => { if (!open) show(s, true) }
-
-    stops.forEach((s) => {
-      s.win.addEventListener('click', (e) => { e.preventDefault(); openAt(s) })
-      s.el.querySelector('.step').addEventListener('click', () => openAt(s))
-      // Hover (a mouse, motion on): the window plays its loop, silently, after a short pause
-      let timer = 0
-      s.win.addEventListener('pointerenter', () => {
-        if (!fine.matches || !root.classList.contains('moving') || open) return
-        clearTimeout(timer)
-        timer = setTimeout(() => {
-          let v = s.win.querySelector('video')
-          if (!v) { v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto'; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); s.win.appendChild(v) }
-          const src = `assets/motion/${s.el.dataset.place}${root.dataset.light === 'evening' ? '-evening' : ''}-${narrow.matches ? 'tall' : 'wide'}.mp4`
-          if (v.dataset.src !== src) { v.dataset.src = src; v.src = src }
-          const p = v.play(); if (p) p.then(() => s.win.classList.add('live')).catch(() => {})
-        }, 150)
-      })
-      s.win.addEventListener('pointerleave', () => {
-        clearTimeout(timer); s.win.classList.remove('live')
-        const v = s.win.querySelector('video'); if (v) setTimeout(() => { if (!s.win.classList.contains('live')) v.pause() }, 300)
-      })
-    })
-    barEl.querySelector('[data-place-close]').addEventListener('click', close)
-    nextBtn.addEventListener('click', () => {
-      if (!open) return
-      const prev = open, nx = stops[(stops.indexOf(prev) + 1) % stops.length]
-      hide(prev, false)
-      nx.win.scrollIntoView({ block: 'center', behavior: 'auto' }) // the page behind follows, so closing lands on this window
-      show(nx, false)
-    })
-    barEl.querySelector('[data-place-play]').addEventListener('click', () => { if (!open) return; open.section.dataset.play = '1'; open.section.classList.remove('still-mode'); syncMotion(); syncPhones() })
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !document.querySelector('dialog[open]')) { e.preventDefault(); close() } })
-
-    // Links to a windowed place (#coast ...) lead to its window instead of the hidden section
-    const toStop = (hash) => stops.find((s) => '#' + s.section.id === hash)
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || a.classList.contains('window')) return
-      const s = toStop(a.getAttribute('href')); if (!s) return
-      e.preventDefault(); s.el.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' })
-    })
-    if (toStop(location.hash)) toStop(location.hash).el.scrollIntoView({ block: 'center', behavior: 'auto' })
-
-    // Places menu (wide screens): each place previews its picture as you point at it
-    const menu = document.querySelector('.places-menu')
-    if (menu) {
-      const btn = menu.querySelector('.places-btn'), panel = menu.querySelector('.places-panel'), list = panel.querySelector('ul'), peek = panel.querySelector('.places-peek')
-      const rows = stops.map((s, i) => {
-        const li = document.createElement('li'), a = document.createElement('a'), img = document.createElement('img')
-        a.href = '#' + s.section.id; a.classList.add('window-link')
-        const text = s.el.querySelector('.stop-words p:not(.cap)').textContent
-        a.innerHTML = `<span><b></b><small></small></span><span class="arw" aria-hidden="true">→</span>`
-        a.querySelector('b').textContent = s.el.querySelector('.cap').lastChild.textContent
-        a.querySelector('small').textContent = text.split('. ')[0].replace(/\.$/, '') + '.'
-        li.appendChild(a); list.appendChild(li); img.alt = '' // the preview joins the panel when first shown, so no empty image sits in the page
-        const pick = () => rows.forEach((r, k) => {
-          r.a.classList.toggle('on', k === i); r.img.classList.toggle('on', k === i)
-          const src = `assets/motion/${r.s.el.dataset.place}${root.dataset.light === 'evening' ? '-evening' : ''}-wide.webp`
-          if (k === i && r.img.getAttribute('src') !== src) { r.img.src = src; if (!r.img.parentNode) peek.appendChild(r.img) }
-        })
-        a.addEventListener('pointerenter', pick); a.addEventListener('focus', pick)
-        a.addEventListener('click', (e) => {
-          e.preventDefault(); e.stopPropagation(); setMenu(false)
-          s.win.scrollIntoView({ block: 'center', behavior: 'auto' })
-          requestAnimationFrame(() => openAt(s))
-        })
-        return { s, a, img, pick }
-      })
-      const setMenu = (on) => { panel.hidden = !on; btn.setAttribute('aria-expanded', String(on)); if (on) rows[0].pick() }
-      btn.addEventListener('click', (e) => { e.stopPropagation(); setMenu(panel.hidden) })
-      document.addEventListener('click', (e) => { if (!panel.hidden && !menu.contains(e.target)) setMenu(false) })
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { setMenu(false); btn.focus() } })
-    }
   }
 
   // Motion on / off, for everyone (remembered on this device only); Reduce Motion always wins.

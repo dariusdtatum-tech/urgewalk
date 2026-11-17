@@ -17,11 +17,6 @@ const snap = (page) => page.evaluate(() => {
     if (img && img !== 'none') out[`bg ${el.dataset.place} #${i}`] = img.replace(/^.*\/(assets\/[^"')]+).*$/, '$1')
     if (vid && vid.dataset.src) out[`loop ${el.dataset.place} #${i}`] = vid.dataset.src
   })
-  // windows (Nov 17): the picture each window shows
-  document.querySelectorAll('.window').forEach((w, i) => {
-    const im = [...w.querySelectorAll('img')].find((x) => getComputedStyle(x.parentNode).display !== 'none')
-    if (im && getComputedStyle(w.closest('.stops')).display !== 'none') out[`window #${i}`] = im.getAttribute('src')
-  })
   document.querySelectorAll('.phone').forEach((f, i) => {
     const shown = [...f.querySelectorAll('img')].find((im) => getComputedStyle(im).display !== 'none')
     out[`phone ${i} still`] = shown ? shown.getAttribute('src') : null
