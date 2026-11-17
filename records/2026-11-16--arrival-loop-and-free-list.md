@@ -72,3 +72,8 @@ What each answer means:
 ## For the app (not changed here)
 
 - The app's free list leaves out the Walk web tool, which the site has (`walk.html`).
+
+## Merged and live (16 Nov)
+
+- The founder said here (verbatim): "Merge". PR #39 merged as `aced009`; the Pages build finished as "built".
+- Live check: cache `uw-2026-11-16-r5`, the new loop code in `site.js`, and the app's free list on `premium.html`.
