@@ -379,7 +379,7 @@ html:root[data-light=evening] [data-place=outlook]{--img-wide:url(assets/motion/
 .motion-switch:hover,.motion-switch:focus-visible{color:var(--paper)}
 @media (prefers-reduced-motion:reduce){.motion-switch{display:none}}
 
-/* ---------- The arrival (Nov 10): a boat nearing the island, played once, resting on its last frame ---------- */
+/* ---------- The arrival (Nov 10; a nonstop loop since Nov 16): a boat near the island, the island held still; the last frame as a still when motion is off ---------- */
 .arrival{--arr-start:url(assets/motion/arrival-tall.webp);--arr-end:url(assets/motion/arrival-tall-end.webp);
   position:relative;min-height:100vh;min-height:100svh;display:grid;align-content:end;isolation:isolate;overflow:clip;
   background:#1d3a52 var(--arr-end) center/cover no-repeat}
