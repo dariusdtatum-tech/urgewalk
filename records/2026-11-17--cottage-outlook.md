@@ -51,3 +51,19 @@ The founder said here (verbatim): "looks great. day history doesnt move, fix tha
 ## Preview
 
 `previews/cottage-outlook-2026-11-17.jpg`: live today, this PR, and the Cottage opened in both lights.
+
+## Merged and live, Nov 17
+
+- The founder said here (verbatim): "Merge #43"
+- PR #43 merged as `1fcf1fa`. Pages deployed, and the hidden-Unicode check passed. The live cache is `uw-2026-11-17-r6`.
+  - The Cursor security reviewer was still pending at merge. It is not a required check; both `check` runs passed.
+- Live check on urgewalk.app, headless Chrome:
+  - **1440 px, daylight:**
+    - The Outlook opens to `outlook-wide.mp4`, and its phone plays `history.mp4`.
+    - The Cottage opens to `cottage-day-wide.webp`, and its phone plays `you.mp4`.
+  - **390 px, evening:**
+    - The Outlook opens to `outlook-evening-tall.mp4`.
+    - The Cottage opens to `cottage-evening-tall.webp`.
+    - Its phone plays `you-evening.mp4` once scrolled into view, and `you.mp4` by day.
+  - No script errors.
+- Not checked: a real iPhone, Safari, VoiceOver.
