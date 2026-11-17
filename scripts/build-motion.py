@@ -70,7 +70,8 @@ for name, spec in WIDE.items():
     if ONLY and name not in ONLY: continue
     if spec: wide_loop(name, *spec)
     tall(name, name)
-# The arrival (Pixabay 59046, lumamorph): plays once, then rests on its last frame.
+# The arrival (Pixabay 59046, lumamorph). Since Nov 16 a nonstop loop with the island held still: the clips below are
+# rebuilt by scripts/steady-loop.py (see its notes) and copied over these outputs; the -end stills stay for Reduce Motion.
 if ONLY and 'arrival' not in ONLY: sys.exit(0)
 arr = os.path.join(OUT, 'arrival-wide.mp4')
 run(['-i', os.path.join(SRC, '59046.mp4'), '-t', '11', '-vf', 'scale=1280:720,fps=30,setsar=1', *X264, arr])

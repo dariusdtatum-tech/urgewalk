@@ -31,3 +31,7 @@ Three screen-reader descriptions of place pictures no longer matched the picture
 - Chrome's accessibility tree reads the new names on the branch (index, walk, terms), and the old ones on the live site.
 - The hidden-Unicode check passes, and the three pages parse.
 - Not checked with VoiceOver on a real iPhone.
+
+## Merged and live (16 Nov)
+
+- The founder said here (verbatim): "Merge both" (PRs #36 and #37). PR #37 merged as `5015f89`.

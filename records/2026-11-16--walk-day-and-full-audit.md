@@ -141,3 +141,7 @@ The fix is a deeper veil, or a scrim behind the words. That changes the look, so
 - **Other checks:** the hidden-Unicode check passes, the manifest parses, `site.js` and `sw.js` parse, and the heads were checked.
 - **Before and after:** `previews/audit-2026-11-16-{path-1440,path-390,walk-390,ground-390}.jpg` (live on the left, the branch on the right).
 - **Not checked:** a real iPhone, Safari, VoiceOver.
+
+## Merged and live (16 Nov)
+
+- The founder said here (verbatim): "Merge". PR #38 merged as `874e828`.

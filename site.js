@@ -306,13 +306,22 @@
     const rest = () => arrival.classList.add('arrived') // the words come in once the boat has arrived
     const still = () => { arrival.classList.add('still'); rest() } // the last frame, as a picture
     if (root.classList.contains('moving') && v) {
-      new Image().src = `assets/motion/arrival-${shape()}-end.webp` // ready to take over from the ended clip
+      // a nonstop loop (Nov 16): the island held still while the sea moves; paused off screen and when the tab is hidden
+      v.loop = true
       v.poster = `assets/motion/arrival-${shape()}.webp`
       v.src = `assets/motion/arrival-${shape()}.mp4`
       v.addEventListener('playing', () => v.classList.add('on'), { once: true })
-      v.addEventListener('ended', still) // the clip rests on its last frame, held as a picture (frees the decoder)
+      const firstPass = () => { if (v.duration && v.currentTime > v.duration - 0.6) { rest(); v.removeEventListener('timeupdate', firstPass) } }
+      v.addEventListener('timeupdate', firstPass) // the words come in after one pass, as before
       v.addEventListener('error', still)
-      const p = v.play(); if (p) p.catch(still) // autoplay refused: rest on the last frame
+      let seen = true
+      const sync = () => {
+        if (!root.classList.contains('moving') || arrival.classList.contains('still')) return
+        if (seen && !document.hidden) { const p = v.play(); if (p) p.catch((e) => { if (e && e.name === 'NotAllowedError') still() }) } else v.pause() // autoplay refused: rest on the last frame (a pause mid-start is not a refusal)
+      }
+      if ('IntersectionObserver' in window) new IntersectionObserver((es) => { seen = es[es.length - 1].isIntersecting; sync() }).observe(arrival)
+      document.addEventListener('visibilitychange', sync)
+      sync()
       setTimeout(rest, 14000) // a slow connection never keeps the words away
     } else still()
   }
