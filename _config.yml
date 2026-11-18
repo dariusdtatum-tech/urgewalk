@@ -2,5 +2,7 @@ exclude:
   - DESIGN-RULES.md
   - AGENTS.md
   - previews/
+  - records/
+  - scripts/
   - icon-proof.png
   - terms-preview.png

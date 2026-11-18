@@ -1,7 +1,7 @@
 // Urge Walk — offline (round 3, Nov 9 2026). The three tools keep working with no signal: Walk, Breathe and
 // Ground, with their styles, fonts and phone-size photographs in both lights. Pages are fetched fresh when
 // online (network first) so updates arrive; everything else is served from cache and refreshed behind.
-const VERSION = 'uw-2026-11-14-r1'
+const VERSION = 'uw-2026-11-18-r1'
 const CORE = [
   './', 'index.html', 'walk.html', 'breathe.html', 'ground.html', 'ride.html', 'support.html',
   'site.css', 'places.css', 'site.js', 'tools.json', 'manifest.webmanifest',
@@ -27,8 +27,11 @@ self.addEventListener('fetch', (e) => {
   const isPage = req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')
   if (isPage) {
     // Network first: fresh pages online, the saved copy offline (or the walk, as the one page that always helps).
+    // Only good pages are kept (never a 404 or a passing 503), under the address without its query, so
+    // ?source=home-screen and the like don't pile up copies (Nov 16 audit).
     e.respondWith(fetch(req).then((res) => {
-      const copy = res.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); return res
+      if (res.ok) { const key = new URL(req.url); key.search = ''; const copy = res.clone(); caches.open(VERSION).then((c) => c.put(key.href, copy)) }
+      return res
     }).catch(() => caches.match(req, { ignoreSearch: true }).then((hit) => hit || caches.match('walk.html'))))
     return
   }

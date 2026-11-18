@@ -12,7 +12,7 @@ What that means here:
 - **Rules that came from tools are not rules:** the earlier navy-everywhere look and the ban on glass were defaults (the app's palette, a generic "anti-slop" skill, the old site's rules), not the founder's. Founder direction wins; skills inform craft.
 
 ## The idea
-The site is a walk across the island, and the island follows the visitor's time of day (Island light, as in the app: daylight 6:00–17:59, evening otherwise; a Daylight · Evening switch overrides it, remembered on this device only). The site is a walk across the island. Each place of the app is a full-screen photograph with a caption (number · place · light) and a few lines; scrolling dissolves the island from one place to the next and ends at night. Every feature is said through its place, never as a feature grid. Each place has its own composition (elegance pass, Nov 8):
+The site is a walk across the island, and the island follows the visitor's time of day (Island light, as in the app: daylight 5:00–16:59, evening otherwise; a Daylight · Evening switch overrides it, remembered on this device only). The site is a walk across the island. Each place of the app is a full-screen photograph with a caption (number · place · light) and a few lines; scrolling dissolves the island from one place to the next and ends at night. Every feature is said through its place, never as a feature grid. Each place has its own composition (elegance pass, Nov 8):
 
 | Place | Composition |
 |---|---|
@@ -49,6 +49,17 @@ The site is a walk across the island, and the island follows the visitor's time 
 - Sources per device: 2160p on large sharp screens, 1440p otherwise, a tall 1080 × 1920 cut on phones; a still poster under Reduce Motion, Save-Data or 2G, and a "Motion on / off" switch for everyone.
 - Seamless loops, no audio, a crossfade at the seam; the poster frame is always present.
 - Living places (Nov 10, founder: the site should open with an arrival and "move throughout", like the app): the walk opens on the arrival (boat nearing the island, played once, resting on its last frame), and every place with an app loop moves; only the place in view plays, footage loads only near the visitor, the poster is the loop's first frame. The island-map card is gone (founder, Nov 10).
+
+## The place on the phone (approved: founder said "merge" on Nov 17 2026, PR #41; see `records/2026-11-17--windows.md`)
+Founder: "I think it would be cool if the only visual of the place was on the phone/app and then you click it to reveal the visual"
+- This changes two rules above for the homepage: a place's words sit on its own deep colour, and its photograph shows only inside the app's phone until the visitor taps it (not a full-screen photograph while you scroll); and clip-path joins the optical exceptions (the place growing from the phone to the full screen, 520 ms; 300 ms to close).
+- Colour comes from the picture the visitor sees (founder, Nov 17: "make the colors connect with the visuals"): `scripts/reveal-colours.py` reads each loop's first frame and sets the page colour (its main hue, dark, cream text at least 12:1), the accent, and the card (the picture's sky, horizon and ground, top to bottom, with "Step in" at least 4.5:1). Never pick these by hand.
+- Placement (founder, Nov 17: "the phone/app should be placed on in a way that makes sense relative to the words"): each place is one pair, its words and its phone side by side and centred together, the phone on alternate sides down the walk. On phones the words come first and the phone right under them.
+- Each phone sits in its card, with "Step in". Tapping it fills the screen with the place's footage, never the app. Close with the ✕ or Escape; "Next: …" and "Need help now? 988" stay at the foot.
+- A place with no phone (the Cottage) keeps its words on its colour, with no picture.
+- The arrival: its words on the Coast's colour and a screen-wide card of the boat footage with the phone inside; tapping either opens the footage alone.
+- No sound (founder, Nov 17: "we dont need sound if there is an issue").
+- Without JavaScript the cards show and nothing opens. Under Reduce Motion or Motion off an opened place shows its still until "Play the loop".
 
 ## Pages
 - `index.html`: the walk (places 1–9, then Night: Coming to iPhone and the founder's letter). Trail index at the right on wide screens.

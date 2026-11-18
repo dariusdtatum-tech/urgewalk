@@ -1,6 +1,6 @@
 // Urge Walk — the island site (elegance pass, Nov 8 2026). Progressive enhancement: every page reads and
 // works without this file.
-// 1. Island light: the island follows the visitor's time of day (daylight 6:00–17:59, evening otherwise), as the
+// 1. Island light: the island follows the visitor's time of day (daylight 5:00–16:59, evening otherwise), as the
 //    app does; the Daylight · Evening switch overrides it (remembered on this device only). The inline script in
 //    each page's <head> sets html[data-light] before the stylesheet paints, so only one set of photographs loads.
 // 2. The walk: the place crossing the middle of the screen is "here"; its photograph fades in behind the page
@@ -194,6 +194,21 @@
     // Very old browsers: the button simply goes to Breathe.
     document.querySelector('[data-ride-open]').addEventListener('click', () => { location.href = 'breathe.html' })
   }
+  // The floating button steps aside while it would cover a tool's own buttons (Walk, Breathe, Ground: Start,
+  // Next, Finish). Nov 16 audit: on a 375 px phone it hid 88% of Ground's Next until the page was scrolled.
+  const fab = document.querySelector('.ride-fab'), toolBtns = [...document.querySelectorAll('.tool-controls button, .tool-controls a')]
+  if (fab && toolBtns.length) {
+    let pend = 0
+    const clear = () => {
+      pend = 0; root.classList.remove('fab-aside')
+      const f = fab.getBoundingClientRect()
+      const hit = toolBtns.some((x) => { if (!x.offsetParent) return false; const n = x.getBoundingClientRect(); return n.right > f.left && n.left < f.right && n.bottom > f.top && n.top < f.bottom })
+      root.classList.toggle('fab-aside', hit)
+    }
+    const soon = () => { if (!pend) pend = requestAnimationFrame(clear) }
+    addEventListener('scroll', soon, { passive: true }); addEventListener('resize', soon)
+    document.addEventListener('click', () => setTimeout(soon, 60)); clear()
+  }
 
   // ---------- Keep it on your phone (round 3, Nov 9) ----------
   // The site installs like an app (manifest + service worker); Walk, Breathe and Ground work offline.
@@ -251,7 +266,6 @@
   const loopFor = (place) => {
     if (!LOOPS.includes(place)) return null
     const evening = root.dataset.light === 'evening'
-    if (place === 'outlook' && !evening && shape() === 'wide') return null // a boat crosses the wide frame: the photograph stays
     return `assets/motion/${place}${evening ? '-evening' : ''}-${shape()}`
   }
   const arrival = document.querySelector('.arrival')
@@ -261,8 +275,10 @@
     const arriving = Boolean(arrival) && arrival.getBoundingClientRect().bottom > innerHeight / 2
     const at = places.indexOf(current)
     for (const l of layers) {
-      const base = moving && l.holder ? loopFor(l.holder.dataset.place) : null
-      const near = !l.section || Math.abs(places.indexOf(l.section) - at) <= 1 // this place and its neighbours only
+      const opened = Boolean(l.section) && l.section.classList.contains('opened')
+      const kept = Boolean(l.section) && l.section.hasAttribute('data-reveal') && !opened // Nov 17: a place's picture shows only once its phone opens it
+      const base = !kept && (moving || (opened && l.section.dataset.play)) && l.holder ? loopFor(l.holder.dataset.place) : null // "Play the loop" is the visitor's own choice
+      const near = opened || (!kept && (!l.section || Math.abs(places.indexOf(l.section) - at) <= 1)) // this place and its neighbours only
       if (l.video && !near && l.video.dataset.src) { l.video.pause(); l.video.classList.remove('on'); l.video.dataset.src = ''; l.video.removeAttribute('src'); l.video.load(); continue } // let go of footage left behind
       if (!base || !near) {
         if (l.video) l.video.pause()
@@ -277,7 +293,7 @@
         l.bg.appendChild(v); l.video = v
       }
       const v = l.video
-      const play = (!l.section || (l.section.classList.contains('here') && !arriving)) && !document.hidden
+      const play = (!l.section || opened || (l.section.classList.contains('here') && !arriving)) && !document.hidden
       if (v.dataset.src !== base) { v.classList.remove('on'); v.dataset.src = base; v.poster = base + '.webp'; v.preload = play ? 'auto' : 'metadata'; v.src = base + '.mp4' }
       if (play) { v.preload = 'auto'; const p = v.play(); if (p) p.catch(() => {}) } else v.pause()
     }
@@ -291,15 +307,141 @@
     const rest = () => arrival.classList.add('arrived') // the words come in once the boat has arrived
     const still = () => { arrival.classList.add('still'); rest() } // the last frame, as a picture
     if (root.classList.contains('moving') && v) {
-      new Image().src = `assets/motion/arrival-${shape()}-end.webp` // ready to take over from the ended clip
+      // a nonstop loop (Nov 16): the island held still while the sea moves; paused off screen and when the tab is hidden
+      v.loop = true
       v.poster = `assets/motion/arrival-${shape()}.webp`
       v.src = `assets/motion/arrival-${shape()}.mp4`
       v.addEventListener('playing', () => v.classList.add('on'), { once: true })
-      v.addEventListener('ended', still) // the clip rests on its last frame, held as a picture (frees the decoder)
+      const firstPass = () => { if (v.duration && v.currentTime > v.duration - 0.6) { rest(); v.removeEventListener('timeupdate', firstPass) } }
+      v.addEventListener('timeupdate', firstPass) // the words come in after one pass, as before
       v.addEventListener('error', still)
-      const p = v.play(); if (p) p.catch(still) // autoplay refused: rest on the last frame
+      let seen = true
+      const sync = () => {
+        if (!root.classList.contains('moving') || arrival.classList.contains('still')) return
+        if (seen && !document.hidden) { const p = v.play(); if (p) p.catch((e) => { if (e && e.name === 'NotAllowedError') still() }) } else v.pause() // autoplay refused: rest on the last frame (a pause mid-start is not a refusal)
+      }
+      if ('IntersectionObserver' in window) new IntersectionObserver((es) => { seen = es[es.length - 1].isIntersecting; sync() }).observe(arrival)
+      document.addEventListener('visibilitychange', sync)
+      sync()
       setTimeout(rest, 14000) // a slow connection never keeps the words away
     } else still()
+  }
+
+  // ---------- The arrival card (Nov 17) ----------
+  // Founder: "people would be able to click the visual and reach it, we could even allow the visual of the iphone with
+  // the app being displayed, be clickable and when they click that it becomes the whole screen but the whole screen is
+  // of the onboarding visual, not of the app". The card's picture grows from its own rectangle to the full screen
+  // (clip-path, 520 ms); close with the button or Escape. Under Reduce Motion or Motion off it opens at once, as a still,
+  // with "Play the loop".
+  const card = arrival && arrival.querySelector('.arrival-card')
+  if (card) {
+    const media = card.querySelector('.arrival-media'), openBtn = card.querySelector('.arrival-open'), ctl = media.querySelector('.arrival-ctl')
+    const av = media.querySelector('video'), phone = card.querySelector('.phone'), closeBtn = ctl.querySelector('[data-arrival-close]')
+    openBtn.hidden = false; card.classList.add('can-open')
+    let isOpen = false, offs = null, played = false
+    const inertAround = (el, on) => { for (let n = el; n && n !== document.body; n = n.parentNode) [...n.parentNode.children].forEach((s) => { if (s !== n && s.tagName !== 'SCRIPT') s.inert = on }) }
+    const setInset = (r) => { media.style.setProperty('--ct', Math.max(0, r.top) + 'px'); media.style.setProperty('--cl', Math.max(0, r.left) + 'px'); media.style.setProperty('--cr', Math.max(0, innerWidth - r.right) + 'px'); media.style.setProperty('--cb', Math.max(0, innerHeight - r.bottom) + 'px') }
+    const openCard = () => {
+      if (isOpen) return
+      isOpen = true
+      const c = card.getBoundingClientRect(), m = media.getBoundingClientRect()
+      offs = { t: m.top - c.top, l: m.left - c.left, r: c.right - m.right, b: c.bottom - m.bottom }
+      setInset(m)
+      media.classList.remove('full', 'anim', 'closing')
+      media.classList.toggle('still-mode', !root.classList.contains('moving'))
+      media.classList.add('open'); arrival.classList.add('opened'); root.classList.add('place-open')
+      ctl.hidden = false; inertAround(media, true)
+      media.setAttribute('role', 'dialog'); media.setAttribute('aria-modal', 'true'); media.setAttribute('aria-label', 'The arrival, full screen')
+      if (!reduce) { media.getBoundingClientRect(); media.classList.add('anim'); requestAnimationFrame(() => media.classList.add('full')) } else media.classList.add('full')
+      setTimeout(() => { if (isOpen) closeBtn.focus({ preventScroll: true }) }, reduce ? 0 : 360)
+    }
+    const closeCard = () => {
+      if (!isOpen) return
+      isOpen = false
+      inertAround(media, false); root.classList.remove('place-open')
+      const finish = () => {
+        media.classList.remove('open', 'full', 'anim', 'closing', 'still-mode'); arrival.classList.remove('opened'); ctl.hidden = true
+        media.removeAttribute('role'); media.removeAttribute('aria-modal'); media.removeAttribute('aria-label')
+        if (played && !root.classList.contains('moving')) { av.pause(); arrival.classList.add('still'); played = false } // the visitor's own play ends with the full screen
+      }
+      if (!reduce) { const c = card.getBoundingClientRect(); setInset({ top: c.top + offs.t, left: c.left + offs.l, right: c.right - offs.r, bottom: c.bottom - offs.b }); media.classList.remove('anim'); media.classList.add('closing'); media.classList.remove('full'); setTimeout(finish, 320) } else finish()
+      openBtn.focus({ preventScroll: true })
+    }
+    openBtn.addEventListener('click', openCard)
+    if (phone) phone.addEventListener('click', openCard) // the phone opens the footage too, not the app
+    closeBtn.addEventListener('click', closeCard)
+    ctl.querySelector('[data-arrival-play]').addEventListener('click', () => {
+      played = true; media.classList.remove('still-mode'); arrival.classList.remove('still')
+      if (!av.getAttribute('src')) { av.loop = true; av.src = `assets/motion/arrival-${shape()}.mp4`; av.addEventListener('playing', () => av.classList.add('on'), { once: true }) }
+      const p = av.play(); if (p) p.catch(() => {})
+      closeBtn.focus({ preventScroll: true }) // the button hides itself once the loop plays
+    })
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen && !document.querySelector('dialog[open]')) { e.preventDefault(); closeCard() } })
+  }
+
+  // ---------- The phone opens the place (Nov 17) ----------
+  // Founder: "I think it would be cool if the only visual of the place was on the phone/app and then you click it to
+  // reveal the visual". A place shows its words on its own colour and its app phone in a card of its tone; its
+  // photograph and footage are not on the page. The card (or the phone in it) opens the place full screen: the picture
+  // grows from the phone's screen, its loop plays, and ✕ or Escape shrinks it back to the phone. Under Reduce Motion
+  // or Motion off it opens at once as a still, with "Play the loop" where the place has a loop.
+  const reveals = [...document.querySelectorAll('.place[data-reveal]')].map((section) => ({ section, card: section.querySelector('.pcard'), bg: section.querySelector(':scope > .place-bg') })).filter((r) => r.card && r.bg)
+  const pbar = document.querySelector('.place-bar')
+  if (reveals.length && pbar) {
+    root.classList.add('reveal')
+    const nextBtn = pbar.querySelector('[data-place-next]'), closeBtn = pbar.querySelector('[data-place-close]'), playBtn = pbar.querySelector('[data-place-play]')
+    pbar.hidden = false
+    let open = null
+    reveals.forEach((r) => { r.label = r.bg.getAttribute('aria-label') || ''; r.button = r.card.querySelector('.pcard-open'); r.button.hidden = false })
+    const nameOf = (r) => { const n = r.section.querySelector('.cap .n'); return n && n.nextSibling ? n.nextSibling.textContent.trim() : '' }
+    const inertAround = (el, on) => { for (let n = el; n && n !== document.body; n = n.parentNode) [...n.parentNode.children].forEach((s) => { if (s !== n && s.tagName !== 'SCRIPT') s.inert = on }) }
+    const setInset = (el, r) => { el.style.setProperty('--ct', Math.max(0, r.top) + 'px'); el.style.setProperty('--cl', Math.max(0, r.left) + 'px'); el.style.setProperty('--cr', Math.max(0, innerWidth - r.right) + 'px'); el.style.setProperty('--cb', Math.max(0, innerHeight - r.bottom) + 'px') }
+    const fromPhone = (r) => (r.card.querySelector('.phone') || r.card).getBoundingClientRect()
+    const show = (r, grow) => {
+      const { section, bg } = r
+      open = r
+      bg.appendChild(pbar)
+      const nx = reveals[reveals.indexOf(r) + 1]
+      nextBtn.hidden = !nx
+      if (nx) nextBtn.innerHTML = `Next: ${nameOf(nx)} <span class="arw" aria-hidden="true">→</span>`
+      section.classList.toggle('still-mode', !root.classList.contains('moving') && Boolean(loopFor(section.dataset.place)))
+      bg.classList.remove('full', 'anim', 'closing')
+      setInset(bg, fromPhone(r))
+      section.classList.add('opened', 'near')
+      bg.setAttribute('role', 'dialog'); bg.setAttribute('aria-modal', 'true'); bg.setAttribute('aria-label', `${nameOf(r)}, full screen`)
+      root.classList.add('place-open'); inertAround(bg, true)
+      syncMotion()
+      if (grow && !reduce) { bg.getBoundingClientRect(); bg.classList.add('anim'); requestAnimationFrame(() => bg.classList.add('full')) } else bg.classList.add('full')
+      setTimeout(() => { if (open === r) closeBtn.focus({ preventScroll: true }) }, grow && !reduce ? 360 : 0)
+    }
+    const hide = (r, shrink) => {
+      const { section, bg } = r
+      inertAround(bg, false)
+      const finish = () => {
+        bg.classList.remove('full', 'anim', 'closing'); section.classList.remove('opened', 'still-mode'); delete section.dataset.play
+        bg.setAttribute('role', 'img'); bg.removeAttribute('aria-modal'); bg.setAttribute('aria-label', r.label)
+        syncMotion()
+      }
+      if (shrink && !reduce) { setInset(bg, fromPhone(r)); bg.classList.remove('anim'); bg.classList.add('closing'); bg.classList.remove('full'); setTimeout(finish, 320) } else finish()
+    }
+    const close = () => {
+      if (!open) return
+      const r = open; open = null
+      root.classList.remove('place-open')
+      hide(r, true)
+      r.button.focus({ preventScroll: true })
+    }
+    reveals.forEach((r) => r.button.addEventListener('click', () => { if (!open) show(r, true) }))
+    closeBtn.addEventListener('click', close)
+    nextBtn.addEventListener('click', () => {
+      if (!open) return
+      const r = open, nx = reveals[reveals.indexOf(r) + 1]; if (!nx) return
+      hide(r, false)
+      nx.card.scrollIntoView({ block: 'center', behavior: 'auto' }) // the page behind follows, so closing lands on this phone
+      show(nx, false)
+    })
+    playBtn.addEventListener('click', () => { if (!open) return; open.section.dataset.play = '1'; open.section.classList.remove('still-mode'); syncMotion(); closeBtn.focus({ preventScroll: true }) })
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !document.querySelector('dialog[open]')) { e.preventDefault(); close() } })
   }
 
   // App screens that move (Nov 10): a short recording of the real app (sample data) plays inside the phone

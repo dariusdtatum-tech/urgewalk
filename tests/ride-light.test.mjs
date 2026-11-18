@@ -9,16 +9,16 @@
  * Serves the repo itself on a free port; the clock and the time zone are injected, never read.
  *
  * Contract: html[data-light] is the saved choice (localStorage `urgewalk.light`, "day" or "evening"),
- * else the clock: day from 6:00:00 to 17:59:59 local, evening otherwise. Evening plays
+ * else the clock: day from 5:00:00 to 16:59:59 local, evening otherwise. Evening plays
  * shore-evening-tall.mp4 (phone) or shore-evening-wide.mp4 (wide) with the matching .webp poster;
  * day plays shore-phone / shore-1440 / shore-2160 with the .jpg poster. Switching the light while
  * idle changes the sea at once; while a pass runs it waits for the next Start. Motion off never
  * loads footage; only the poster follows the light.
  *
  * Edge cases (written before the tests):
- *  1. 17:59:59 -> day            2. 18:00:00 -> evening       3. 05:59:59 -> evening
- *  4. 06:00:00 -> day            5. 00:00:00 midnight -> evening
- *  6. 06:00 on the day clocks spring forward (Mar 8 2026, America/New_York) -> day
+ *  1. 16:59:59 -> day            2. 17:00:00 -> evening       3. 04:59:59 -> evening
+ *  4. 05:00:00 -> day            5. 00:00:00 midnight -> evening
+ *  6. 05:00 on the day clocks spring forward (Mar 8 2026, America/New_York) -> day
  *  7. saved "day" at 20:00 -> day; saved "evening" at 12:00 -> evening
  *  8. saved junk ("dusk") -> the clock decides
  *  9. storage that throws -> the clock decides, no page error (19:00 evening, 09:00 day)
@@ -84,19 +84,19 @@ async function at(name, opts, want) {
 }
 const ET = (d, t) => `${d}T${t}-05:00`;
 
-await at('1. 17:59:59 is day', { time: ET('2026-11-14', '17:59:59') }, { light: 'day', ...DAY_TALL });
-await at('2. 18:00:00 is evening', { time: ET('2026-11-14', '18:00:00') }, { light: 'evening', ...EVE_TALL });
-await at('3. 05:59:59 is evening', { time: ET('2026-11-14', '05:59:59') }, { light: 'evening', ...EVE_TALL });
-await at('4. 06:00:00 is day', { time: ET('2026-11-14', '06:00:00') }, { light: 'day', ...DAY_TALL });
+await at('1. 16:59:59 is day', { time: ET('2026-11-14', '16:59:59') }, { light: 'day', ...DAY_TALL });
+await at('2. 17:00:00 is evening', { time: ET('2026-11-14', '17:00:00') }, { light: 'evening', ...EVE_TALL });
+await at('3. 04:59:59 is evening', { time: ET('2026-11-14', '04:59:59') }, { light: 'evening', ...EVE_TALL });
+await at('4. 05:00:00 is day', { time: ET('2026-11-14', '05:00:00') }, { light: 'day', ...DAY_TALL });
 await at('5. midnight is evening', { time: ET('2026-11-14', '00:00:00') }, { light: 'evening', ...EVE_TALL });
-await at('6. 06:00 EDT on spring-forward day is day', { time: '2026-03-08T06:00:00-04:00' }, { light: 'day', ...DAY_TALL });
+await at('6. 05:00 EDT on spring-forward day is day', { time: '2026-03-08T05:00:00-04:00' }, { light: 'day', ...DAY_TALL });
 await at('7a. saved day beats 20:00', { time: ET('2026-11-14', '20:00:00'), saved: 'day' }, { light: 'day', ...DAY_TALL });
 await at('7b. saved evening beats 12:00', { time: ET('2026-11-14', '12:00:00'), saved: 'evening' }, { light: 'evening', ...EVE_TALL });
 await at('8. saved junk falls back to the clock', { time: ET('2026-11-14', '19:00:00'), saved: 'dusk' }, { light: 'evening', ...EVE_TALL });
 await at('9a. blocked storage, 19:00 is evening', { time: ET('2026-11-14', '19:00:00'), blocked: true }, { light: 'evening', ...EVE_TALL });
 await at('9b. blocked storage, 09:00 is day', { time: ET('2026-11-14', '09:00:00'), blocked: true }, { light: 'day', ...DAY_TALL });
 await at('10a. wide day', { time: ET('2026-11-14', '12:00:00'), viewport: WIDE }, { light: 'day', ...DAY_WIDE });
-await at('10b. wide evening at 18:00', { time: ET('2026-11-14', '18:00:00'), viewport: WIDE }, { light: 'evening', ...EVE_WIDE });
+await at('10b. wide evening at 17:00', { time: ET('2026-11-14', '17:00:00'), viewport: WIDE }, { light: 'evening', ...EVE_WIDE });
 
 { // 11. idle switch
   const { page, ctx } = await open({ time: ET('2026-11-14', '12:00:00') });
@@ -118,8 +118,8 @@ await at('10b. wide evening at 18:00', { time: ET('2026-11-14', '18:00:00'), vie
   await ctx.close();
 }
 { // 13. Reduce Motion
-  const { page, ctx } = await open({ time: ET('2026-11-14', '18:00:00'), reduce: true });
-  expect('13a. Motion off at 18:00: evening poster, no footage', await sea(page), { light: 'evening', src: null, poster: EVE_TALL.poster });
+  const { page, ctx } = await open({ time: ET('2026-11-14', '17:00:00'), reduce: true });
+  expect('13a. Motion off at 17:00: evening poster, no footage', await sea(page), { light: 'evening', src: null, poster: EVE_TALL.poster });
   await page.click('.light-switch button[data-light="day"]');
   expect('13b. Motion off, idle switch: day poster, still no footage', await sea(page), { light: 'day', src: null, poster: DAY_TALL.poster });
   await ctx.close();
