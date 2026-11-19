@@ -65,8 +65,9 @@ The head script picks `day` (6:00–17:59 local) or `evening`, or the visitor's 
 These steps sit alongside the rules above; they do not replace them.
 
 1. Look up current HTML, CSS and JavaScript patterns in Chrome's Modern Web Guidance before writing new front-end code:
-   - Search: `npx modern-web-guidance@latest search <topic>`
-   - Read a guide: `npx modern-web-guidance@latest retrieve <guide-id>`
+   - Search: `npx modern-web-guidance@1.0.0 search <topic>`
+   - Read a guide: `npx modern-web-guidance@1.0.0 retrieve <guide-id>`
+   - The version is pinned (1.0.0, the one the first check ran on). Bump it on purpose, in its own commit, after reading what changed.
    - Repo: https://github.com/googlechrome/modern-web-guidance
 2. Before using any newer platform feature, confirm it works in iPhone Safari (caniuse.com or MDN), or add a fallback. iPhone Safari comes first.
 3. Run the quality check from the repo root and paste its summary into the PR:
@@ -77,4 +78,4 @@ These steps sit alongside the rules above; they do not replace them.
    ```
 
    `./tools/check.sh` does the same, and runs `npm install` on the first use. The check is local and free. Do not add a GitHub Action for it while the Actions minutes limit is in effect (until 1 December 2026). The Modern Web Guidance scan is advice; the check fails on axe violations, a Lighthouse accessibility score under 95, broken internal links or assets, console errors, horizontal overflow at 390px, or a personal Google mail address in tracked files.
-4. One editor per repo at a time. Use single-purpose commits. Never merge your own PR.
+4. One editor per repo at a time. Use single-purpose commits. Merging follows the working agreement above: small, verified fixes are merged by the agent and reported; anything larger waits for the founder's "merge".

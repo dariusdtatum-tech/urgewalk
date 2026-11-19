@@ -151,7 +151,7 @@ async function launchBrowser() {
 /* ---------- 1. Modern Web Guidance (advice only) ---------- */
 async function runLegacyScan() {
   const title = '1. Modern Web Guidance outdated-code scan (advice, does not fail)';
-  const ran = await runCommand('npx', ['-y', 'modern-web-guidance@latest', 'legacy-scan', '.'], {
+  const ran = await runCommand('npx', ['-y', 'modern-web-guidance@1.0.0', 'legacy-scan', '.'], {
     timeoutMs: 240_000,
   });
   const out = (ran.stdout + '\n' + ran.stderr).trim();
