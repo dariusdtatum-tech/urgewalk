@@ -6,3 +6,7 @@ exclude:
   - scripts/
   - icon-proof.png
   - terms-preview.png
+  - tools/
+  - node_modules/
+  - package.json
+  - package-lock.json
