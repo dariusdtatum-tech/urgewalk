@@ -136,7 +136,15 @@ html[data-light=evening] .is-evening{display:inline}
 
 /* the reading page (25 Nov 2026, r11): a plain vertical page. Kicker and title on top in ONE column, then the text under
    them; nothing is side by side, so the display title can never meet the paragraph. Same side margin as the book (--lx). */
-.page.read{max-width:calc(46rem + 2 * var(--lx));margin:0;padding-left:var(--lx);padding-right:var(--lx)}
+.page.read{--col:44rem;max-width:calc(var(--col) + 2 * var(--lx));margin:0 auto;padding-left:var(--lx);padding-right:var(--lx)}
+.page.read .reading{max-width:none}
+.page.read .reading .lead{max-width:none}
+/* one rule per break: a rule already above (caption, notice, short) means the next heading adds none */
+.reading .caption+h2,.reading .short+h2,.reading .notice+h2{border-top:0;padding-top:0;margin-top:1.2em}
+/* the Help block and the footer share the centred measure on the reading pages and the 404 (their rules stay full width) */
+main.page.read~.wall,main.page.read~footer,main.page.blank~.wall,main.page.blank~footer{--pad:max(var(--lx),calc((100% - var(--col,44rem))/2));padding-left:var(--pad);padding-right:var(--pad)}
+main.page.read~.wall>*,main.page.read~footer>*{max-width:44rem}
+main.page.blank~.wall,main.page.blank~footer{--col:36rem}
 .page.read .leafhead{max-width:100%}
 .page.read .leafhead .cap{display:block;line-height:1.4;text-wrap:balance}
 .page.read .leafhead h1{overflow-wrap:break-word;hyphens:manual}
