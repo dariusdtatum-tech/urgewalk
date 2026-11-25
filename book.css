@@ -345,3 +345,23 @@ html.js .has-more::after{margin-left:calc(var(--lx)*-1);margin-right:calc(var(--
  .pp:not(.colophon)>.words{grid-column:2;grid-row:2}
  .pp.colophon{align-items:start}
 }
+/* r6.1: phone edges clipped, the Watch leaf fits one phone screen, desktop spreads centred on one grid */
+html.js .pg,html.js .pp{contain:paint;scrollbar-width:none}
+@media (max-width:899px){
+ html.js .pp .watch-plate{height:32svh}
+ .watchpg{row-gap:var(--bl)}
+ .watchpg .tag{display:none}
+ .watchpg h2{font-size:28px}
+ .watchpg .picker{gap:var(--bl);margin-top:var(--bl);padding-top:var(--bl)}
+ .watchpg .credit{margin-top:var(--bl)}
+}
+@media (min-width:900px){
+ :root{--top:112px;--bot:104px;--plate-d:min(calc(100svh - var(--top) - var(--bot)),640px)}
+ html.js .pg,html.js .pp{scrollbar-width:thin}
+ html.js .pp .plate,html.js .pp .watch-plate{height:var(--plate-d);max-height:none}
+ html.js .pp:not(.colophon){align-content:center;grid-template-rows:32px calc(var(--plate-d) - 32px)}
+ html.js .pp.colophon{align-content:center}
+ .pp:not(.colophon)>.folio-cap{align-self:start;margin:0}
+ html.js .pair>.pg:not(#contents):not(#plate-i){padding-top:calc(var(--top) + 12svh)}
+ html.js .pg .plate{height:min(22svh,200px)}
+}

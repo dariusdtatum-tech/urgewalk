@@ -175,6 +175,30 @@ const videos = (page) => page.evaluate(() => [...document.querySelectorAll('vide
   await ctx.close();
 }
 
+{ // the Watch leaf: unnumbered, fits one phone screen, swatches whole
+  const { page, ctx } = await open({ hash: '#watch' });
+  await page.waitForTimeout(600);
+  const w = await page.evaluate(() => { const l = document.querySelector('#watch'); const sw = [...l.querySelectorAll('.sw')].map((b) => b.getBoundingClientRect()); const pl = l.querySelector('.plate').getBoundingClientRect(); return { cap: l.querySelector('.folio-cap').textContent, fits: l.scrollHeight <= l.clientHeight + 1, more: l.classList.contains('has-more'), swIn: sw.every((r) => r.bottom <= innerHeight - 60 && r.right <= innerWidth && r.left >= 0), plate: pl.height / innerHeight }; });
+  ok('phone: the Watch leaf is unnumbered ("On the wrist")', w.cap === 'On the wrist' && !/Plate/.test(w.cap), w.cap);
+  ok('phone 390x844: the Watch leaf fits one screen, swatches whole, no "More below"', w.fits && !w.more && w.swIn && w.plate > 0.28 && w.plate < 0.5, JSON.stringify(w));
+  const edges = await page.evaluate(() => [...document.querySelectorAll('.pg,.pp')].every((l) => getComputedStyle(l).scrollbarWidth === 'none'));
+  ok('phone: leaves show no scrollbar lines at their edges', edges);
+  await ctx.close();
+}
+{ // desktop spreads: equal top margin, text top = plate top, group centred between header and turn bar
+  const { page, ctx } = await open({ viewport: WIDE, touch: false });
+  const rows = [];
+  for (const id of ['plate-ii', 'plate-iv', 'plate-vii', 'watch']) {
+    await page.evaluate((i) => document.getElementById(i).scrollIntoView({ inline: 'start' }), id); await page.waitForTimeout(500);
+    rows.push(await page.evaluate((i) => { const l = document.getElementById(i), p = l.querySelector('.plate').getBoundingClientRect(), c = l.querySelector('.folio-cap').getBoundingClientRect(); return { id: i, top: Math.round(p.top - 72), bottom: Math.round(840 - p.bottom), capDelta: Math.round(c.top - p.top) }; }, id));
+  }
+  ok('wide: caption top meets the plate top, and the plate is centred between header and turn bar', rows.every((r) => Math.abs(r.top - r.bottom) <= 6 && Math.abs(r.capDelta) <= 3 && r.top >= 40), JSON.stringify(rows));
+  await page.goto(BASE + '/#colophon'); await page.waitForTimeout(600);
+  const c = await page.evaluate(() => { const e = document.querySelector('#colophon .words').getBoundingClientRect(), n = document.querySelector('#colophon .colo-right').getBoundingClientRect(); const top = Math.min(e.top, n.top) - 72, bot = 840 - Math.max(e.bottom, n.bottom); return { top: Math.round(top), bot: Math.round(bot) }; });
+  ok('wide: the colophon block is centred (no empty bottom half)', Math.abs(c.top - c.bot) <= 40 && c.top >= 40, JSON.stringify(c));
+  await ctx.close();
+}
+
 console.log(out.join('\n'));
 console.log(`\n${pass} passed, ${fail} failed`);
 await browser.close(); server.close();
