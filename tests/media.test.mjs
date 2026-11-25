@@ -31,15 +31,15 @@ try { browser = await chromium.launch({ channel: 'chrome' }); } catch { browser 
 const fails = [];
 let checked = 0;
 for (const js of [true, false]) for (const light of ['day', 'evening']) for (const pg of pages) {
+  if (!js && light === 'evening') continue; // without JavaScript the site is always daylight
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, javaScriptEnabled: js, reducedMotion: 'reduce' });
   if (js) await ctx.addInitScript((l) => { try { localStorage.setItem('urgewalk.light', l); sessionStorage.setItem('uw-opened', '1'); } catch {} }, light);
   const page = await ctx.newPage();
   const bad = [];
   page.on('response', (r) => { if (r.status() >= 400) bad.push(`${r.status()} ${r.url()}`); });
   await page.goto(`${base}${pg}.html`, { waitUntil: 'load' });
-  if (!js) await page.addStyleTag({ content: '.is-evening{display:' + (light === 'evening' ? 'inline' : 'none') + '}.is-day{display:' + (light === 'evening' ? 'none' : 'inline') + '}' });
   await page.waitForTimeout(400);
-  const info = await page.evaluate(async (light) => {
+  const info = await page.evaluate(async ([light, js]) => {
     const out = { urls: [], empty: [], broken: [] };
     const abs = (u) => new URL(u, location.href).href;
     const visible = (e) => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return r.width > 0 && r.height > 0 && s.display !== 'none' && s.visibility !== 'hidden'; };
@@ -50,9 +50,10 @@ for (const js of [true, false]) for (const light of ['day', 'evening']) for (con
       if (v.getAttribute('src')) out.urls.push(abs(v.getAttribute('src')));
       for (const k of ['day', 'evening']) if (v.dataset[k]) out.urls.push(abs(v.dataset[k]));
     });
+    document.querySelectorAll('img[loading=lazy]').forEach((i) => { i.loading = 'eager'; });
     for (const i of document.querySelectorAll('img')) {
       if (!visible(i) || i.closest('noscript')) continue;
-      if (!i.complete) await new Promise((r) => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); setTimeout(r, 4000); });
+      if (js && !i.complete) await new Promise((r) => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); setTimeout(r, 4000); });
       if (!(i.naturalWidth > 0)) out.broken.push(i.getAttribute('src'));
     }
     for (const p of document.querySelectorAll('.plate')) {
@@ -62,7 +63,7 @@ for (const js of [true, false]) for (const light of ['day', 'evening']) for (con
       if (!imgs.length && !vids.length && !p.querySelector('picture') && !p.classList.contains('shot') && !p.querySelector('svg')) out.empty.push(p.className + ' ' + (p.getAttribute('aria-label') || ''));
     }
     return out;
-  }, light);
+  }, [light, js]);
   const urls = [...new Set(info.urls)];
   for (const u of urls) { const r = await fetch(u); checked++; if (r.status !== 200) fails.push(`${pg} ${light} js=${js}: ${r.status} ${u}`); }
   info.broken.forEach((b) => fails.push(`${pg} ${light} js=${js}: image did not render: ${b}`));

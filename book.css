@@ -136,7 +136,7 @@ html[data-light=evening] .is-evening{display:inline}
 
 /* the reading page (25 Nov 2026, r11): a plain vertical page. Kicker and title on top in ONE column, then the text under
    them; nothing is side by side, so the display title can never meet the paragraph. Same side margin as the book (--lx). */
-.page.read{max-width:calc(46rem + 2 * var(--lx));margin:0 auto;padding-left:var(--lx);padding-right:var(--lx)}
+.page.read{max-width:calc(46rem + 2 * var(--lx));margin:0;padding-left:var(--lx);padding-right:var(--lx)}
 .page.read .leafhead{max-width:100%}
 .page.read .leafhead .cap{display:block;line-height:1.4;text-wrap:balance}
 .page.read .leafhead h1{overflow-wrap:break-word;hyphens:manual}
