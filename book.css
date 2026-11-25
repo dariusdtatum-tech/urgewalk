@@ -218,34 +218,25 @@ html.js body:not(:has(#leaves)){overflow:visible;height:auto}
 .ground-note textarea{width:100%;min-height:84px;font:400 16px/1.5 var(--sans);padding:10px 12px;border:1px solid var(--quiet);border-radius:2px;background:var(--paper2);color:var(--ink);resize:vertical}
 .ground-private{font:400 14px var(--sans);color:var(--quiet);margin:6px 0 0}
 
-/* ride one out: the sea in a plate, the wave in ink on paper */
-.rio{display:grid;gap:22px}
-.rio .sea{margin:0;aspect-ratio:3/2;max-height:30vh;width:100%;border:1px solid var(--rule);background:var(--paper2);outline:8px solid var(--paper);outline-offset:-9px;overflow:hidden}
-.rio .sea video,.rio .sea picture,.rio .sea img{display:block;width:100%;height:100%;object-fit:cover}
-.rio h1{font:300 clamp(40px,9vw,76px)/1 var(--serif);letter-spacing:-.01em;margin:14px 0 0;text-wrap:balance}
-.rio .words{max-width:38rem}
-.rio .lede{margin:16px 0 0;max-width:40ch}
-.rio .after{margin:10px 0 0;max-width:46ch}
-.rio .row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:22px}
-.rio .clock{font-variant-numeric:tabular-nums}
-.rio .quiet{font:inherit;font-size:14px;color:inherit;background:none;border:0;padding:0;min-height:44px;display:inline-flex;align-items:center;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
-.rio .quiet[hidden],.rio .pill[hidden]{display:none}
-.rio .cap .quiet{font:inherit;letter-spacing:inherit;text-transform:inherit}
-.rio .wave{display:block;width:100%;height:clamp(120px,22vh,200px);overflow:visible}
-.rio .wave .all{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1;stroke-dasharray:2 5}
-.rio .wave .area{fill:var(--ink);fill-opacity:.08}
-.rio .wave .trace{fill:none;stroke:var(--ink);stroke-width:1.5}
-.rio .wave .dot{fill:var(--ink)}
-.rio .wave .base{stroke:var(--ink);stroke-opacity:.35;stroke-width:1}
+/* Ride it out (r16): a tool page like Walk, Breathe and Ground (plate left, words right). The sea is the app's Shore loop, in a plate;
+   the wave is a solid 2 px ink line sized to the text column, with a marker that travels along it during the pass. */
+.rio .plate video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s;pointer-events:none}
+.rio .plate video.on{opacity:1}
+.rio .tool-inner{max-width:38rem}
+.rio .wavebox{position:relative;margin:30px 0 0;border-bottom:1px solid var(--rule)}
+.rio .wave{display:block;width:100%;height:clamp(110px,18vh,170px);overflow:visible}
+.rio .wave .all{fill:none;stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.rio .wave .area{fill:var(--ink);fill-opacity:.1}
+.rio .wave .trace{fill:none;stroke:none}
+.rio .marker{position:absolute;left:0;top:100%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px var(--paper)}
+.rio[data-state="idle"] .marker,.rio[data-state="idle"] .area{opacity:0}
 .rio .scale{display:flex;justify-content:space-between;font:500 12px/1.4 var(--serif);letter-spacing:.2em;text-transform:uppercase;color:var(--quiet);margin-top:8px}
-.rio .nojs{margin:0;max-width:46ch}
-.rio[data-state="idle"] .trace,.rio[data-state="idle"] .dot{opacity:0}
-@media (min-width:900px){
- .rio{grid-template-columns:minmax(0,5fr) minmax(0,6fr);column-gap:6vw;align-items:start;padding-top:120px}
- .rio .sea{grid-row:1/3;aspect-ratio:4/5;max-height:72vh;position:sticky;top:110px}
- .rio .foot{align-self:end}
-}
-
+.rio .timer{margin:10px 0 0;font:500 13px/1 var(--serif);letter-spacing:.18em;text-transform:uppercase;color:var(--quiet)}
+.rio .clock,.rio #clock{font-variant-numeric:tabular-nums}
+.rio .quiet{font:inherit;font-size:14px;color:inherit;background:none;border:0;padding:0 8px;min-height:44px;display:inline-flex;align-items:center;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.rio .quiet[hidden],.rio .pill[hidden]{display:none}
+.rio .nojs{margin:18px 0 0;max-width:46ch}
+.rio .tool-controls{align-items:center}
 
 /* a capture of the real app as a plate (home, Plates II to IV): phone-shaped, never cropped, never tinted */
 .plate.shot{background:var(--paper2);aspect-ratio:390/844;width:auto;max-width:100%;height:min(64vh,600px);max-height:none;justify-self:start}

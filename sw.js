@@ -12,7 +12,7 @@ const CORE = [
   'assets/motion/plate-path.jpg', 'assets/motion/path-evening-tall.webp',
   'assets/motion/plate-inlet.jpg', 'assets/motion/plate-inlet-evening.jpg',
   'assets/motion/plate-shore.jpg', 'assets/motion/plate-shore-evening.jpg',
-  'assets/motion/ride-day-tall.jpg', 'assets/motion/ride-day-wide.jpg', 'assets/motion/ride-evening-tall.jpg', 'assets/motion/ride-evening-wide.jpg',
+  'assets/motion/book/shore.jpg', 'assets/motion/book/shore-evening.jpg',
 ]
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()))
