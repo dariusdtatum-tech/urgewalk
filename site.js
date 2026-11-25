@@ -500,3 +500,33 @@
     }
   }))
 })()
+
+// The tool pages' plates (Walk, Breathe, Ground): the poster <img> paints first; the place's loop (the same files as the
+// home book's plates) plays while the plate is on screen, following the light switch. Never under Reduce Motion or
+// Save-Data, and never without JavaScript: then the poster stays. The home's own loops live in book.js.
+;(() => {
+  const root = document.documentElement
+  const vids = [...document.querySelectorAll('.plate video.loop')].filter((v) => !v.closest('#leaves'))
+  if (!vids.length) return
+  const c = navigator.connection || {}
+  const reduceQ = matchMedia('(prefers-reduced-motion: reduce)')
+  const seen = new Set()
+  const file = (v) => (root.dataset.light === 'evening' ? v.dataset.evening : v.dataset.day)
+  const sync = () => {
+    for (const v of vids) {
+      const on = !c.saveData && !reduceQ.matches && !document.hidden && seen.has(v)
+      if (!on) { v.pause(); v.classList.remove('on'); if (v.getAttribute('src')) { v.removeAttribute('src'); v.load() } continue }
+      const f = file(v)
+      if (v.getAttribute('src') !== f) { v.classList.remove('on'); v.src = f }
+      v.play().catch(() => {})
+    }
+  }
+  vids.forEach((v) => v.addEventListener('playing', () => v.classList.add('on')))
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => { es.forEach((e) => { const v = e.target.querySelector('video.loop'); if (e.isIntersecting) seen.add(v); else seen.delete(v) }); sync() }, { threshold: [0, 0.25] })
+    vids.forEach((v) => io.observe(v.parentElement))
+  } else vids.forEach((v) => seen.add(v))
+  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-light'] })
+  reduceQ.addEventListener('change', sync)
+  document.addEventListener('visibilitychange', sync)
+})()

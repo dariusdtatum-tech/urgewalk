@@ -134,13 +134,28 @@ html[data-light=evening] .is-evening{display:inline}
 .free-list{list-style:none;padding:0!important;border-top:1px solid var(--rule);display:grid;column-gap:32px}
 .free-list li{margin:0;padding:10px 0;border-bottom:1px solid var(--rule)}
 
-/* the reading leaf: caption and title in the margin on wide screens, the text on the facing page */
+/* the reading page (25 Nov 2026, r11): a plain vertical page. Kicker and title on top in ONE column, then the text under
+   them; nothing is side by side, so the display title can never meet the paragraph. Same side margin as the book (--lx). */
+.page.read{--col:44rem;max-width:calc(var(--col) + 2 * var(--lx));margin:0 auto;padding-left:var(--lx);padding-right:var(--lx)}
+.page.read .reading{max-width:none}
+.page.read .reading .lead{max-width:none}
+/* one rule per break: a rule already above (caption, notice, short) means the next heading adds none */
+.reading .caption+h2,.reading .short+h2,.reading .notice+h2{border-top:0;padding-top:0;margin-top:1.2em}
+/* the Help block and the footer share the centred measure on the reading pages and the 404 (their rules stay full width) */
+main.page.read~.wall,main.page.read~footer,main.page.blank~.wall,main.page.blank~footer{--pad:max(var(--lx),calc((100% - var(--col,44rem))/2));padding-left:var(--pad);padding-right:var(--pad)}
+main.page.read~.wall>*,main.page.read~footer>*{max-width:44rem}
+main.page.blank~.wall,main.page.blank~footer{--col:36rem}
+.page.read .leafhead{max-width:100%}
+.page.read .leafhead .cap{display:block;line-height:1.4;text-wrap:balance}
+.page.read .leafhead h1{overflow-wrap:break-word;hyphens:manual}
 @media (min-width:900px){
- .page.read{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,46rem);gap:6vw;padding-top:120px}
- .page.read .leafhead{position:sticky;top:110px;align-self:start}
- .page.read .reading{margin-top:0}
+ .page.read{padding-top:120px}
  .free-list{grid-template-columns:1fr 1fr}
 }
+/* Only the home is a book. On every other page the page itself scrolls (html.js must not lock the body there). */
+html.js body:not(:has(#leaves)){overflow:visible;height:auto}
+.reading details>:not(summary){overflow-wrap:break-word}
+.tool .plate video.loop{pointer-events:none}
 
 /* the blank leaf (404) */
 .page.blank{min-height:100svh;display:grid;align-content:center;max-width:36rem;margin:0 auto;padding-top:110px}
