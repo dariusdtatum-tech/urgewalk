@@ -492,23 +492,23 @@ html[data-light=evening] .phonefig:not([data-view]) .pe,.phonefig[data-view=even
    phones give the place plate 28% of the leaf, then the phone, then the toggle and caption under the phone */
 @media (min-width:900px){
  html.js .pp:not(.colophon):has(.phonefig){grid-template-rows:32px auto;align-content:center}
- .pp:has(.phonefig)>.words{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:calc(var(--bl)*4);align-content:start;grid-auto-rows:min-content}
+ .pp:has(.phonefig)>.words{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:calc(var(--bl)*4);align-content:start;grid-template-rows:auto auto 1fr auto auto auto auto auto 1fr}
  .pp:has(.phonefig) .words>h2,.pp:has(.phonefig) .words>.tag{grid-column:1/-1}
  .pp:has(.phonefig) .words>h2{grid-row:1}
  .pp:has(.phonefig) .words>.tag{grid-row:2}
- .pp:has(.phonefig) .words>p:not(.tag){grid-column:2;grid-row:3}
- .pp:has(.phonefig) .words>.takes{grid-column:2;grid-row:4;max-width:none}
- .pp:has(.phonefig) .words>.more{grid-column:2;grid-row:5;justify-self:start}
+ .pp:has(.phonefig) .words>p:not(.tag){grid-column:2;grid-row:4}
+ .pp:has(.phonefig) .words>.takes{grid-column:2;grid-row:5;max-width:none}
+ .pp:has(.phonefig) .words>.more{grid-column:2;grid-row:6;justify-self:start}
  .pp .phonefig{display:contents}
- .pp .phonefig .phone{grid-column:1;grid-row:3/9;--ph:clamp(300px,calc(100svh - 420px),520px);margin-top:calc(var(--bl)*2)}
- .pp .phonefig .pv{grid-column:2;grid-row:6;align-self:end;margin-top:calc(var(--bl)*2)}
- .pp .phonefig figcaption{grid-column:2;grid-row:7;align-self:start;margin-top:6px}
+ .pp .phonefig .phone{grid-column:1;grid-row:3/10;--ph:clamp(300px,calc(100svh - 420px),520px);margin-top:calc(var(--bl)*2)}
+ .pp .phonefig .pv{grid-column:2;grid-row:7;align-self:start;margin-top:calc(var(--bl)*2)}
+ .pp .phonefig figcaption{grid-column:2;grid-row:8;align-self:start;margin-top:6px}
  .pg:not(#plate-i) .phonefig{--ph:min(36svh,340px)}
 }
 @media (max-width:899px){
  html.js .pp:has(.phonefig) .plate{height:28svh}
  .pp .phonefig,#help .phonefig,#community .phonefig{display:flex;flex-direction:column;align-items:center;width:100%;gap:6px;--ph:clamp(96px,calc(72svh - 411px),300px)}
- #help .phonefig,#community .phonefig{--ph:clamp(96px,calc(100svh - 558px),230px)}
+ #help .phonefig,#community .phonefig{--ph:clamp(96px,calc(100svh - 558px),300px)}
  .phonefig .phone{grid-row:auto}
  .phonefig .pv{align-self:center}
  .phonefig figcaption{align-self:center;text-align:center;max-width:none}
@@ -545,3 +545,15 @@ html[data-light=evening] .phonefig:not([data-view]) .pe,.phonefig[data-view=even
  .pp .phonefig{--ph:clamp(96px,calc(72svh - 445px),300px);gap:4px}
 }
 @media (max-width:899px) and (max-height:700px){.pp .phonefig{--ph:clamp(96px,calc(72svh - 345px),300px)}}
+@media (max-width:899px){.pp .phonefig{--ph:clamp(96px,calc(100svh - 585px),330px)}}
+@media (max-width:899px) and (max-height:700px){.pp .phonefig{--ph:clamp(96px,calc(100svh - 470px),330px)}}
+/* phones, JS on: the phone takes whatever the leaf has left (container units), so it is as big as fits */
+@media (max-width:899px){
+ html.js .pp:has(.phonefig){grid-template-rows:auto auto minmax(0,1fr)}
+ html.js .pp:has(.phonefig)>.words{display:flex;flex-direction:column;min-height:0}
+ html.js .pp:has(.phonefig) .phonefig{flex:1 1 0;min-height:0;container-type:size;width:100%;--ph:clamp(96px,calc(100cqh - 56px),340px)}
+}
+@media (max-width:899px){
+ html.js .pp:has(.phonefig)>.words{align-self:stretch}
+ .pp:has(.phonefig) .words>p:not(.tag){display:none}
+}
