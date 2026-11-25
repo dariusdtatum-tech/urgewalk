@@ -1,97 +1,88 @@
 <!doctype html><html lang="en" data-light="day"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rgpZC3hHXdR47R2klULYIUTjIHxADsqSX92TtbF3W/Y=' 'sha256-2wIs/Dx7/t9JrkBVQTUwx18h6BlN5OhcCUPalqE16Yg='; style-src 'self' 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rgpZC3hHXdR47R2klULYIUTjIHxADsqSX92TtbF3W/Y=' 'sha256-94Ih3Ab9Dev4A3lK7vcjdH2XxB3oJQnbB6SKMTTRz44='; style-src 'self' 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <!-- pre-launch: remove at launch -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#e9e1cf">
 <script>(function(d){var h=d.documentElement,l;try{l=localStorage.getItem('urgewalk.light')}catch(e){}if(l!=='day'&&l!=='evening'){var t=new Date().getHours();l=t>=5&&t<17?'day':'evening'}h.setAttribute('data-light',l);h.classList.add('js');try{var c=navigator.connection||{};if(/^\/(index\.html)?$/.test(location.pathname)&&!location.hash&&!c.saveData&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.getItem('uw-opened')){h.classList.add('opening');sessionStorage.setItem('uw-opened','1')}}catch(e){}})(document)</script>
-<title>Ride one out · Urge Walk</title><meta name="description" content="Feel an urge pass in ninety seconds: a wave rises, peaks and fades over moving water at the Shore. From Urge Walk.">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Urge Walk"><meta property="og:title" content="Ride one out · Urge Walk"><meta property="og:description" content="Feel an urge pass in ninety seconds: a wave rises, peaks and fades over moving water at the Shore. From Urge Walk.">
+<title>Ride it out · Urge Walk</title><meta name="description" content="Watch an urge pass in 90 seconds. A wave rises, peaks and fades over moving water at the Shore. From Urge Walk.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Urge Walk"><meta property="og:title" content="Ride it out · Urge Walk"><meta property="og:description" content="Watch an urge pass in 90 seconds. A wave rises, peaks and fades over moving water at the Shore. From Urge Walk.">
 <meta property="og:url" content="https://urgewalk.app/ride.html"><link rel="canonical" href="https://urgewalk.app/ride.html"><meta property="og:image" content="https://urgewalk.app/assets/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Urges pass, like waves. Urge Walk, a calm iPhone app, coming soon, with its first screen, You’re here., over the sea."><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="assets/icon-sg11.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32-sg11.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16-sg11.png"><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon-sg11.png">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" crossorigin>
 <link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Urge Walk"><meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="stylesheet" href="book.css?v=r14"><script src="book.js?v=r14" defer></script><script src="site.js?v=r14" defer></script>
+<link rel="stylesheet" href="book.css?v=r16"><script src="book.js?v=r16" defer></script><script src="site.js?v=r16" defer></script>
 <noscript><style>/* Without JavaScript: the Shore still, the whole wave, and a calm line in place of Start. */
-.rio .sea video,#go,.rio .js-only{display:none}.rio .wave path.all{stroke-opacity:.8;stroke-dasharray:none;stroke-width:1.5;vector-effect:non-scaling-stroke}</style></noscript>
+.rio video,#go,#stop,.rio .js-only{display:none}</style></noscript>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="head"><a class="brand" href="index.html">Urge Walk</a>
 <nav class="nav" aria-label="Pages"><a href="index.html#plates">The book</a><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
 <a class="help" href="#help"><span>Help</span><b>988</b></a></header>
-<main id="main" class="page rio" data-state="idle">
-<figure class="plate sea"><video id="sea" muted loop playsinline preload="metadata" aria-hidden="true"></video><noscript><picture class="still"><source media="(orientation: portrait)" srcset="assets/motion/ride-day-tall.jpg"><img src="assets/motion/ride-day-wide.jpg" alt="" width="1280" height="720"></picture></noscript></figure>
-<section class="words" aria-live="polite">
-<p class="cap">The Shore<span class="when js-only"> · <span class="clock" id="clock" aria-live="off">1:30</span></span><span class="js-only"> · <button class="quiet" id="mode" type="button" aria-pressed="true">Motion on</button></span></p>
-<h1 id="line">Ride one <em>out.</em></h1>
-<p class="lede" id="lede">Urges often rise, peak and pass. Press Start and stay with this one for ninety seconds. There is nothing to do but watch it go.</p>
-<p class="after" id="after" hidden></p>
-<div class="row"><noscript><p class="nojs">The ninety-second ride needs JavaScript to run. The wave below still shows the shape of one: it rises, peaks and passes.</p></noscript><button class="pill" id="go" type="button">Start</button><button class="quiet" id="stop" type="button" hidden>Stop</button><button class="quiet" id="again" type="button" hidden>Ride another</button><a class="quiet" id="tools" href="breathe.html" hidden>Breathe for a minute</a></div>
-</section>
-<div class="foot">
-<svg class="wave" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true"><path class="area" id="area" d=""></path><path class="all" id="all" d="M0.0 196.0L4.2 196.0L8.3 195.9L12.5 195.8L16.7 195.6L20.8 195.3L25.0 194.9L29.2 194.3L33.3 193.7L37.5 192.8L41.7 191.9L45.8 190.8L50.0 189.5L54.2 188.1L58.3 186.6L62.5 185.0L66.7 183.2L70.8 181.2L75.0 179.2L79.2 177.0L83.3 174.7L87.5 172.3L91.7 169.8L95.8 167.3L100.0 164.6L104.2 161.8L108.3 159.0L112.5 156.1L116.7 153.1L120.8 150.0L125.0 147.0L129.2 143.8L133.3 140.7L137.5 137.5L141.7 134.3L145.8 131.0L150.0 127.8L154.2 124.5L158.3 121.2L162.5 118.0L166.7 114.7L170.8 111.5L175.0 108.2L179.2 105.0L183.3 101.9L187.5 98.7L191.7 95.6L195.8 92.5L200.0 89.5L204.2 86.5L208.3 83.5L212.5 80.6L216.7 77.8L220.8 75.0L225.0 72.3L229.2 69.6L233.3 67.0L237.5 64.4L241.7 61.9L245.8 59.5L250.0 57.2L254.2 54.9L258.3 52.7L262.5 50.6L266.7 48.5L270.8 46.5L275.0 44.6L279.2 42.8L283.3 41.0L287.5 39.3L291.7 37.7L295.8 36.2L300.0 34.7L304.2 33.3L308.3 32.0L312.5 30.8L316.7 29.6L320.8 28.5L325.0 27.5L329.2 26.6L333.3 25.7L337.5 24.9L341.7 24.2L345.8 23.5L350.0 22.9L354.2 22.4L358.3 22.0L362.5 21.6L366.7 21.3L370.8 21.0L375.0 20.8L379.2 20.7L383.3 20.6L387.5 20.6L391.7 20.6L395.8 20.8L400.0 20.9L404.2 21.1L408.3 21.4L412.5 21.7L416.7 22.1L420.8 22.5L425.0 23.0L429.2 23.5L433.3 24.1L437.5 24.7L441.7 25.4L445.8 26.1L450.0 26.8L454.2 27.6L458.3 28.5L462.5 29.3L466.7 30.2L470.8 31.2L475.0 32.1L479.2 33.2L483.3 34.2L487.5 35.3L491.7 36.4L495.8 37.5L500.0 38.7L504.2 39.8L508.3 41.1L512.5 42.3L516.7 43.6L520.8 44.8L525.0 46.2L529.2 47.5L533.3 48.8L537.5 50.2L541.7 51.6L545.8 53.0L550.0 54.4L554.2 55.8L558.3 57.3L562.5 58.8L566.7 60.2L570.8 61.7L575.0 63.2L579.2 64.7L583.3 66.3L587.5 67.8L591.7 69.3L595.8 70.9L600.0 72.4L604.2 74.0L608.3 75.5L612.5 77.1L616.7 78.7L620.8 80.3L625.0 81.9L629.2 83.4L633.3 85.0L637.5 86.6L641.7 88.2L645.8 89.8L650.0 91.4L654.2 93.0L658.3 94.6L662.5 96.1L666.7 97.7L670.8 99.3L675.0 100.9L679.2 102.5L683.3 104.0L687.5 105.6L691.7 107.2L695.8 108.7L700.0 110.3L704.2 111.8L708.3 113.4L712.5 114.9L716.7 116.4L720.8 118.0L725.0 119.5L729.2 121.0L733.3 122.5L737.5 124.0L741.7 125.5L745.8 126.9L750.0 128.4L754.2 129.9L758.3 131.3L762.5 132.8L766.7 134.2L770.8 135.6L775.0 137.0L779.2 138.4L783.3 139.8L787.5 141.2L791.7 142.6L795.8 143.9L800.0 145.3L804.2 146.6L808.3 148.0L812.5 149.3L816.7 150.6L820.8 151.9L825.0 153.2L829.2 154.4L833.3 155.7L837.5 156.9L841.7 158.2L845.8 159.4L850.0 160.6L854.2 161.8L858.3 163.0L862.5 164.2L866.7 165.3L870.8 166.5L875.0 167.6L879.2 168.8L883.3 169.9L887.5 171.0L891.7 172.1L895.8 173.1L900.0 174.2L904.2 175.3L908.3 176.3L912.5 177.3L916.7 178.3L920.8 179.3L925.0 180.3L929.2 181.3L933.3 182.3L937.5 183.2L941.7 184.2L945.8 185.1L950.0 186.0L954.2 186.9L958.3 187.8L962.5 188.7L966.7 189.5L970.8 190.4L975.0 191.2L979.2 192.0L983.3 192.9L987.5 193.7L991.7 194.5L995.8 195.2L1000.0 196.0"></path><path class="trace" id="trace" d=""></path><line class="base" x1="0" y1="199.5" x2="1000" y2="199.5"></line><circle class="dot" id="dot" r="4" cx="0" cy="199"></circle></svg>
+<main id="main" class="page tool rio" data-state="idle">
+<figure class="plate p4" role="img" aria-label="Pebbles and shallow surf"><img class="is-day" src="assets/motion/book/shore.jpg" alt="" decoding="async"><img class="is-evening" src="assets/motion/book/shore-evening.jpg" alt="" decoding="async"><video id="sea" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture></video></figure>
+<div class="tool-inner words">
+<p class="cap">Plate IV · The Shore<span class="when"> · <span class="is-day">by day</span><span class="is-evening">at evening</span></span></p>
+<div aria-live="polite"><h1 id="line">Ride it <em>out.</em></h1>
+<p class="lede" id="lede">Urges often rise, peak and pass. Press Start and stay with this one for 90 seconds. You don’t have to do anything. Just watch it go.</p></div>
+<div class="wavebox"><svg class="wave" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true"><path class="area" id="area" d=""></path><path class="all" id="all" d="M0.0 196.0L4.2 196.0L8.3 195.9L12.5 195.8L16.7 195.6L20.8 195.3L25.0 194.9L29.2 194.3L33.3 193.7L37.5 192.8L41.7 191.9L45.8 190.8L50.0 189.5L54.2 188.1L58.3 186.6L62.5 185.0L66.7 183.2L70.8 181.2L75.0 179.2L79.2 177.0L83.3 174.7L87.5 172.3L91.7 169.8L95.8 167.3L100.0 164.6L104.2 161.8L108.3 159.0L112.5 156.1L116.7 153.1L120.8 150.0L125.0 147.0L129.2 143.8L133.3 140.7L137.5 137.5L141.7 134.3L145.8 131.0L150.0 127.8L154.2 124.5L158.3 121.2L162.5 118.0L166.7 114.7L170.8 111.5L175.0 108.2L179.2 105.0L183.3 101.9L187.5 98.7L191.7 95.6L195.8 92.5L200.0 89.5L204.2 86.5L208.3 83.5L212.5 80.6L216.7 77.8L220.8 75.0L225.0 72.3L229.2 69.6L233.3 67.0L237.5 64.4L241.7 61.9L245.8 59.5L250.0 57.2L254.2 54.9L258.3 52.7L262.5 50.6L266.7 48.5L270.8 46.5L275.0 44.6L279.2 42.8L283.3 41.0L287.5 39.3L291.7 37.7L295.8 36.2L300.0 34.7L304.2 33.3L308.3 32.0L312.5 30.8L316.7 29.6L320.8 28.5L325.0 27.5L329.2 26.6L333.3 25.7L337.5 24.9L341.7 24.2L345.8 23.5L350.0 22.9L354.2 22.4L358.3 22.0L362.5 21.6L366.7 21.3L370.8 21.0L375.0 20.8L379.2 20.7L383.3 20.6L387.5 20.6L391.7 20.6L395.8 20.8L400.0 20.9L404.2 21.1L408.3 21.4L412.5 21.7L416.7 22.1L420.8 22.5L425.0 23.0L429.2 23.5L433.3 24.1L437.5 24.7L441.7 25.4L445.8 26.1L450.0 26.8L454.2 27.6L458.3 28.5L462.5 29.3L466.7 30.2L470.8 31.2L475.0 32.1L479.2 33.2L483.3 34.2L487.5 35.3L491.7 36.4L495.8 37.5L500.0 38.7L504.2 39.8L508.3 41.1L512.5 42.3L516.7 43.6L520.8 44.8L525.0 46.2L529.2 47.5L533.3 48.8L537.5 50.2L541.7 51.6L545.8 53.0L550.0 54.4L554.2 55.8L558.3 57.3L562.5 58.8L566.7 60.2L570.8 61.7L575.0 63.2L579.2 64.7L583.3 66.3L587.5 67.8L591.7 69.3L595.8 70.9L600.0 72.4L604.2 74.0L608.3 75.5L612.5 77.1L616.7 78.7L620.8 80.3L625.0 81.9L629.2 83.4L633.3 85.0L637.5 86.6L641.7 88.2L645.8 89.8L650.0 91.4L654.2 93.0L658.3 94.6L662.5 96.1L666.7 97.7L670.8 99.3L675.0 100.9L679.2 102.5L683.3 104.0L687.5 105.6L691.7 107.2L695.8 108.7L700.0 110.3L704.2 111.8L708.3 113.4L712.5 114.9L716.7 116.4L720.8 118.0L725.0 119.5L729.2 121.0L733.3 122.5L737.5 124.0L741.7 125.5L745.8 126.9L750.0 128.4L754.2 129.9L758.3 131.3L762.5 132.8L766.7 134.2L770.8 135.6L775.0 137.0L779.2 138.4L783.3 139.8L787.5 141.2L791.7 142.6L795.8 143.9L800.0 145.3L804.2 146.6L808.3 148.0L812.5 149.3L816.7 150.6L820.8 151.9L825.0 153.2L829.2 154.4L833.3 155.7L837.5 156.9L841.7 158.2L845.8 159.4L850.0 160.6L854.2 161.8L858.3 163.0L862.5 164.2L866.7 165.3L870.8 166.5L875.0 167.6L879.2 168.8L883.3 169.9L887.5 171.0L891.7 172.1L895.8 173.1L900.0 174.2L904.2 175.3L908.3 176.3L912.5 177.3L916.7 178.3L920.8 179.3L925.0 180.3L929.2 181.3L933.3 182.3L937.5 183.2L941.7 184.2L945.8 185.1L950.0 186.0L954.2 186.9L958.3 187.8L962.5 188.7L966.7 189.5L970.8 190.4L975.0 191.2L979.2 192.0L983.3 192.9L987.5 193.7L991.7 194.5L995.8 195.2L1000.0 196.0"></path><path class="trace" id="trace" d=""></path></svg><span class="marker" id="dot" aria-hidden="true"></span></div>
 <div class="scale" aria-hidden="true"><span>Start</span><span>Peak</span><span>Passed</span></div>
-</div>
-</main>
+<p class="timer js-only" aria-hidden="true"><span id="clock">1:30</span> left</p>
+<noscript><p class="nojs">The 90-second ride needs JavaScript to run. The wave above still shows the shape of one: it rises, peaks and passes.</p></noscript>
+<div class="tool-controls"><button class="pill" id="go" type="button">Start</button><button class="pill ghost" id="stop" type="button" disabled>Stop</button><button class="quiet js-only" id="mode" type="button" hidden>Pause motion</button></div>
+<p class="after" id="after" hidden></p>
+<a class="more" href="index.html#keep">Keep these tools on your phone</a>
+</div></main>
 <script>
 (() => {
   const T = 90, PEAK = 35, K = 2.8;                       // seconds; where it peaks; how sharp the rise
   const level = t => { if (t <= 0) return 0; const x = t / PEAK; return Math.min(1, Math.pow(x, K) * Math.exp(K * (1 - x)) * (1 - Math.pow(t / T, 6))); };
   const X = t => t / T * 1000, Y = v => 196 - v * 176;
-  const pts = n => { let d = ""; for (let i = 0; i <= n; i++){ const t = i / n * T; d += (i ? "L" : "M") + X(t).toFixed(1) + " " + Y(level(t)).toFixed(1); } return d; };
-  const full = pts(240);
-  document.getElementById("all").setAttribute("d", full);
   const $ = id => document.getElementById(id);
-  const shore = document.getElementById("main"), sea = document.getElementById("sea"), line = $("line"), lede = $("lede"), after = $("after");
-  const go = $("go"), stop = $("stop"), again = $("again"), clock = $("clock"), trace = $("trace"), area = $("area"), dot = $("dot");
-  // Motion is chosen per device: 4K on large sharp screens, 1440p on ordinary ones, a tall cut on phones,
-  // and a still photograph when the device asks for less motion or less data. Anyone can switch it.
-  let reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const tall = innerHeight > innerWidth, px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
-  // Both lights play the Shore's loops the app ships (ride-day / ride-evening, tall or wide), each with its own poster.
-  const SEA = {
-    day: { file: tall ? "assets/motion/ride-day-tall.mp4" : "assets/motion/ride-day-wide.mp4",
-           poster: tall ? "assets/motion/ride-day-tall.jpg" : "assets/motion/ride-day-wide.jpg" },
-    evening: { file: tall ? "assets/motion/ride-evening-tall.mp4" : "assets/motion/ride-evening-wide.mp4",
-               poster: tall ? "assets/motion/ride-evening-tall.jpg" : "assets/motion/ride-evening-wide.jpg" }
-  };
+  const shore = $("main"), sea = $("sea"), line = $("line"), lede = $("lede"), after = $("after");
+  const go = $("go"), stop = $("stop"), clock = $("clock"), trace = $("trace"), area = $("area"), dot = $("dot"), modeBtn = $("mode");
+  // The sea is the Shore loop the app ships (720 x 1280, shown in the plate at or below that size, so it is never
+  // stretched). The still is already in the plate; the footage fades in over it once it plays. Reduce Motion: stills only.
+  const reduceQ = matchMedia("(prefers-reduced-motion: reduce)"), conn = navigator.connection || {};
+  const still = () => reduceQ.matches || !!conn.saveData;
+  const FILES = { day: "assets/motion/book/shore.mp4", evening: "assets/motion/book/shore-evening.mp4" };
   const root = document.documentElement;
-  let file = "", seaLight = "";
+  let file = "", seaLight = "", paused = false, running = false;
   // Match the sea to Island light. A switch during a pass waits for the next Start (see start()).
   function matchLight(){
     const l = root.dataset.light === "evening" ? "evening" : "day";
     if (l === seaLight) return;
-    seaLight = l; file = SEA[l].file; sea.poster = SEA[l].poster;
-    if (sea.getAttribute("src")) sea.src = file;
+    seaLight = l; file = FILES[l];
+    if (sea.getAttribute("src")){ sea.classList.remove("on"); sea.src = file; if (running && !paused) play(); }
   }
+  function play(){ const r = sea.play(); r && r.catch && r.catch(() => {}); }
   matchLight();
-  new MutationObserver(() => { if (shore.dataset.state === "idle") matchLight(); }).observe(root, { attributes: true, attributeFilter: ["data-light"] });
-  const modeBtn = $("mode");
-  function setMode(still){
-    reduce = still; modeBtn.textContent = still ? "Motion off" : "Motion on"; modeBtn.setAttribute("aria-pressed", String(!still));
-    if (still){ sea.pause(); }
-    else { if (!sea.getAttribute("src")){ sea.src = file; sea.preload = "auto"; } if (running){ const r = sea.play(); r && r.catch && r.catch(() => {}); } }
-  }
-  modeBtn.addEventListener("click", () => setMode(!reduce));
+  new MutationObserver(() => { if (shore.dataset.state !== "running") matchLight(); }).observe(root, { attributes: true, attributeFilter: ["data-light"] });
+  sea.addEventListener("playing", () => sea.classList.add("on"));
+  if (!still()){ sea.src = file; sea.preload = "auto"; }
+  modeBtn.addEventListener("click", () => {
+    paused = !paused; modeBtn.textContent = paused ? "Play motion" : "Pause motion";
+    if (paused) sea.pause(); else if (running) play();
+  });
   const PHASES = [
-    [0,  "It's <em>rising.</em>", "Let it. You don't have to do anything with it."],
-    [22, "Nearly at <em>the top.</em>", "This is the hardest part, and it doesn't last."],
-    [32, "The <em>peak.</em>", "It feels like it will stay. It won't."],
-    [46, "It's <em>easing.</em>", "Notice the difference from a moment ago."],
+    [0,  "It’s <em>rising.</em>", "Let it. You don’t have to do anything with it."],
+    [22, "Nearly at <em>the top.</em>", "This is the hardest part, and it doesn’t last."],
+    [32, "The <em>peak.</em>", "It feels like it will stay. It won’t."],
+    [46, "It’s <em>easing.</em>", "Notice how it feels now, next to a moment ago."],
     [70, "Almost <em>gone.</em>", "Stay a little longer."]
   ];
-  let t0 = 0, raf = 0, phase = -1, running = false;
+  let t0 = 0, raf = 0, phase = -1;
   const fmt = s => Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0");
   function draw(t){
     const n = Math.max(2, Math.round(t / T * 240)); let d = "";
     for (let i = 0; i <= n; i++){ const tt = i / n * t; d += (i ? "L" : "M") + X(tt).toFixed(1) + " " + Y(level(tt)).toFixed(1); }
     trace.setAttribute("d", d);
-    area.setAttribute("d", d + `L${X(t).toFixed(1)} 199.5L0 199.5Z`);
-    dot.setAttribute("cx", X(t).toFixed(1)); dot.setAttribute("cy", Y(level(t)).toFixed(1));
+    area.setAttribute("d", d + `L${X(t).toFixed(1)} 200L0 200Z`);
+    dot.style.left = (t / T * 100).toFixed(2) + "%"; dot.style.top = (Y(level(t)) / 200 * 100).toFixed(2) + "%";
   }
-  function seaFollows(v){ if (reduce) return; sea.playbackRate = .45 + v * 1.15; }
+  function seaFollows(v){ if (!paused) sea.playbackRate = .45 + v * 1.15; }
   function frame(){
     const t = Math.min(T, (performance.now() - t0) / 1000);
     draw(t); seaFollows(level(t)); clock.textContent = fmt(T - t);
@@ -102,33 +93,32 @@
   }
   function start(){
     matchLight(); running = true; phase = -1; shore.dataset.state = "running";
-    go.hidden = true; again.hidden = true; document.getElementById("tools").hidden = true; stop.hidden = false; after.hidden = true; lede.hidden = false;
-    if (!reduce){ sea.playbackRate = .45; const r = sea.play(); r && r.catch && r.catch(() => {}); }
+    go.hidden = true; stop.disabled = false; after.hidden = true; clock.textContent = fmt(T);
+    modeBtn.hidden = still(); paused = false; modeBtn.textContent = "Pause motion";
+    if (!still()){ if (!sea.getAttribute("src")) sea.src = file; sea.playbackRate = .45; play(); }
     t0 = performance.now(); raf = requestAnimationFrame(frame);
   }
   function finish(done){
-    cancelAnimationFrame(raf); running = false; shore.dataset.state = "done"; stop.hidden = true; again.hidden = false;
+    cancelAnimationFrame(raf); running = false; shore.dataset.state = "done"; stop.disabled = true; go.hidden = false; go.textContent = "Ride another"; modeBtn.hidden = true;
     if (done){
-      line.innerHTML = "It passed. <em>You're still here.</em>";
-      lede.textContent = "That's what an urge is: a wave. It rises, it peaks, and it passes.";
-      after.innerHTML = "Urge Walk is a quiet place to do this when one comes: walk it out, breathe, or ground yourself until it passes. It's on your phone and nothing leaves it. Coming to iPhone.";
-      after.hidden = false; clock.textContent = "0:00"; document.getElementById("tools").hidden = false;
+      line.innerHTML = "It passed. <em>You’re still here.</em>";
+      lede.textContent = "That’s what an urge is: a wave. It rises, it peaks, and it passes.";
+      after.innerHTML = "Urge Walk is a quiet place to do this when one comes: walk it out, breathe, or ground yourself until it passes. It’s on your phone and nothing leaves it. Coming to iPhone. Want one more calm minute? <a href=\"breathe.html\">Breathe for a minute</a>.";
+      after.hidden = false; clock.textContent = "0:00";
       // The sea slows to rest, then stills.
-      if (!reduce){ let r = sea.playbackRate; const slow = () => { r = Math.max(.15, r - .02); sea.playbackRate = r; if (r > .15) setTimeout(slow, 120); else sea.pause(); }; slow(); }
+      if (!still() && !paused){ let r = sea.playbackRate; const slow = () => { r = Math.max(.15, r - .02); sea.playbackRate = r; if (r > .15) setTimeout(slow, 120); else sea.pause(); }; slow(); }
     } else {
-      line.innerHTML = "Stopped. <em>That's okay.</em>"; lede.textContent = "Come back to it whenever you like."; sea.pause();
+      line.innerHTML = "Stopped. <em>That’s okay.</em>"; lede.textContent = "Come back to it whenever you like."; sea.pause();
     }
   }
-  setMode(reduce);
   go.addEventListener("click", start);
-  again.addEventListener("click", start);
   stop.addEventListener("click", () => finish(false));
 })();
 </script>
 <section class="wall" id="help" aria-labelledby="help-h"><p class="cap" id="help-h">Help</p>
 <p>Urge Walk is not a crisis service and isn’t a substitute for professional care. In the US, call or text <a href="tel:988"><b>988</b></a> any time (Suicide &amp; Crisis Lifeline, 24/7). Elsewhere, <a href="https://findahelpline.com/">findahelpline.com</a>. In an emergency, call your local emergency number.</p></section>
 <footer><p>Urge Walk · a calm tool for adults, 18 and older, coming to iPhone. Not medical care and not a crisis service: in the US, call or text <a href="tel:988">988</a>.</p>
-<nav aria-label="More"><a href="walk.html">Walk</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="ride.html">Ride one out</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="helpers.html">For helpers</a><a href="premium.html">Premium</a><a href="community.html">Community</a><a href="mailto:hello@urgewalk.app">hello@urgewalk.app</a></nav>
+<nav aria-label="More"><a href="walk.html">Walk</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="ride.html">Ride it out</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="helpers.html">For helpers</a><a href="premium.html">Premium</a><a href="community.html">Community</a><a href="mailto:hello@urgewalk.app">hello@urgewalk.app</a></nav>
 <div class="light-switch" role="group" aria-label="Island light"><button type="button" data-light="day" aria-pressed="true">Daylight</button><button type="button" data-light="evening" aria-pressed="false">Evening</button></div>
 <p>© 2026 · Made by Darius Tatum · Stock photography: <a href="https://unsplash.com/plus">Unsplash+</a> · Film: <a href="https://pixabay.com/">Pixabay</a> and <a href="https://www.pexels.com/">Pexels</a> · Paper: 1922 Canson &amp; Montgolfier sample book, public domain · Sounds in the app: <a href="https://pixabay.com/">Pixabay</a>, and <a href="https://bigsoundbank.com/">BigSoundBank by Joseph Sardin</a> (CC0)</p></footer>
 </body></html>

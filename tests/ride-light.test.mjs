@@ -46,10 +46,11 @@ const BASE = `http://127.0.0.1:${server.address().port}`;
 
 const PHONE = { width: 390, height: 844 }, WIDE = { width: 1440, height: 900 };
 const M = 'assets/motion/';
-const DAY_TALL = { src: M + 'ride-day-tall.mp4', poster: M + 'ride-day-tall.jpg' };
-const EVE_TALL = { src: M + 'ride-evening-tall.mp4', poster: M + 'ride-evening-tall.jpg' };
-const DAY_WIDE = { src: M + 'ride-day-wide.mp4', poster: M + 'ride-day-wide.jpg' };
-const EVE_WIDE = { src: M + 'ride-evening-wide.mp4', poster: M + 'ride-evening-wide.jpg' };
+// One Shore loop per light (the app's, 720 x 1280, assets/motion/book), phone and wide alike; the still shown in the plate is its poster.
+const DAY_TALL = { src: M + 'book/shore.mp4', poster: M + 'book/shore.jpg' };
+const EVE_TALL = { src: M + 'book/shore-evening.mp4', poster: M + 'book/shore-evening.jpg' };
+const DAY_WIDE = DAY_TALL;
+const EVE_WIDE = EVE_TALL;
 
 const browser = await chromium.launch();
 let pass = 0, fail = 0;
@@ -70,7 +71,7 @@ async function open({ time, viewport = PHONE, saved, blocked = false, reduce = f
 const sea = (page) => page.evaluate(() => {
   const v = document.getElementById('sea');
   const rel = (u) => (u ? new URL(u, location.href).pathname.replace(/^\//, '') : null);
-  return { light: document.documentElement.dataset.light, src: rel(v.getAttribute('src')), poster: rel(v.getAttribute('poster')), state: document.getElementById('main').dataset.state };
+  return { light: document.documentElement.dataset.light, src: rel(v.getAttribute('src')), poster: rel([...document.querySelectorAll('.plate img')].find((i) => getComputedStyle(i).display !== 'none').getAttribute('src')), state: document.getElementById('main').dataset.state };
 });
 function expect(name, got, want) {
   const ok = Object.keys(want).every((k) => got[k] === want[k]);
@@ -110,10 +111,10 @@ await at('10b. wide evening at 17:00', { time: ET('2026-11-14', '17:00:00'), vie
   const { page, ctx } = await open({ time: ET('2026-11-14', '12:00:00') });
   await page.click('#go');
   await page.click('.light-switch button[data-light="evening"]');
-  expect('12a. switch mid-pass keeps the day sea', await sea(page), { light: 'evening', state: 'running', ...DAY_TALL });
+  expect('12a. switch mid-pass keeps the day sea', await sea(page), { light: 'evening', state: 'running', src: DAY_TALL.src }); // the plate's still follows the light, the footage over it keeps the day sea
   await page.click('#stop');
-  expect('12b. after Stop the day sea stays', await sea(page), { light: 'evening', state: 'done', ...DAY_TALL });
-  await page.click('#again');
+  expect('12b. after Stop the day sea stays', await sea(page), { light: 'evening', state: 'done', src: DAY_TALL.src });
+  await page.click('#go');
   expect('12c. next Start plays the evening sea', { ...(await sea(page)), errors: page.errors.length }, { light: 'evening', state: 'running', ...EVE_TALL, errors: 0 });
   await ctx.close();
 }
