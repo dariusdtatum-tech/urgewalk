@@ -478,3 +478,5 @@ html[data-light=evening] .phonefig:not([data-view]) .pe,.phonefig[data-view=even
 }
 .phonefig.single .pd{opacity:1!important}
 @media (max-width:899px){html.js .pp:has(.phonefig) .plate{height:17svh}}
+.read-phone{margin:calc(var(--bl)*3) auto;align-items:center;--ph:min(46svh,380px)}
+.read-phone figcaption{text-align:center}
