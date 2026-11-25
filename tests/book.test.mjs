@@ -275,6 +275,32 @@ for (const [label, vp, touch, total] of [['phone', PHONE, true, 16], ['wide', WI
   await ctx.close();
 }
 
+{ // the Watch leaf: real screens cycling, a live wave, no connector bars, a little air around the watch
+  const { page, ctx } = await open({ hash: '#watch' });
+  await page.waitForTimeout(700);
+  const w = await page.evaluate(() => { const l = document.getElementById('watch'), caps = [...l.querySelectorAll('image.wcap')]; return { hrefs: caps.map((i) => i.getAttribute('href')), bars: l.querySelectorAll('rect[width="154"][height="3.600"]').length, seam: l.innerHTML.includes('M120 136V-90M120 424V650'), tide: !!l.querySelector('path.tide'), ops: caps.map((i) => Number(getComputedStyle(i).opacity)) }; });
+  ok('Watch leaf: Walk, Breathe and Ground screens (real captures, webp)', w.hrefs.join() === 'assets/watch/walk.webp,assets/watch/breathe.webp,assets/watch/ground.webp', w.hrefs.join());
+  ok('Watch leaf: no connector bars on the case, no seam line through the band holes', w.bars === 0 && !w.seam, JSON.stringify(w));
+  ok('Watch leaf: Walk shows first', w.ops[0] > 0.9 && w.ops[1] < 0.1 && w.ops[2] < 0.1, JSON.stringify(w.ops));
+  const x0 = await page.evaluate(() => getComputedStyle(document.querySelector('#watch path.tide')).transform);
+  await page.waitForTimeout(1200);
+  const x1 = await page.evaluate(() => getComputedStyle(document.querySelector('#watch path.tide')).transform);
+  ok('Watch leaf: the wave moves', x0 !== x1, `${x0} ${x1}`);
+  await page.waitForTimeout(3000);
+  const o2 = await page.evaluate(() => [...document.querySelectorAll('#watch image.wcap')].map((i) => Number(getComputedStyle(i).opacity)));
+  ok('Watch leaf: after about 4 s the card has changed to Breathe', o2[1] > 0.9 && o2[0] < 0.1, JSON.stringify(o2));
+  const fit = await page.evaluate(() => { const p = document.querySelector('#watch .watch-plate').getBoundingClientRect(), s = document.querySelector('#watch svg.watch').getBoundingClientRect(); return { plate: p.height, svg: s.height }; });
+  ok('Watch leaf: images stay web size', await page.evaluate(async () => { const sizes = await Promise.all(['walk', 'breathe', 'ground'].map((n) => fetch(`assets/watch/${n}.webp`).then((r) => r.blob()).then((b) => b.size))); return sizes.every((n) => n <= 40960); }));
+  await ctx.close();
+  const r = await open({ hash: '#watch', reduce: true });
+  await r.page.waitForTimeout(700);
+  const a = await r.page.evaluate(() => ({ ops: [...document.querySelectorAll('#watch image.wcap')].map((i) => Number(getComputedStyle(i).opacity)), tide: getComputedStyle(document.querySelector('#watch path.tide')).animationName, card: getComputedStyle(document.querySelector('#watch image.wcap')).animationName }));
+  await r.page.waitForTimeout(4500);
+  const b = await r.page.evaluate(() => [...document.querySelectorAll('#watch image.wcap')].map((i) => Number(getComputedStyle(i).opacity)));
+  ok('Reduce Motion: the Watch shows Walk only, and the wave is still', a.ops[0] === 1 && b[0] === 1 && b[1] === 0 && b[2] === 0 && a.tide === 'none' && a.card === 'none', JSON.stringify({ a, b }));
+  await r.ctx.close();
+}
+
 console.log(out.join('\n'));
 console.log(`\n${pass} passed, ${fail} failed`);
 await browser.close(); server.close();
