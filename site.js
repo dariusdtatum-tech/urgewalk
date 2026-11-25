@@ -530,3 +530,44 @@
   reduceQ.addEventListener('change', sync)
   document.addEventListener('visibilitychange', sync)
 })()
+
+// Expand all · Collapse all (r16). Above any run of three or more sibling <details> (the Support questions). Native
+// <details> stays the base: each item still opens and closes by itself; the two buttons only set `open` on the run.
+// aria-expanded is true on "Expand all" when every item is open, and on "Collapse all" when every item is closed.
+// A polite live region says what happened. Without JavaScript the buttons never exist.
+;(() => {
+  const runs = []
+  for (const parent of new Set([...document.querySelectorAll('.reading > details')].map((d) => d.parentElement))) {
+    let run = []
+    for (const el of [...parent.children, null]) {
+      if (el && el.tagName === 'DETAILS') run.push(el)
+      else { if (run.length >= 3) runs.push(run); run = [] }
+    }
+  }
+  runs.forEach((items) => {
+    const bar = document.createElement('div')
+    bar.className = 'openall'
+    bar.setAttribute('role', 'group')
+    bar.setAttribute('aria-label', 'Open or close every answer')
+    const mk = (text) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = text; return b }
+    const open = mk('Expand all'), shut = mk('Collapse all')
+    const dot = document.createElement('span'); dot.className = 'dot'; dot.setAttribute('aria-hidden', 'true'); dot.textContent = '·'
+    const say = document.createElement('p'); say.className = 'say'; say.setAttribute('aria-live', 'polite')
+    bar.append(open, dot, shut, say)
+    items[0].before(bar)
+    const sync = () => {
+      open.setAttribute('aria-expanded', String(items.every((d) => d.open)))
+      shut.setAttribute('aria-expanded', String(items.every((d) => !d.open)))
+    }
+    const set = (on) => {
+      items.forEach((d) => { d.open = on })
+      sync()
+      say.textContent = ''
+      setTimeout(() => { say.textContent = on ? 'All answers open' : 'All answers closed' }, 30)
+    }
+    open.addEventListener('click', () => set(true))
+    shut.addEventListener('click', () => set(false))
+    items.forEach((d) => d.addEventListener('toggle', sync))
+    sync()
+  })
+})()
