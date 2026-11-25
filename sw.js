@@ -1,10 +1,10 @@
 // Urge Walk — offline (round 3, Nov 9 2026). The three tools keep working with no signal: Walk, Breathe and
 // Ground, with their styles, fonts and phone-size photographs in both lights. Pages are fetched fresh when
 // online (network first) so updates arrive; everything else is served from cache and refreshed behind.
-const VERSION = 'uw-2026-11-25-r16'
+const VERSION = 'uw-2026-11-25-r17'
 const CORE = [
   './', 'index.html', 'walk.html', 'breathe.html', 'ground.html', 'ride.html', 'support.html', 'privacy.html', 'terms.html', 'community.html',
-  'site.js?v=r16', 'book.css?v=r16', 'book.js?v=r16', 'assets/paper/paper-day.webp', 'assets/paper/paper-evening.webp', 'assets/paper/cloth.svg', 'assets/motion/plate-coast.jpg', 'assets/motion/plate-coast-evening.jpg', 'tools.json', 'manifest.webmanifest',
+  'site.js?v=r17', 'book.css?v=r17', 'book.js?v=r17', 'assets/paper/paper-day.webp', 'assets/paper/paper-evening.webp', 'assets/paper/cloth.svg', 'assets/motion/plate-coast.jpg', 'assets/motion/plate-coast-evening.jpg', 'tools.json', 'manifest.webmanifest',
   'assets/icon-sg11.svg', 'assets/icon-192-sg11.png', 'assets/icon-512-sg11.png',
   'assets/fonts/cormorant-garamond-latin-300-normal.woff2', 'assets/fonts/cormorant-garamond-latin-300-italic.woff2',
   'assets/fonts/cormorant-garamond-latin-400-italic.woff2', 'assets/fonts/cormorant-garamond-latin-500-normal.woff2',
