@@ -10,8 +10,8 @@
  *
  * Contract: html[data-light] is the saved choice (localStorage `urgewalk.light`, "day" or "evening"),
  * else the clock: day from 5:00:00 to 16:59:59 local, evening otherwise. Evening plays
- * shore-evening-tall.mp4 (phone) or shore-evening-wide.mp4 (wide) with the matching .webp poster;
- * day plays shore-phone / shore-1440 / shore-2160 with the .jpg poster. Switching the light while
+ * ride-evening-tall.mp4 (phone) or ride-evening-wide.mp4 (wide) with the matching .jpg poster;
+ * day plays ride-day-tall / ride-day-wide with the .jpg poster. Switching the light while
  * idle changes the sea at once; while a pass runs it waits for the next Start. Motion off never
  * loads footage; only the poster follows the light.
  *
@@ -22,7 +22,7 @@
  *  7. saved "day" at 20:00 -> day; saved "evening" at 12:00 -> evening
  *  8. saved junk ("dusk") -> the clock decides
  *  9. storage that throws -> the clock decides, no page error (19:00 evening, 09:00 day)
- * 10. wide screen 1440x900: day -> shore-1440.mp4 + shore-wide.jpg; evening -> shore-evening-wide.*
+ * 10. wide screen 1440x900: day -> ride-day-wide.mp4 + ride-day-wide.jpg; evening -> ride-evening-wide.*
  * 11. idle switch -> sea changes at once
  * 12. switch mid-pass -> sea unchanged until the pass ends; Stop keeps it; next Start applies it
  * 13. Reduce Motion (Motion off) -> no footage requested; poster follows the light, idle switch too
@@ -46,10 +46,10 @@ const BASE = `http://127.0.0.1:${server.address().port}`;
 
 const PHONE = { width: 390, height: 844 }, WIDE = { width: 1440, height: 900 };
 const M = 'assets/motion/';
-const DAY_TALL = { src: M + 'shore-phone.mp4', poster: M + 'shore-tall.jpg' };
-const EVE_TALL = { src: M + 'shore-evening-tall.mp4', poster: M + 'shore-evening-tall.webp' };
-const DAY_WIDE = { src: M + 'shore-1440.mp4', poster: M + 'shore-wide.jpg' };
-const EVE_WIDE = { src: M + 'shore-evening-wide.mp4', poster: M + 'shore-evening-wide.webp' };
+const DAY_TALL = { src: M + 'ride-day-tall.mp4', poster: M + 'ride-day-tall.jpg' };
+const EVE_TALL = { src: M + 'ride-evening-tall.mp4', poster: M + 'ride-evening-tall.jpg' };
+const DAY_WIDE = { src: M + 'ride-day-wide.mp4', poster: M + 'ride-day-wide.jpg' };
+const EVE_WIDE = { src: M + 'ride-evening-wide.mp4', poster: M + 'ride-evening-wide.jpg' };
 
 const browser = await chromium.launch();
 let pass = 0, fail = 0;

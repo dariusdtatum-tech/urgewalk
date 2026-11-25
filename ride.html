@@ -1,6 +1,6 @@
 <!doctype html><html lang="en" data-light="day"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rgpZC3hHXdR47R2klULYIUTjIHxADsqSX92TtbF3W/Y=' 'sha256-xhYTF3IyKTOQrKnW2KDOvhsInzwoY+7W2m2CbLl8NcM='; style-src 'self' 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rgpZC3hHXdR47R2klULYIUTjIHxADsqSX92TtbF3W/Y=' 'sha256-2wIs/Dx7/t9JrkBVQTUwx18h6BlN5OhcCUPalqE16Yg='; style-src 'self' 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <!-- pre-launch: remove at launch -->
 <meta name="robots" content="noindex, nofollow">
@@ -22,7 +22,7 @@
 <nav class="nav" aria-label="Pages"><a href="index.html#plates">The book</a><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
 <a class="help" href="#help"><span>Help</span><b>988</b></a></header>
 <main id="main" class="page rio" data-state="idle">
-<figure class="plate sea"><video id="sea" muted loop playsinline preload="metadata" aria-hidden="true"></video><noscript><picture class="still"><source media="(orientation: portrait)" srcset="assets/motion/shore-tall.jpg"><img src="assets/motion/shore-wide.jpg" alt="" width="2560" height="1440"></picture></noscript></figure>
+<figure class="plate sea"><video id="sea" muted loop playsinline preload="metadata" aria-hidden="true"></video><noscript><picture class="still"><source media="(orientation: portrait)" srcset="assets/motion/ride-day-tall.jpg"><img src="assets/motion/ride-day-wide.jpg" alt="" width="1280" height="720"></picture></noscript></figure>
 <section class="words" aria-live="polite">
 <p class="cap">The Shore<span class="when js-only"> · <span class="clock" id="clock" aria-live="off">1:30</span></span><span class="js-only"> · <button class="quiet" id="mode" type="button" aria-pressed="true">Motion on</button></span></p>
 <h1 id="line">Ride one <em>out.</em></h1>
@@ -50,12 +50,12 @@
   // and a still photograph when the device asks for less motion or less data. Anyone can switch it.
   let reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const tall = innerHeight > innerWidth, px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
-  // Evening plays the Shore's evening loop (shore-evening-tall / -wide) with its own poster.
+  // Both lights play the Shore's loops the app ships (ride-day / ride-evening, tall or wide), each with its own poster.
   const SEA = {
-    day: { file: tall ? "assets/motion/shore-phone.mp4" : px >= 2600 ? "assets/motion/shore-2160.mp4" : "assets/motion/shore-1440.mp4",
-           poster: tall ? "assets/motion/shore-tall.jpg" : "assets/motion/shore-wide.jpg" },
-    evening: { file: tall ? "assets/motion/shore-evening-tall.mp4" : "assets/motion/shore-evening-wide.mp4",
-               poster: tall ? "assets/motion/shore-evening-tall.webp" : "assets/motion/shore-evening-wide.webp" }
+    day: { file: tall ? "assets/motion/ride-day-tall.mp4" : "assets/motion/ride-day-wide.mp4",
+           poster: tall ? "assets/motion/ride-day-tall.jpg" : "assets/motion/ride-day-wide.jpg" },
+    evening: { file: tall ? "assets/motion/ride-evening-tall.mp4" : "assets/motion/ride-evening-wide.mp4",
+               poster: tall ? "assets/motion/ride-evening-tall.jpg" : "assets/motion/ride-evening-wide.jpg" }
   };
   const root = document.documentElement;
   let file = "", seaLight = "";
@@ -130,5 +130,5 @@
 <footer><p>Urge Walk · a calm tool for adults, 18 and older, coming to iPhone. Not medical care and not a crisis service: in the US, call or text <a href="tel:988">988</a>.</p>
 <nav aria-label="More"><a href="walk.html">Walk</a><a href="breathe.html">Breathe</a><a href="ground.html">Ground</a><a href="ride.html">Ride one out</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="helpers.html">For helpers</a><a href="premium.html">Premium</a><a href="community.html">Community</a><a href="mailto:hello@urgewalk.app">hello@urgewalk.app</a></nav>
 <div class="light-switch" role="group" aria-label="Island light"><button type="button" data-light="day" aria-pressed="true">Daylight</button><button type="button" data-light="evening" aria-pressed="false">Evening</button></div>
-<p>© 2026 · Made by Darius Tatum · Stock photography: <a href="https://unsplash.com/plus">Unsplash+</a> · Film: Felix-Mittermeier on <a href="https://pixabay.com/">Pixabay</a> · Paper: 1922 Canson &amp; Montgolfier sample book, public domain · Sounds in the app: <a href="https://pixabay.com/">Pixabay</a>, and <a href="https://bigsoundbank.com/">BigSoundBank by Joseph Sardin</a> (CC0)</p></footer>
+<p>© 2026 · Made by Darius Tatum · Stock photography: <a href="https://unsplash.com/plus">Unsplash+</a> · Film: <a href="https://pixabay.com/">Pixabay</a> and <a href="https://www.pexels.com/">Pexels</a> · Paper: 1922 Canson &amp; Montgolfier sample book, public domain · Sounds in the app: <a href="https://pixabay.com/">Pixabay</a>, and <a href="https://bigsoundbank.com/">BigSoundBank by Joseph Sardin</a> (CC0)</p></footer>
 </body></html>
