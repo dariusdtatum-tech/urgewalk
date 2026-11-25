@@ -2,6 +2,8 @@
 
 Read `DESIGN-RULES.md` first; it is the source of truth for this site and overrides defaults.
 
+> **Archived 25 Nov 2026.** The island-era files (old place photographs, phone captures, motion loops, `previews/`, and the scripts `check-parity.py`, `check-light-switch.cjs`, `reveal-colours.py`, `steady-loop.py`, `build-motion.py`, `scripts/capture-app/`) left the repo; they stay in git history before this commit and in the founder's local archive. Notes below that name them are history, not current instructions.
+
 ## What this is
 The public pre-launch site for Urge Walk at **https://urgewalk.app** (GitHub Pages custom domain since Nov 9 2026; the old `dariusdtatum-tech.github.io/urgewalk/` address redirects; `urgewalk.com` is also registered), rebuilt on Nov 8 2026 as a walk across the island and, from Nov 25 2026, as **a book** (see "25 Nov 2026" in `DESIGN-RULES.md`; the island sections below are history). Plain static files, no build step: one stylesheet (`book.css`), two scripts (`book.js`: the opening and the browser-bar colour; `site.js`: Island light, the tools, Keep it, progressive enhancement only), and the pages. The same inline script in every page's head sets `html[data-light]` (Island light) and `html.js` before the stylesheet paints; its CSP hash is the same on every page.
 

@@ -2,6 +2,8 @@
 
 Rebuilt from nothing on Nov 8 2026 (founder: "make the website anew instead of just a replacement for its old self"). The earlier rules (A2 icon, cream pages, Plus Jakarta Sans, wave video) are history in git; they no longer apply. Concept and research: `urge-walk-app/docs/design/WEBSITE-ISLAND-WALK-2026-11-08.md`.
 
+> **Archived 25 Nov 2026.** The island-era files (old place photographs, phone captures, motion loops, `previews/`, and the scripts `check-parity.py`, `check-light-switch.cjs`, `reveal-colours.py`, `steady-loop.py`, `build-motion.py`, `scripts/capture-app/`) left the repo; they stay in git history before this commit and in the founder's local archive. Notes below that name them are history, not current instructions.
+
 ## The aim (founder, Nov 8 2026; these govern every choice below)
 > "I want us to reach a level where we do have it as anti slop for sure. I want it to be sophisticated elegance. I want it to be creative as well. It's okay to aim high in a way that is different and not safe. It's okay to be ambitious and go a different path in pursuit of sophisticated elegance."
 
