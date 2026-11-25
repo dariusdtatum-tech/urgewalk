@@ -480,3 +480,10 @@ html[data-light=evening] .phonefig:not([data-view]) .pe,.phonefig[data-view=even
 @media (max-width:899px){html.js .pp:has(.phonefig) .plate{height:17svh}}
 .read-phone{margin:calc(var(--bl)*3) auto;align-items:center;--ph:min(46svh,380px)}
 .read-phone figcaption{text-align:center}
+/* r12 audit fixes: the kicker stays on one line; the colophon heading clears its cap; the age line wraps in balance on phones */
+.takes{grid-template-columns:max-content 1fr;column-gap:calc(var(--bl)*2)}
+.takes .cap{white-space:nowrap}
+.colophon .folio-cap{margin-bottom:calc(var(--bl)*2)}
+.colophon h2.pgh{line-height:1.1}
+.age-cap{text-wrap:balance}
+@media (max-width:430px){.age-cap{letter-spacing:.12em;font-size:11px}}
