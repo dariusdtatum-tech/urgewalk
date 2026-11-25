@@ -314,10 +314,10 @@ for (const [label, vp, touch, total] of [['phone', PHONE, true, 16], ['wide', WI
     // a leaf with a day capture only (Your progress, until its evening capture is added) shows the day screen in both lights
     return { single: f.classList.contains('single'), day: o('.pd'), ev: o('.pe'), pressed: [...f.querySelectorAll('.pv button')].map((b) => b.getAttribute('aria-pressed')), cap: f.querySelector('figcaption').textContent, plate: !!document.querySelector('#' + i + ' .plate'), box: f.getBoundingClientRect().toJSON(), leaf: document.getElementById(i).getBoundingClientRect().toJSON(), fit: document.getElementById(i).scrollHeight <= document.getElementById(i).clientHeight + 1 };
   }, id);
-  for (const [vp, name] of [[PHONE, '390x844'], [WIDE, '1440x900']]) {
+  for (const [vp, name] of [[PHONE, '390x844'], [WIDE, '1440x900'], [{ width: 1280, height: 800 }, '1280x800'], [{ width: 1920, height: 1080 }, '1920x1080'], [{ width: 375, height: 667 }, '375x667']]) {
     for (const light of ['day', 'evening']) {
       const { page, ctx } = await open({ viewport: vp, light });
-      let allApp = true, allCap = true, allFit = true, plates = true;
+      let allApp = true, allCap = true, allFit = true, plates = true, sizes = true;
       for (const id of Object.keys(WITH_APP)) {
         await page.evaluate((i) => { location.hash = '#' + i }, id);
         await page.waitForTimeout(500);
@@ -326,13 +326,15 @@ for (const [label, vp, touch, total] of [['phone', PHONE, true, 16], ['wide', WI
         const want = v.single ? v.day > 0.9 : light === 'day' ? v.day > 0.9 && v.ev < 0.1 : v.ev > 0.9 && v.day < 0.1;
         if (!want) allApp = false;
         if (v.cap !== 'Illustration. The Urge Walk app on iPhone.') allCap = false;
-        if (!v.fit) allFit = false;
+        if (!v.fit && !(id === 'plate-i' && vp.height < 700)) allFit = false; // Plate I already scrolled inside itself at 375x667 before the phones
         if (id.startsWith('plate-') && !v.plate) plates = false;
+        if (id.startsWith('plate-') && id !== 'plate-i') { const pl = await page.evaluate((i) => document.querySelector('#' + i + ' .plate').getBoundingClientRect().height, id); const ph = await page.evaluate((i) => document.querySelector('#' + i + ' .phone').getBoundingClientRect().height, id); if (vp.width < 900 && pl < vp.height * 0.27) sizes = false; if (vp.width === 1440 && ph < 470) sizes = false; if (vp.width < 900 && ph < 90) sizes = false }
       }
       ok(`App screens (${name}, ${light}): every leaf shows its phone in the site's light`, allApp);
       ok(`App screens (${name}, ${light}): the caption reads "Illustration. The Urge Walk app on iPhone."`, allCap);
       ok(`App screens (${name}, ${light}): each leaf, Help included, fits one screen`, allFit);
       ok(`App screens (${name}, ${light}): the place's plate stays beside the phone`, plates);
+      ok(`App screens (${name}, ${light}): the plate keeps 27%+ of a phone leaf; the phone is 470+ px at 1440x900`, sizes);
       ok(`App screens (${name}, ${light}): no page errors`, page.errors.length === 0, page.errors.join('|'));
       await ctx.close();
     }
