@@ -415,3 +415,66 @@ html.js .pg,html.js .pp{contain:paint;scrollbar-width:none}
  html.js .pair>.pg:not(#contents):not(#plate-i){padding-top:calc(var(--top) + 12svh)}
  html.js .pg .plate{height:min(22svh,200px)}
 }
+
+/* ---------- the app on the pages (25 Nov 2026, r10) ----------
+   A drawn, generic iPhone (CSS only: a dark body, a Dynamic Island pill, side buttons; no Apple art) holds the app's own screen,
+   a capture with invented sample data. It follows Daylight/Evening; "By day · By evening" under it compares both on any leaf.
+   The place's moving plate stays where it is; the phone sits in the text page's empty space below the copy. */
+.phonefig{--ph:min(30svh,270px);margin:calc(var(--bl)*2) 0 0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;width:max-content;max-width:100%}
+.phone{position:relative;height:var(--ph);aspect-ratio:9/19;background:#1b1a1c;border-radius:15%/7.1%;box-shadow:0 0 0 1px #3a383a inset,0 1px 2px rgba(0,0,0,.25);flex:none}
+.phone::before,.phone::after{content:"";position:absolute;width:1.2%;background:#2b292c;border-radius:2px}
+.phone::before{left:-1.1%;top:17%;height:5%}
+.phone::after{right:-1.1%;top:22%;height:9%}
+.phone .scr{position:absolute;inset:2.23% 3.4%;border-radius:12.6%/5.7%;overflow:hidden;background:#111}
+.phone .scr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .2s linear}
+.phone .isl{position:absolute;left:50%;top:3.4%;width:27%;height:2.3%;transform:translateX(-50%);background:#000;border-radius:99px}
+html:not([data-light=evening]) .phonefig:not([data-view]) .pd,.phonefig[data-view=day] .pd,
+html[data-light=evening] .phonefig:not([data-view]) .pe,.phonefig[data-view=evening] .pe{opacity:1}
+.pv{display:flex;align-items:center;gap:4px;font:500 11px/1 Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--quiet)}
+.pv[hidden]{display:none}
+.pv button{font:inherit;letter-spacing:inherit;color:inherit;background:none;border:0;border-bottom:1px solid transparent;padding:0 2px;min-height:28px;cursor:pointer}
+.pv button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.pv button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.phonefig figcaption{font:400 11px/1.3 Inter,system-ui,sans-serif;color:var(--quiet);max-width:30ch}
+@media (prefers-reduced-motion:reduce){.phone .scr img{transition:none}}
+/* Plate I: the plate and the phone in one row */
+.plate-row{display:flex;gap:calc(var(--bl)*2);align-items:flex-end;margin-top:calc(var(--bl)*2)}
+.plate-row .plate{flex:1 1 0;min-width:0;margin:0!important}
+.plate-row .phonefig{margin:0;--ph:min(24svh,210px);flex:none;width:auto}
+@media (min-width:900px){.plate-row .phonefig{--ph:min(30svh,280px)}}
+.pg .phonefig{--ph:min(24svh,210px)}
+.contents-row{display:block}
+.contents-row .phonefig{display:none}
+@media (min-width:900px){
+ .contents-row{display:flex;gap:calc(var(--bl)*3);align-items:flex-start}
+ .contents-row .ruled{flex:1 1 0;min-width:0}
+ .contents-row .phonefig{display:flex;--ph:clamp(220px,calc(100svh - 500px),340px);margin:calc(var(--bl)*2) 0 0}
+ .pp .phonefig{--ph:clamp(220px,calc(100svh - 620px),340px)}
+}
+@media (max-width:899px){
+ html.js .pp:has(.phonefig) .plate{height:18svh}
+ .pp:has(.phonefig) .tag,.pp:has(.phonefig) .takes{display:none}
+ .pp:has(.phonefig){row-gap:var(--bl)}
+ .pp:has(.phonefig) h2{font-size:28px;margin:0}
+ .pp:has(.phonefig) .words p{margin:var(--bl) 0 0}
+ .pp .phonefig{--ph:min(32svh,280px);margin-top:calc(var(--bl)*1.5)}
+ #help .phonefig{--ph:min(24svh,210px)}
+}
+@media (max-width:899px){
+ html.js .pp:has(.phonefig) .plate{height:16svh}
+ .pp .phonefig,#help .phonefig{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:calc(var(--bl)*2);align-items:end;width:auto;--ph:min(31svh,260px)}
+ #help .phonefig{--ph:min(26svh,220px)}
+ .phonefig .phone{grid-row:1/3}
+ .phonefig .pv{align-self:end;align-items:flex-end}
+ .phonefig figcaption{align-self:start}
+}
+@media (max-width:899px){
+ html.js .pp:has(.phonefig) .plate{height:19svh}
+ .pp .phonefig{--ph:min(34svh,290px)}
+ #plate-i .row{margin-top:calc(var(--bl)*2);flex-wrap:nowrap;gap:var(--bl)}
+ #plate-i .row .btn{padding-inline:14px;font-size:15px;white-space:nowrap;min-width:0}
+ #plate-i .plate-row .phonefig{--ph:min(21svh,180px)}
+ #plate-i .plate-row figcaption{max-width:14ch}
+}
+.phonefig.single .pd{opacity:1!important}
+@media (max-width:899px){html.js .pp:has(.phonefig) .plate{height:17svh}}

@@ -307,3 +307,19 @@
   fromHash({ quiet: true, instant: true })
   cur = nearest(); paintFolio(); markAll()
 })()
+
+// The app's screens (r10): each leaf's drawn phone follows Daylight/Evening; "By day · By evening" under it compares both.
+// A choice holds until the site's light changes, then the phone follows the site again. Without JavaScript the toggle stays hidden.
+;(() => {
+  const root = document.documentElement
+  const figs = [...document.querySelectorAll('.phonefig:not(.single)')]
+  if (!figs.length) return
+  const eff = (f) => f.dataset.view || (root.dataset.light === 'evening' ? 'evening' : 'day')
+  const paint = (f) => f.querySelectorAll('.pv button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === eff(f))))
+  figs.forEach((f) => {
+    f.querySelector('.pv').hidden = false
+    f.querySelectorAll('.pv button').forEach((b) => b.addEventListener('click', () => { f.dataset.view = b.dataset.v; paint(f) }))
+    paint(f)
+  })
+  new MutationObserver(() => figs.forEach((f) => { delete f.dataset.view; paint(f) })).observe(root, { attributes: true, attributeFilter: ['data-light'] })
+})()

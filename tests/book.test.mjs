@@ -303,6 +303,91 @@ for (const [label, vp, touch, total] of [['phone', PHONE, true, 16], ['wide', WI
   await r.ctx.close();
 }
 
+// ---------- the app's screens on the leaves (r10) ----------
+{
+  // Plate leaves that have an app screen today. Plates V (Stay a while), VIII (Your progress) and the Community leaf
+  // join this list when their captures are added to assets/app/.
+  const WITH_APP = { 'plate-i': 'home', 'plate-ii': 'walk', 'plate-iii': 'breathe', 'plate-iv': 'ground', 'plate-v': 'cove', 'plate-vi': 'journal-pages', 'plate-vii': 'history-records', 'plate-viii': 'your-progress', 'plate-ix': 'you', help: 'ride-it-out' };
+  const vis = (page, id) => page.evaluate((i) => {
+    const f = document.querySelector('#' + i + ' .phonefig'); if (!f) return null;
+    const o = (s) => (f.querySelector(s) ? Number(getComputedStyle(f.querySelector(s)).opacity) : (f.classList.contains('single') ? (s === '.pd' ? 1 : 0) : NaN));
+    // a leaf with a day capture only (Your progress, until its evening capture is added) shows the day screen in both lights
+    return { single: f.classList.contains('single'), day: o('.pd'), ev: o('.pe'), pressed: [...f.querySelectorAll('.pv button')].map((b) => b.getAttribute('aria-pressed')), cap: f.querySelector('figcaption').textContent, plate: !!document.querySelector('#' + i + ' .plate'), box: f.getBoundingClientRect().toJSON(), leaf: document.getElementById(i).getBoundingClientRect().toJSON(), fit: document.getElementById(i).scrollHeight <= document.getElementById(i).clientHeight + 1 };
+  }, id);
+  for (const [vp, name] of [[PHONE, '390x844'], [WIDE, '1440x900']]) {
+    for (const light of ['day', 'evening']) {
+      const { page, ctx } = await open({ viewport: vp, light });
+      let allApp = true, allCap = true, allFit = true, plates = true;
+      for (const id of Object.keys(WITH_APP)) {
+        await page.evaluate((i) => { location.hash = '#' + i }, id);
+        await page.waitForTimeout(500);
+        const v = await vis(page, id);
+        if (!v) { allApp = false; continue }
+        const want = v.single ? v.day > 0.9 : light === 'day' ? v.day > 0.9 && v.ev < 0.1 : v.ev > 0.9 && v.day < 0.1;
+        if (!want) allApp = false;
+        if (v.cap !== 'Illustration. The Urge Walk app on iPhone.') allCap = false;
+        if (!v.fit) allFit = false;
+        if (id.startsWith('plate-') && !v.plate) plates = false;
+      }
+      ok(`App screens (${name}, ${light}): every leaf shows its phone in the site's light`, allApp);
+      ok(`App screens (${name}, ${light}): the caption reads "Illustration. The Urge Walk app on iPhone."`, allCap);
+      ok(`App screens (${name}, ${light}): each leaf, Help included, fits one screen`, allFit);
+      ok(`App screens (${name}, ${light}): the place's plate stays beside the phone`, plates);
+      ok(`App screens (${name}, ${light}): no page errors`, page.errors.length === 0, page.errors.join('|'));
+      await ctx.close();
+    }
+  }
+  // the toggle
+  {
+    const { page, ctx } = await open({ viewport: WIDE, hash: '#plate-iii', light: 'day' });
+    await page.waitForTimeout(500);
+    const btn = (v) => page.locator('#plate-iii .pv button[data-v=' + v + ']');
+    await btn('evening').click();
+    await page.waitForTimeout(450);
+    let v = await vis(page, 'plate-iii');
+    ok('Toggle: By evening shows the evening screen while the site is in daylight', v.ev > 0.9 && v.day < 0.1 && v.pressed.join() === 'false,true', JSON.stringify(v.pressed));
+    ok('Toggle: the site stays in daylight', await page.evaluate(() => document.documentElement.dataset.light !== 'evening'));
+    await btn('day').click();
+    await page.waitForTimeout(450);
+    v = await vis(page, 'plate-iii');
+    ok('Toggle: By day brings the day screen back', v.day > 0.9 && v.ev < 0.1 && v.pressed.join() === 'true,false');
+    // 200 ms crossfade
+    const dur = await page.evaluate(() => getComputedStyle(document.querySelector('#plate-iii .phone .pd')).transitionDuration);
+    ok('Toggle: crossfade is 200 ms', dur === '0.2s', dur);
+    // the site's light switch resets a choice
+    await btn('evening').click();
+    await page.evaluate(() => document.querySelector('.light-switch [data-light=evening]').click());
+    await page.waitForTimeout(450);
+    v = await vis(page, 'plate-iii');
+    ok('Toggle: switching the site light makes the phone follow it again', v.ev > 0.9 && v.pressed.join() === 'false,true');
+    await ctx.close();
+  }
+  {
+    const { page, ctx } = await open({ viewport: WIDE, hash: '#plate-iii', light: 'day', reduce: true });
+    await page.waitForTimeout(500);
+    const dur = await page.evaluate(() => getComputedStyle(document.querySelector('#plate-iii .phone .pd')).transitionDuration);
+    ok('Reduce Motion: the phone swaps instantly', dur === '0s', dur);
+    await page.locator('#plate-iii .pv button[data-v=evening]').click();
+    const v = await vis(page, 'plate-iii');
+    ok('Reduce Motion: the toggle still works', v.ev > 0.9 && v.day < 0.1);
+    await ctx.close();
+  }
+  {
+    const { page, ctx } = await open({ viewport: PHONE, js: false });
+    const hidden = await page.evaluate(() => [...document.querySelectorAll('.pv')].every((p) => getComputedStyle(p).display === 'none'));
+    ok('No JavaScript: the toggle is hidden and the phone follows the light (day)', hidden);
+    await ctx.close();
+  }
+  {
+    const { page, ctx } = await open({ viewport: PHONE });
+    const sizes = await page.evaluate(async () => Promise.all([...document.querySelectorAll('.phonefig img')].map((i) => fetch(i.src).then((r) => r.blob()).then((b) => b.size))));
+    ok('App screens: every web image is 100 KB or less', sizes.length > 0 && sizes.every((s) => s <= 100 * 1024), sizes.join());
+    const lazy = await page.evaluate(() => [...document.querySelectorAll('.phonefig img')].filter((i) => !i.closest('#plate-i')).every((i) => i.loading === 'lazy'));
+    ok('App screens: lazy-loaded except the visible leaf', lazy);
+    await ctx.close();
+  }
+}
+
 console.log(out.join('\n'));
 console.log(`\n${pass} passed, ${fail} failed`);
 await browser.close(); server.close();
