@@ -36,7 +36,7 @@ PR 31 branched from main on 11 Nov (`9bf0562`). Main has had 35 commits since, a
   - axe: 0 violations on all 11 pages at 390 and 1440.
   - 132 links and assets returned 200, with no console errors and no overflow.
   - Lighthouse mobile home: accessibility 100, performance 90.
-  - The Gmail guard is clean.
+  - The Google-mail guard is clean.
 - `scripts/check-light-switch.cjs`: 68 pictures checked, 0 failed to follow the switch. It was run from a scratch copy with the Mac Chrome path, because the script hard-codes the Windows path.
 - Browser pane at 390, served locally:
   - Start runs: the clock counts down and "It's rising" shows, with the day sea.
