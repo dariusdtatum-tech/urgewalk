@@ -11,3 +11,13 @@
   addEventListener('hashchange', end)
   document.querySelectorAll('.help').forEach((a) => a.addEventListener('click', end))
 })()
+
+// Every page: the browser bar follows the paper (day #e9e1cf, evening #27221b, the app's evening page) when the light changes.
+;(() => {
+  const root = document.documentElement
+  const meta = document.querySelector('meta[name=theme-color]')
+  if (!meta) return
+  const paint = () => meta.setAttribute('content', root.dataset.light === 'evening' ? '#27221b' : '#e9e1cf')
+  paint()
+  new MutationObserver(paint).observe(root, { attributes: true, attributeFilter: ['data-light'] })
+})()
