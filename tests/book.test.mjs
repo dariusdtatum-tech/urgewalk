@@ -307,7 +307,7 @@ for (const [label, vp, touch, total] of [['phone', PHONE, true, 16], ['wide', WI
 {
   // Plate leaves that have an app screen today. Plates V (Stay a while), VIII (Your progress) and the Community leaf
   // join this list when their captures are added to assets/app/.
-  const WITH_APP = { 'plate-i': 'home', 'plate-ii': 'walk', 'plate-iii': 'breathe', 'plate-iv': 'ground', 'plate-v': 'cove', 'plate-vi': 'journal-pages', 'plate-vii': 'history-records', 'plate-viii': 'your-progress', 'plate-ix': 'you', community: 'community', help: 'ride-it-out' };
+  const WITH_APP = { 'plate-i': 'home', 'plate-ii': 'walk', 'plate-iii': 'breathe', 'plate-iv': 'ground', 'plate-v': 'cove', 'plate-vi': 'journal-pages', 'plate-vii': 'history-records', 'plate-viii': 'your-progress', 'plate-ix': 'you', community: 'community' };
   const vis = (page, id) => page.evaluate((i) => {
     const f = document.querySelector('#' + i + ' .phonefig'); if (!f) return null;
     const o = (s) => (f.querySelector(s) ? Number(getComputedStyle(f.querySelector(s)).opacity) : (f.classList.contains('single') ? (s === '.pd' ? 1 : 0) : NaN));
