@@ -61,8 +61,8 @@
     const n = stops.length
     folioVh.textContent = 'Page ' + (cur + 1) + ' of ' + n
     // the name begins with the visible text (WCAG 2.5.3, axe label-content-name-mismatch)
-    folioBtn.setAttribute('aria-label', roman(cur + 1) + ' / ' + roman(n) + ', page ' + (cur + 1) + ' of ' + n + ', go to page')
-    folioFol.textContent = roman(cur + 1) + ' / ' + roman(n)
+    folioBtn.setAttribute('aria-label', (cur + 1) + ' / ' + n + ', go to page')
+    folioFol.textContent = (cur + 1) + ' / ' + n
     turnBar.style.setProperty('--p', n > 1 ? (cur / (n - 1)).toFixed(4) : 0)
     prevB.disabled = cur === 0
     nextB.disabled = cur === n - 1
@@ -213,6 +213,8 @@
       return cap ? cap.textContent.replace(/^Plate [IVX]+ · /, '') : l.id
     }
     const appOf = (id) => { const a = document.querySelector('#contents .ruled a[href="#' + id + '"]'); return a ? a.lastElementChild.textContent : '' }
+    // a plate's own numeral (I to IX, as its caption and the contents show); the other leaves carry none
+    const plateNo = (id) => { const a = document.querySelector('#contents .ruled a[href="#' + id + '"]'); return a ? a.firstElementChild.textContent : '' }
     const fill = () => {
       gotoList.textContent = ''
       leafIds.forEach((id) => {
@@ -221,7 +223,7 @@
         const li = document.createElement('li'), a = document.createElement('a')
         a.href = '#' + id
         const num = document.createElement('span'), nm = document.createElement('span'), sub = document.createElement('span')
-        num.className = 'cap'; num.textContent = roman(i + 1)
+        num.className = 'cap'; num.textContent = /^plate-/.test(id) ? plateNo(id) : ''
         nm.textContent = nameOf(l); sub.textContent = appOf(id)
         a.append(num, nm, sub)
         if (i === cur) { li.dataset.here = ''; a.setAttribute('aria-current', 'page'); sub.textContent = sub.textContent ? sub.textContent + ' · here' : 'here' }
