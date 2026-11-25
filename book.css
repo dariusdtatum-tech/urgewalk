@@ -58,7 +58,11 @@ html.opening .brand,html.opening .nav a{animation:hdr 3.6s steps(1,end) both}
 .leaf.right h1 em{font-style:italic;font-weight:400}
 .plate{margin:0;aspect-ratio:3/2;max-height:46vh;width:100%;border:1px solid var(--rule);background:center/cover var(--paper2);background-image:var(--d);outline:8px solid var(--paper);outline-offset:-9px}
 html[data-light=evening] .plate{background-image:var(--e)}
-.p1{--d:url(assets/motion/plate-coast.jpg);--e:url(assets/motion/coast-evening-tall.webp)}
+.plate{position:relative;overflow:hidden}
+.plate video.loop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s}
+.plate video.loop.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.plate video.loop{display:none}}
+.p1{--d:url(assets/motion/plate-coast.jpg);--e:url(assets/motion/plate-coast-evening.jpg)}
 .p2{--d:url(assets/motion/plate-path.jpg);--e:url(assets/motion/path-evening-tall.webp)}
 .p3{--d:url(assets/motion/plate-inlet.jpg);--e:url(assets/motion/plate-inlet-evening.jpg)}
 .p4{--d:url(assets/motion/plate-shore.jpg);--e:url(assets/motion/plate-shore-evening.jpg)}
