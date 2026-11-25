@@ -7,4 +7,4 @@ Done on `site/book-all-pages-2026-11-25` (PR open, not merged):
 - Privacy, Terms, Support, For helpers, Premium, 404, Walk, Breathe, Ground and Ride one out restyled as the book; Community is new. Same header with Help 988, same footer, evening paper from the app.
 - Words on Privacy, Terms and Support unchanged. Tools' behaviour and no-JS fallbacks unchanged.
 - Deleted: `site.css`, `places.css` (no page uses them). Not deleted: the island's pictures in `assets/places`, `assets/screens` and most of `assets/motion` are now unused by any page, and `scripts/` still has island tools; listed for the founder to decide.
-- `data-capture` placeholders on home (Watch, Plates II to IV). `/Users/dariustatum/GitHub/urge-walk-ios-shots/website-captures/web/` did not exist, so the existing stills stay.
+- Plates II to IV on home use the current app captures (walk, breathe, ground, day and evening) in `assets/screens/book/`. The Watch plate is text only: no Watch capture exists.
