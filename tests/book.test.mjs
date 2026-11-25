@@ -9,7 +9,7 @@
  * Contract: pages are leaves in a horizontal scroll-snap container (#leaves). Phones turn one leaf at a time (16 stops),
  * wide screens one spread (13). The folio reads "iii / xvi". Every page has a hash (#plate-iv); contents entries jump
  * there and the back button turns back. Only the page in view plays its loop. Reduce Motion, Save-Data and no JavaScript
- * show posters only; no JavaScript is one plain vertical page.
+ * show posters only; no JavaScript is one plain vertical page. The folio is a button that opens the "Go to page" dialog.
  */
 import { chromium } from 'playwright';
 import { createServer } from 'node:http';
@@ -196,6 +196,82 @@ const videos = (page) => page.evaluate(() => [...document.querySelectorAll('vide
   await page.goto(BASE + '/#colophon'); await page.waitForTimeout(600);
   const c = await page.evaluate(() => { const e = document.querySelector('#colophon .words').getBoundingClientRect(), n = document.querySelector('#colophon .colo-right').getBoundingClientRect(); const top = Math.min(e.top, n.top) - 72, bot = 840 - Math.max(e.bottom, n.bottom); return { top: Math.round(top), bot: Math.round(bot) }; });
   ok('wide: the colophon block is centred (no empty bottom half)', Math.abs(c.top - c.bot) <= 40 && c.top >= 40, JSON.stringify(c));
+  await ctx.close();
+}
+
+// ---------- Go to page (the folio is a button that opens a dialog) ----------
+const dlgOpen = (page) => page.evaluate(() => document.getElementById('goto').open);
+const activeId = (page) => page.evaluate(() => document.activeElement?.id || document.activeElement?.className || '');
+for (const [label, vp, touch, total] of [['phone', PHONE, true, 16], ['wide', WIDE, false, 13]]) {
+  { // open by click, contents, jump to plate vi, Esc restores focus
+    const { page, ctx } = await open({ viewport: vp, touch });
+    const f0 = await page.evaluate(() => { const b = document.getElementById('folio'); return { tag: b.tagName, pop: b.getAttribute('aria-haspopup'), exp: b.getAttribute('aria-expanded'), label: b.getAttribute('aria-label') }; });
+    ok(`${label}: the folio is a button with aria-haspopup, aria-expanded=false and a label that ends "page 1 of ${total}, go to page"`, f0.tag === 'BUTTON' && f0.pop === 'dialog' && f0.exp === 'false' && f0.label === `${total === 16 ? 'i / xvi' : 'i / xiii'}, page 1 of ${total}, go to page`, JSON.stringify(f0));
+    await page.click('#folio'); await page.waitForTimeout(250);
+    const d = await page.evaluate(() => { const dl = document.getElementById('goto'), r = dl.getBoundingClientRect(), b = dl.querySelector('.goto-body'); return { open: dl.open, modal: dl.matches(':modal'), exp: document.getElementById('folio').getAttribute('aria-expanded'), inside: dl.contains(document.activeElement), here: dl.querySelector('[aria-current]')?.getAttribute('href'), rows: dl.querySelectorAll('#goto-list a').length, other: [...dl.querySelectorAll('.goto-more a')].map((a) => a.textContent).join(','), help: !!dl.querySelector('a.help[href="#help"]'), top: r.top, bottom: r.bottom, left: r.left, right: r.right, w: r.width, scrolls: b.scrollHeight > b.clientHeight, first: dl.querySelector('#goto-list li:first-child a').textContent, caps: [...dl.querySelectorAll('#goto-list a')].map((a) => a.children[1].textContent).join('|') }; });
+    ok(`${label}: clicking the folio opens the modal dialog, focus goes inside, aria-expanded=true, the current leaf is marked`, d.open && d.modal && d.exp === 'true' && d.inside && d.here === '#contents', JSON.stringify(d));
+    ok(`${label}: every leaf is listed (16) in order with the other ten pages and Help 988`, d.rows === 16 && /^Walk,Breathe,Ground,Ride one out,Privacy,Terms,Support,For helpers,Premium,Community$/.test(d.other) && d.help && /^i/.test(d.first), JSON.stringify(d));
+    ok(`${label}: the list names Ex Libris, the plates by place, the wrist, privacy, community, keep it, help and the colophon`, d.caps === 'Ex Libris & contents|The Sheltered Coast|The Path Ahead|The Still Pool|The Shore|The Cove|The Shelter|The Outlook|The Way On|The Cottage|On the wrist|The endpaper’s promise|Community|Keep it on your phone|Help|Colophon', d.caps);
+    if (label === 'phone') ok('phone: a bottom sheet that fits 390x844', Math.abs(d.bottom - 844) <= 1 && d.left === 0 && d.right === 390 && d.top >= 0, JSON.stringify(d));
+    else ok('wide: a centred panel', Math.abs((d.left + d.right) / 2 - 720) <= 2 && d.top > 20 && d.bottom < 880 && d.w <= 860, JSON.stringify(d));
+    await page.keyboard.press('Escape'); await page.waitForTimeout(200);
+    ok(`${label}: Esc closes it and focus returns to the folio, aria-expanded=false`, !(await dlgOpen(page)) && (await activeId(page)) === 'folio' && (await page.getAttribute('#folio', 'aria-expanded')) === 'false', await activeId(page));
+    // keyboard: focus the folio, press Enter
+    await page.focus('#folio'); await page.keyboard.press('Enter'); await page.waitForTimeout(200);
+    ok(`${label}: Enter on the folio opens it`, await dlgOpen(page));
+    await page.keyboard.press('Tab'); await page.keyboard.press('Tab');
+    ok(`${label}: Tab stays inside the dialog`, await page.evaluate(() => document.getElementById('goto').contains(document.activeElement)));
+    await page.click('#goto-x'); await page.waitForTimeout(200);
+    ok(`${label}: the Close button closes it and returns focus to the folio`, !(await dlgOpen(page)) && (await activeId(page)) === 'folio');
+    await page.focus('#folio'); await page.keyboard.press('Space'); await page.waitForTimeout(200);
+    ok(`${label}: Space on the folio opens it`, await dlgOpen(page));
+    await page.keyboard.press('Escape'); await page.waitForTimeout(150);
+    // jump to plate vi
+    await page.click('#folio'); await page.waitForTimeout(200);
+    await page.click('#goto a[href="#plate-vi"]'); await page.waitForTimeout(900);
+    const want = label === 'phone' ? 'vii / xvi' : 'vi / xiii';
+    ok(`${label}: choosing Plate VI turns to it (${want}), updates the hash, closes the dialog`, (await folio(page)) === want && (await hashOf(page)) === '#plate-vi' && !(await dlgOpen(page)), `${await folio(page)} ${await hashOf(page)}`);
+    // jump to the colophon
+    await page.click('#folio'); await page.waitForTimeout(200);
+    const cur = await page.evaluate(() => document.querySelector('#goto [aria-current]')?.getAttribute('href'));
+    ok(`${label}: the picker marks the leaf you are on`, cur === '#plate-vi', cur);
+    await page.click('#goto a[href="#colophon"]'); await page.waitForTimeout(900);
+    ok(`${label}: choosing the colophon turns to it, ${label === 'phone' ? 'xvi / xvi' : 'xiii / xiii'}`, (await folio(page)) === (label === 'phone' ? 'xvi / xvi' : 'xiii / xiii') && (await hashOf(page)) === '#colophon', `${await folio(page)} ${await hashOf(page)}`);
+    await page.goBack(); await page.waitForTimeout(700);
+    ok(`${label}: the back button turns back to Plate VI`, (await hashOf(page)) === '#plate-vi', await hashOf(page));
+    // other pages navigate normally
+    await page.click('#folio'); await page.waitForTimeout(200);
+    await page.click('#goto a[href="walk.html"]'); await page.waitForTimeout(600);
+    ok(`${label}: an "other page" navigates normally`, /walk\.html$/.test(page.url()), page.url());
+    ok(`${label}: no page errors`, page.errors.length === 0, page.errors.join('|'));
+    await ctx.close();
+  }
+}
+{ // phone: the sheet scrolls inside at a short screen; Reduce Motion jumps at once; Help 988 stays reachable; evening paper
+  const { page, ctx } = await open({ viewport: { width: 390, height: 520 } });
+  await page.click('#folio'); await page.waitForTimeout(200);
+  const m = await page.evaluate(() => { const dl = document.getElementById('goto'), b = dl.querySelector('.goto-body'), r = dl.getBoundingClientRect(), h = dl.querySelector('a.help').getBoundingClientRect(); return { top: r.top, bottom: r.bottom, scrolls: b.scrollHeight > b.clientHeight, helpIn: h.top >= 0 && h.bottom <= 520, x: dl.querySelector('#goto-x').getBoundingClientRect().height }; });
+  ok('phone 390x520: the sheet stays on screen, scrolls inside, Help 988 and Close stay visible', m.top >= 0 && m.bottom <= 520 && m.scrolls && m.helpIn && m.x >= 44, JSON.stringify(m));
+  await ctx.close();
+}
+{
+  const { page, ctx } = await open({ reduce: true });
+  await page.click('#folio'); await page.waitForTimeout(150);
+  await page.click('#goto a[href="#plate-ix"]'); await page.waitForTimeout(150);
+  ok('Reduce Motion: choosing a leaf turns to it at once', (await folio(page)) === 'x / xvi' && !(await dlgOpen(page)), await folio(page));
+  await ctx.close();
+}
+{
+  const { page, ctx } = await open({ light: 'evening' });
+  await page.click('#folio'); await page.waitForTimeout(150);
+  const bg = await page.evaluate(() => getComputedStyle(document.getElementById('goto')).color);
+  ok('evening: the sheet takes the evening ink', bg === 'rgb(243, 237, 226)', bg);
+  await ctx.close();
+}
+{ // no JS: the folio is not shown, the dialog stays closed, the contents are on the page
+  const { page, ctx } = await open({ js: false });
+  const m = await page.evaluate(() => ({ turn: getComputedStyle(document.getElementById('turn')).display, dlg: getComputedStyle(document.getElementById('goto')).display, contents: !!document.querySelector('#contents a[href="#plate-vi"]') }));
+  ok('no JS: no folio button, no dialog, the contents still reach every plate', m.turn === 'none' && m.dlg === 'none' && m.contents, JSON.stringify(m));
   await ctx.close();
 }
 

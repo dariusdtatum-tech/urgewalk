@@ -35,7 +35,7 @@
   const wideQ = matchMedia('(min-width: 900px)')
   const turnBar = document.getElementById('turn')
   const prevB = turnBar.querySelector('[data-turn="-1"]'), nextB = turnBar.querySelector('[data-turn="1"]')
-  const folioVh = turnBar.querySelector('.folio .vh'), folioFol = turnBar.querySelector('.fol')
+  const folioBtn = document.getElementById('folio'), folioVh = turnBar.querySelector('.vh[role=status]'), folioFol = turnBar.querySelector('.fol')
   turnBar.hidden = false
 
   const roman = (n) => { let s = ''; for (const [v, r] of [[10, 'x'], [9, 'ix'], [5, 'v'], [4, 'iv'], [1, 'i']]) while (n >= v) { s += r; n -= v } return s }
@@ -60,6 +60,8 @@
   const paintFolio = () => {
     const n = stops.length
     folioVh.textContent = 'Page ' + (cur + 1) + ' of ' + n
+    // the name begins with the visible text (WCAG 2.5.3, axe label-content-name-mismatch)
+    folioBtn.setAttribute('aria-label', roman(cur + 1) + ' / ' + roman(n) + ', page ' + (cur + 1) + ' of ' + n + ', go to page')
     folioFol.textContent = roman(cur + 1) + ' / ' + roman(n)
     turnBar.style.setProperty('--p', n > 1 ? (cur / (n - 1)).toFixed(4) : 0)
     prevB.disabled = cur === 0
@@ -199,6 +201,48 @@
   }
   wideQ.addEventListener('change', rebuild)
   addEventListener('resize', () => { clearTimeout(rebuild.t); rebuild.t = setTimeout(() => { book.scrollTo({ left: left(stops[cur]), behavior: 'auto' }); markAll() }, 120) })
+
+
+  // ---------- Go to page: the folio opens a native dialog listing every leaf in order, then the other pages ----------
+  const gotoD = document.getElementById('goto'), gotoList = document.getElementById('goto-list')
+  if (gotoD && gotoList && typeof gotoD.showModal === 'function') {
+    const leafIds = [...book.querySelectorAll('.pg,.pp')].map((l) => l.id).filter(Boolean)
+    const nameOf = (l) => {
+      if (l.id === 'contents') return 'Ex Libris & contents'
+      const cap = l.querySelector('.folio-cap')
+      return cap ? cap.textContent.replace(/^Plate [IVX]+ · /, '') : l.id
+    }
+    const appOf = (id) => { const a = document.querySelector('#contents .ruled a[href="#' + id + '"]'); return a ? a.lastElementChild.textContent : '' }
+    const fill = () => {
+      gotoList.textContent = ''
+      leafIds.forEach((id) => {
+        const l = document.getElementById(id), i = stopFor(l)
+        if (i < 0) return
+        const li = document.createElement('li'), a = document.createElement('a')
+        a.href = '#' + id
+        const num = document.createElement('span'), nm = document.createElement('span'), sub = document.createElement('span')
+        num.className = 'cap'; num.textContent = roman(i + 1)
+        nm.textContent = nameOf(l); sub.textContent = appOf(id)
+        a.append(num, nm, sub)
+        if (i === cur) { li.dataset.here = ''; a.setAttribute('aria-current', 'page'); sub.textContent = sub.textContent ? sub.textContent + ' · here' : 'here' }
+        li.append(a); gotoList.append(li)
+      })
+    }
+    folioBtn.addEventListener('click', () => {
+      if (gotoD.open) return
+      fill()
+      gotoD.showModal()
+      folioBtn.setAttribute('aria-expanded', 'true')
+      const here = gotoList.querySelector('[aria-current]') || gotoList.querySelector('a')
+      if (here) { here.focus({ preventScroll: true }); here.scrollIntoView({ block: 'center' }) }
+    })
+    const shut = () => { folioBtn.setAttribute('aria-expanded', 'false'); folioBtn.focus({ preventScroll: true }) }
+    gotoD.addEventListener('close', shut)
+    document.getElementById('goto-x').addEventListener('click', () => gotoD.close())
+    gotoD.addEventListener('click', (e) => { if (e.target === gotoD) gotoD.close() })
+    // choosing a leaf: the contents' own click handler turns to it and updates the hash; other pages navigate normally
+    gotoD.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('a[href^="#"]')) gotoD.close() })
+  } else folioBtn.removeAttribute('aria-haspopup')
 
   // ---------- the loops ----------
   // Each plate's loop is the app's own footage. The poster (an <img>) always paints first; the loop loads when its
